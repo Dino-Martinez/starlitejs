@@ -14,14 +14,14 @@ b.color = '#dddddd'
 const e = new Entity()
 e.x = 50
 e.y = 150
-e.size = new Vector2(50, 100)
+e.scale = new Vector2(50, 100)
 e.rotation = 50
 e.color = '#ffbad2'
 
 const e2 = new Entity()
 e2.x = 150
 e2.y = 150
-e2.size = new Vector2(50, 150)
+e2.scale = new Vector2(50, 150)
 e2.rotation = 90
 e2.color = '#00214d'
 
