@@ -4,8 +4,13 @@
   "description": "A comprehensive and extensible game engine using JavaScript and HTML Canvas",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "standard": "^16.0.3"
+  }
 }
