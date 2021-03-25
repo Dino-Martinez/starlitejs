@@ -54,7 +54,6 @@ export default class Layer {
   }
 
   render() {
-    console.log(this.entities)
     this.entities.forEach(entity => entity.preRender())
     this.entities.forEach(entity => entity.render(this.ctx))
     this.entities.forEach(entity => entity.postRender())

@@ -6,13 +6,15 @@ export default class Scene {
     this.layers = []
   }
 
+  /**
+   * @param {Layer} layer 
+   */
   addLayer (layer) {
     this.layers.push(layer)
     this.layers.sort((a, b) => (a.priority < b.priority ? -1 : 1))
   }
 
   render () {
-    console.log('Rendering')
     this.layers.forEach(layer => layer.render())
   }
 }

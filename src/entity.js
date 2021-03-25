@@ -2,6 +2,10 @@ import Transform from './transform.js'
 import Vector2 from './vector2.js'
 
 export default class Entity {
+  /**
+   * @param {string} sprite 
+   * @param {number} priority 
+   */
   constructor (sprite = 'default', priority = 0) {
     this.transform = new Transform()
     this.sprite = sprite
