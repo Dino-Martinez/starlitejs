@@ -40,12 +40,4 @@ s.addLayer(l2)
 s.addLayer(l1)
 s.addLayer(l3)
 
-const loop = () => {
-  s.render()
-
-  if (window) {
-    window.requestAnimationFrame(loop)
-  }
-}
-
-loop()
+s.start()

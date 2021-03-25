@@ -3,6 +3,7 @@ import Layer from './layer.js'
 export default class Scene {
   constructor () {
     this.layers = []
+    this.gameLoopId = 0
   }
 
   /**
@@ -53,5 +54,22 @@ export default class Scene {
 
   render () {
     this.layers.forEach(layer => layer.render())
+  }
+
+  gameLoop = () => {
+    this.render()
+    if (window) {
+      this.gameLoopId = window.requestAnimationFrame(this.gameLoop)
+    }
+  }
+
+  start () {
+    this.gameLoop()
+  }
+
+  stop () {
+    if (window) {
+      window.cancelAnimationFrame(this.gameLoopId)
+    }
   }
 }
