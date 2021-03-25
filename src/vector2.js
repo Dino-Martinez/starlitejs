@@ -102,6 +102,9 @@ export default class Vector2 {
     }
   }
 
+  /**
+   * @param {Vector2} other 
+   */
   subtract = other => {
     if (other instanceof Vector2) {
       this.x -= other.x
@@ -111,6 +114,9 @@ export default class Vector2 {
     }
   }
 
+  /**
+   * @param {Vector2} other 
+   */
   dot = other => {
     if (other instanceof Vector2) {
       this.x *= other.x
@@ -118,6 +124,9 @@ export default class Vector2 {
     }
   }
 
+  /**
+   * @param {number} factor 
+   */
   scale = factor => {
     if (typeof factor === 'number') {
       this.x *= factor
