@@ -82,7 +82,7 @@ export default class Vector2 {
   /**
    * @param {Vector2} other
    */
-  distance = other => {
+  distance (other) {
     if (other instanceof Vector2) {
       return new Vector2().magnitude
     } else {
@@ -93,7 +93,7 @@ export default class Vector2 {
   /**
    * @param {Vector2} other
    */
-  add = other => {
+  add (other) {
     if (other instanceof Vector2) {
       this.x += other.x
       this.y += other.y
@@ -103,9 +103,9 @@ export default class Vector2 {
   }
 
   /**
-   * @param {Vector2} other 
+   * @param {Vector2} other
    */
-  subtract = other => {
+  subtract (other) {
     if (other instanceof Vector2) {
       this.x -= other.x
       this.y -= other.y
@@ -115,9 +115,9 @@ export default class Vector2 {
   }
 
   /**
-   * @param {Vector2} other 
+   * @param {Vector2} other
    */
-  dot = other => {
+  dot (other) {
     if (other instanceof Vector2) {
       this.x *= other.x
       this.y *= other.y
@@ -125,9 +125,9 @@ export default class Vector2 {
   }
 
   /**
-   * @param {number} factor 
+   * @param {number} factor
    */
-  scale = factor => {
+  scale (factor) {
     if (typeof factor === 'number') {
       this.x *= factor
       this.y *= factor

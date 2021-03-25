@@ -1,3 +1,4 @@
+import Controller from './controller.js'
 import Transform from './transform.js'
 import Vector2 from './vector2.js'
 
@@ -14,6 +15,7 @@ export default class Entity {
     this.dirty = true
     this.priority = priority
     this.color = '#ffbad2'
+    this.controllers = []
   }
 
   /**
@@ -159,9 +161,56 @@ export default class Entity {
     }
   }
 
+  /**
+   * @param {Vector2} delta 
+   */
   translate (delta) {
     this.transform.translate(delta)
     this.dirty = true
+  }
+
+  /**
+   * @param {Controller} controller 
+   */
+  addController (controller) {
+    if (controller instanceof Controller) {
+      this.controllers.push(controller)
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * @param {Controller[]} controllers
+   */
+   addControllers (controllers) {
+    if (controllers.every(controller => controller instanceof Controller)) {
+      this.controllers.push(...controllers)
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * @param {Controller} controller 
+   */
+   removeController (controller) {
+    if (controller instanceof Controller) {
+      this.controllers.pop(controller)
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * @param {Controller[]} controller s
+   */
+   removeControllers (controllers) {
+    if (controllers.every(controller => controller instanceof Controller)) {
+      this.controllers.pop(...controller)
+    } else {
+      throw new TypeError()
+    }
   }
 
   /**

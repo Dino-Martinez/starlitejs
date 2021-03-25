@@ -136,7 +136,7 @@ export default class Transform {
   /**
    * @param {Vector2} delta
    */
-  translate = delta => {
+  translate (delta) {
     if (delta instanceof Vector2) {
       this.position.x += delta.x
       this.position.y += delta.y
@@ -148,7 +148,7 @@ export default class Transform {
   /**
    * @param {number} delta
    */
-  rotate = delta => {
+  rotate (delta) {
     if (typeof delta === 'number') {
       this.rotation += delta
     } else {
@@ -159,7 +159,7 @@ export default class Transform {
   /**
    * @param {number} scalar
    */
-  scalarScale = scalar => {
+  scalarScale (scalar) {
     try {
       this.scale.scale(scalar)
     } catch (e) {
@@ -170,7 +170,7 @@ export default class Transform {
   /**
    * @param {Vector2} vector
    */
-  vectorScale = vector => {
+  vectorScale (vector) {
     try {
       this.scale.dot(vector)
     } catch (e) {
@@ -182,7 +182,7 @@ export default class Transform {
    * @param {Transform} other
    * @returns {number}
    */
-  distance = other => {
+  distance (other) {
     if (other instanceof Transform) {
       return this.position.distance(other.position)
     } else {

@@ -5,7 +5,7 @@ export default class PhysicsLayer extends Layer {
     super(name, priority, width, height)
   }
 
-  render = () => {
+  render () {
     this.entities.forEach(entity => {
       this.entities.forEach(other => {
         if (entity !== other) entity.collide(other)

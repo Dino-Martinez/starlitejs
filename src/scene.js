@@ -52,7 +52,7 @@ export default class Scene {
     }
   }
 
-  render = () => {
+  render () {
     this.layers.forEach(layer => layer.render())
   }
 
@@ -61,11 +61,11 @@ export default class Scene {
     if (window) this.gameLoopId = window.requestAnimationFrame(this.gameLoop)
   }
 
-  start = () => {
+  start () {
     this.gameLoop()
   }
 
-  stop = () => {
+  stop () {
     if (window) window.cancelAnimationFrame(this.gameLoopId)
   }
 }

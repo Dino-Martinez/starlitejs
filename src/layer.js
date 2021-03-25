@@ -41,7 +41,7 @@ export default class Layer {
   /**
    * @param {Entity} entity
    */
-  addEntity = entity => {
+  addEntity (entity) {
     if (entity instanceof Entity) {
       this.entities.push(entity)
       this.entities.sort((a, b) => (a.priority < b.priority ? -1 : 1))
@@ -53,7 +53,7 @@ export default class Layer {
   /**
    * @param {Entity[]} entities
    */
-  addEntities = entities => {
+  addEntities (entities) {
     if (entities.every(entity => entity instanceof Entity)) {
       this.entities.push(...entities)
       this.entities.sort((a, b) => (a.priority < b.priority ? -1 : 1))
@@ -65,7 +65,7 @@ export default class Layer {
   /**
    * @param {Entity} entity
    */
-  removeEntity = entity => {
+  removeEntity (entity) {
     if (entity instanceof Entity) {
       this.entities.pop(entity)
     } else {
@@ -76,7 +76,7 @@ export default class Layer {
   /**
    * @param {Entity[]} entities
    */
-  removeEntities = entities => {
+  removeEntities (entities) {
     if (entities.every(entity => entity instanceof Entity)) {
       this.entities.pop(...entities)
     } else {
@@ -84,7 +84,7 @@ export default class Layer {
     }
   }
 
-  render = () => {
+  render () {
     this.entities.forEach(entity => entity.preRender(this.ctx))
     this.entities.forEach(entity => entity.render(this.ctx))
     this.entities.forEach(entity => entity.postRender())
