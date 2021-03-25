@@ -34,6 +34,9 @@ export default class Entity {
     return this.transform.y
   }
 
+  /**
+   * @returns {Image|string}
+   */
   get sprite () {
     return this._sprite
   }
@@ -96,13 +99,18 @@ export default class Entity {
     }
   }
 
+  /**
+   * @param {string} newSprite
+   */
   set sprite (newSprite) {
-    this._sprite = new Image(this.width, this.height)
-    this._sprite.src = newSprite
-    this.ready = false
-    this.sprite.onload = () => {
-      this.dirty = true
-      this.preRender()
+    if (window) {
+      this._sprite = new window.Image(this.width, this.height)
+      this._sprite.src = newSprite
+      this.ready = false
+      this.sprite.onload = () => {
+        this.dirty = true
+        this.preRender()
+      }
     }
   }
 

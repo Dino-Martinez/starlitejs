@@ -43,7 +43,9 @@ s.addLayer(l3)
 const loop = () => {
   s.render()
 
-  requestAnimationFrame(loop)
+  if (window) {
+    window.requestAnimationFrame(loop)
+  }
 }
 
 loop()
