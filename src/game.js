@@ -9,12 +9,12 @@ const l2 = new Layer('Ground', 1)
 const l3 = new Layer('Foreground', 2)
 
 const f = new Entity()
-f.scale = new Vector2(600, 800)
+f.scale = new Vector2(l3.width, l3.height)
 f.sprite =
   'https://forum.affinity.serif.com/uploads/monthly_2020_04/595FAD8C-E33F-4E12-A974-9B2D043A2BA3.png.eac9bd8cac80378692e4115553790af8.png'
 
 const b = new Entity()
-b.scale = new Vector2(600, 800)
+b.scale = new Vector2(l1.width, l1.height)
 b.color = '#bbeebb'
 
 const e = new Entity()
