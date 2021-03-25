@@ -7,12 +7,12 @@ export default class Layer {
    * @param {string} name
    * @param {number} priority
    */
-  constructor (name, priority = 0) {
+  constructor (name, priority = 0, width = 640, height = 480) {
     this.name = name
     this.priority = priority
     this.entities = []
     this.transform = new Transform()
-    this.transform.vectorScale(new Vector2(600, 800))
+    this.transform.scale = new Vector2(width, height)
     this.active = true
     this.canvas = document.createElement('canvas')
     this.canvas.width = this.transform.width
@@ -22,6 +22,20 @@ export default class Layer {
     this.canvas.style.border = '1px solid'
     this.ctx = this.canvas.getContext('2d')
     document.body.appendChild(this.canvas)
+  }
+
+  /**
+   * @returns {number}
+   */
+  get width () {
+    return this.transform.width
+  }
+
+  /**
+   * @returns {number}
+   */
+  get height () {
+    return this.transform.height
   }
 
   /**
