@@ -34,6 +34,10 @@ export default class Entity {
     return this.transform.y
   }
 
+  get position () {
+    return this.transform.position
+  }
+
   /**
    * @returns {Image|string}
    */
@@ -109,7 +113,6 @@ export default class Entity {
       this.ready = false
       this.sprite.onload = () => {
         this.dirty = true
-        this.preRender()
       }
     }
   }
@@ -147,7 +150,7 @@ export default class Entity {
    *
    * @param  {number} scaleFactor The factor by which to scale
    */
-  scaleBy = scaleFactor => {
+  scaleBy (scaleFactor) {
     try {
       this.transform.scalarScale(scaleFactor)
     } catch (e) {
@@ -160,7 +163,7 @@ export default class Entity {
    * preRender - Ensures that this entity is prepared to be rendered
    *
    */
-  preRender = () => {
+  preRender () {
     this.ready = true
   }
 
@@ -169,7 +172,7 @@ export default class Entity {
    *
    * @param  {CanvasRenderingContext2D} ctx the rendering context for your HTML canvas
    */
-  render = ctx => {
+  render (ctx) {
     if (this.ready && this.dirty && this.active) {
       // Draw using canvas context
       ctx.translate(this.center.x, this.center.y)
@@ -180,7 +183,7 @@ export default class Entity {
         ctx.fillStyle = this.color
         ctx.strokeStyle = '#000000'
         ctx.fillRect(this.x, this.y, this.width, this.height)
-        ctx.strokeRect(this.x, this.y, this.width, this.height)
+        ctx.strokeRect(this.x + 1, this.y + 1, this.width - 1, this.height - 2)
       } else {
         ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height)
       }
@@ -195,7 +198,7 @@ export default class Entity {
    * postRender - Cleans this entity and unreadies it
    *
    */
-  postRender = () => {
+  postRender () {
     this.ready = false
     this.dirty = false
   }

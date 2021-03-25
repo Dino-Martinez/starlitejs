@@ -1,11 +1,13 @@
 import Scene from './scene.js'
-import Layer from './layer.js'
+import PhysicsLayer from './physicsLayer.js'
+import PhysicsEntity from './physicsEntity.js'
 import Entity from './entity.js'
+import Layer from './layer.js'
 import Vector2 from './vector2.js'
 
 const s = new Scene()
 const l1 = new Layer('Background', 0)
-const l2 = new Layer('Ground', 1)
+const l2 = new PhysicsLayer('Ground', 1)
 const l3 = new Layer('Foreground', 2)
 
 const f = new Entity()
@@ -17,19 +19,19 @@ const b = new Entity()
 b.scale = new Vector2(l1.width, l1.height)
 b.color = '#bbeebb'
 
-const e = new Entity()
-e.x = 150
+const e = new PhysicsEntity()
+e.x = 300
 e.y = 150
 e.scale = new Vector2(200, 200)
-e.rotation = 50
 e.color = '#ffbad2'
 
-const e2 = new Entity()
+const e2 = new PhysicsEntity()
 e2.x = 200
 e2.y = 200
-e2.scale = new Vector2(100, 100)
+e2.scale = new Vector2(50, 50)
 e2.sprite =
   'https://static.wikia.nocookie.net/supersmashbrosfanon/images/b/bf/8Bit_Mario.png'
+e2.applyForce(new Vector2(0.05, 0))
 
 l2.addEntity(e2)
 l2.addEntity(e)
