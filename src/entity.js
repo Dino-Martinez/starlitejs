@@ -8,7 +8,7 @@ export default class Entity {
    */
   constructor (sprite = 'default', priority = 0) {
     this.transform = new Transform()
-    this.sprite = sprite
+    this._sprite = sprite
     this.ready = false
     this.active = true
     this.dirty = true
@@ -32,6 +32,10 @@ export default class Entity {
    */
   get y () {
     return this.transform.y
+  }
+
+  get sprite () {
+    return this._sprite
   }
 
   /**
@@ -89,6 +93,16 @@ export default class Entity {
     } catch (e) {
       console.error(e)
       throw e
+    }
+  }
+
+  set sprite (newSprite) {
+    this._sprite = new Image(this.width, this.height)
+    this._sprite.src = newSprite
+    this.ready = false
+    this.sprite.onload = () => {
+      this.dirty = true
+      this.preRender()
     }
   }
 
