@@ -129,7 +129,9 @@ export default class PhysicsEntity extends Entity {
   preRender (ctx) {
     // Do Physics stuff
     ctx.clearRect(this.x, this.y, this.width, this.height)
+
     this.update()
-    super.preRender()
+
+    super.preRender(ctx)
   }
 }

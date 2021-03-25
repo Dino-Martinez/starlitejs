@@ -159,11 +159,19 @@ export default class Entity {
     }
   }
 
+  translate (delta) {
+    this.transform.translate(delta)
+    this.dirty = true
+  }
+
   /**
    * preRender - Ensures that this entity is prepared to be rendered
    *
    */
-  preRender () {
+  preRender (ctx) {
+    if (this.dirty) {
+      ctx.clearRect(this.x, this.y, this.width, this.height)
+    }
     this.ready = true
   }
 
