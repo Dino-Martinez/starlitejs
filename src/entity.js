@@ -3,8 +3,8 @@ import Vector2 from './vector2.js'
 
 export default class Entity {
   /**
-   * @param {string} sprite 
-   * @param {number} priority 
+   * @param {string} sprite
+   * @param {number} priority
    */
   constructor (sprite = 'default', priority = 0) {
     this.transform = new Transform()
@@ -51,7 +51,7 @@ export default class Entity {
     return this.transform.height
   }
 
-  get center() {
+  get center () {
     return new Vector2(this.x + this.width / 2, this.y + this.height / 2)
   }
 
@@ -97,7 +97,7 @@ export default class Entity {
    *
    * @param  {Vector2} newSize The vector {width, height}
    */
-  set size (newSize) {
+  set scale (newSize) {
     try {
       this.transform.vectorScale(newSize)
     } catch (e) {
@@ -125,7 +125,7 @@ export default class Entity {
    *
    * @param  {number} scaleFactor The factor by which to scale
    */
-  scale (scaleFactor) {
+  scaleBy (scaleFactor) {
     try {
       this.transform.scalarScale(scaleFactor)
     } catch (e) {
@@ -154,10 +154,14 @@ export default class Entity {
       ctx.rotate((Math.PI / 180) * this.rotation)
       ctx.translate(-this.center.x, -this.center.y)
 
-      ctx.fillStyle = this.color
-      ctx.strokeStyle = '#000000'
-      ctx.fillRect(this.x, this.y, this.width, this.height)
-      ctx.strokeRect(this.x, this.y, this.width, this.height)
+      if (this.sprite === 'default') {
+        ctx.fillStyle = this.color
+        ctx.strokeStyle = '#000000'
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+        ctx.strokeRect(this.x, this.y, this.width, this.height)
+      } else {
+        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height)
+      }
 
       ctx.translate(this.center.x, this.center.y)
       ctx.rotate((Math.PI / 180) * -this.rotation)

@@ -1,12 +1,13 @@
 import Entity from './entity.js'
 import Transform from './transform.js'
 import Vector2 from './vector2.js'
+
 export default class Layer {
   /**
-   * @param {string} name 
+   * @param {string} name
    * @param {number} priority
    */
-  constructor(name, priority = 0) {
+  constructor (name, priority = 0) {
     this.name = name
     this.priority = priority
     this.entities = []
@@ -24,36 +25,52 @@ export default class Layer {
   }
 
   /**
-   * @param {Entity} entity 
+   * @param {Entity} entity
    */
-  addEntity(entity) {
-    this.entities.push(entity)
-    this.entities.sort((a, b) => (a.priority < b.priority) ? -1 : 1)
+  addEntity (entity) {
+    if (entity instanceof Entity) {
+      this.entities.push(entity)
+      this.entities.sort((a, b) => (a.priority < b.priority) ? -1 : 1)
+    } else {
+      throw new TypeError()
+    }
   }
 
   /**
-   * @param {Entity[]} entities 
+   * @param {Entity[]} entities
    */
-  addEntities(entities) {
-    this.entities.push(...entities)
-    this.entities.sort((a, b) => (a.priority < b.priority) ? -1 : 1)
+  addEntities (entities) {
+    if (entities.every(entity => entity instanceof Entity)) {
+      this.entities.push(...entities)
+      this.entities.sort((a, b) => (a.priority < b.priority) ? -1 : 1)
+    } else {
+      throw new TypeError()
+    }
   }
 
   /**
-   * @param {Entity} entity 
+   * @param {Entity} entity
    */
-  removeEntity(entity) {
-    this.entities.pop(entity)
+  removeEntity (entity) {
+    if (entity instanceof Entity) {
+      this.entities.pop(entity)
+    } else {
+      throw new TypeError()
+    }
   }
 
   /**
-   * @param {Entity[]} entities 
+   * @param {Entity[]} entities
    */
-  removeEntities(entities) {
-    this.entities.pop(...entities)
+  removeEntities (entities) {
+    if (entities.every(entity => entity instanceof Entity)) {
+      this.entities.pop(...entities)
+    } else {
+      throw new TypeError()
+    }
   }
 
-  render() {
+  render () {
     this.entities.forEach(entity => entity.preRender())
     this.entities.forEach(entity => entity.render(this.ctx))
     this.entities.forEach(entity => entity.postRender())

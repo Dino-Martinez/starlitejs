@@ -1,4 +1,5 @@
 import Vector2 from './vector2.js'
+
 export default class Transform {
   constructor () {
     this._position = new Vector2()
@@ -59,7 +60,7 @@ export default class Transform {
    * @param {number} newX
    */
   set x (newX) {
-    if (typeof newX == 'number') {
+    if (typeof newX === 'number') {
       this.position = new Vector2(newX, this.position.y)
     } else {
       throw new TypeError()
@@ -70,7 +71,7 @@ export default class Transform {
    * @param {number} newY
    */
   set y (newY) {
-    if (typeof newY == 'number') {
+    if (typeof newY === 'number') {
       this.position = new Vector2(this.position.x, newY)
     } else {
       throw new TypeError()
@@ -81,7 +82,7 @@ export default class Transform {
    * @param {number} newX
    */
   set width (newX) {
-    if (typeof newX == 'number') {
+    if (typeof newX === 'number') {
       this.scale = new Vector2(newX, this.scale.y)
     } else {
       throw new TypeError()
@@ -92,7 +93,7 @@ export default class Transform {
    * @param {number} newY
    */
   set height (newY) {
-    if (typeof newY == 'number') {
+    if (typeof newY === 'number') {
       this.scale = new Vector2(newY, this.scale.y)
     } else {
       throw new TypeError()
