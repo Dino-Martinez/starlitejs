@@ -147,7 +147,7 @@ export default class Entity {
    *
    * @param  {number} scaleFactor The factor by which to scale
    */
-  scaleBy (scaleFactor) {
+  scaleBy = (scaleFactor) => {
     try {
       this.transform.scalarScale(scaleFactor)
     } catch (e) {
@@ -160,7 +160,7 @@ export default class Entity {
    * preRender - Ensures that this entity is prepared to be rendered
    *
    */
-  preRender () {
+  preRender = () => {
     this.ready = true
   }
 
@@ -169,7 +169,7 @@ export default class Entity {
    *
    * @param  {CanvasRenderingContext2D} ctx the rendering context for your HTML canvas
    */
-  render (ctx) {
+  render = (ctx) => {
     if (this.ready && this.dirty && this.active) {
       // Draw using canvas context
       ctx.translate(this.center.x, this.center.y)
@@ -195,7 +195,7 @@ export default class Entity {
    * postRender - Cleans this entity and unreadies it
    *
    */
-  postRender () {
+  postRender = () => {
     this.ready = false
     this.dirty = false
   }

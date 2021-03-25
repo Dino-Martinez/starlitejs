@@ -9,7 +9,7 @@ export default class Scene {
   /**
    * @param {Layer} layer
    */
-  addLayer (layer) {
+  addLayer = (layer) => {
     if (layer instanceof Layer) {
       this.layers.push(layer)
       this.layers.sort((a, b) => (a.priority < b.priority ? -1 : 1))
@@ -21,7 +21,7 @@ export default class Scene {
   /**
    * @param {Layer[]} layers
    */
-  addLayers (layers) {
+  addLayers = (layers) => {
     if (layers.every(layer => layer instanceof Layer)) {
       this.layers.push(...layers)
       this.layers.sort((a, b) => (a.priority < b.priority ? -1 : 1))
@@ -33,7 +33,7 @@ export default class Scene {
   /**
    * @param {Layer} layer
    */
-  removeLayer (layer) {
+  removeLayer = (layer) => {
     if (layer instanceof Layer) {
       this.layers.pop(layer)
     } else {
@@ -44,7 +44,7 @@ export default class Scene {
   /**
    * @param {Layer[]} layers
    */
-  removeLayers (layers) {
+  removeLayers = (layers) => {
     if (layers.every(layer => layer instanceof Layer)) {
       this.layers.pop(...layers)
     } else {
@@ -52,24 +52,20 @@ export default class Scene {
     }
   }
 
-  render () {
+  render = () => {
     this.layers.forEach(layer => layer.render())
   }
 
   gameLoop = () => {
     this.render()
-    if (window) {
-      this.gameLoopId = window.requestAnimationFrame(this.gameLoop)
-    }
+    if (window) this.gameLoopId = window.requestAnimationFrame(this.gameLoop)
   }
 
-  start () {
+  start = () => {
     this.gameLoop()
   }
 
-  stop () {
-    if (window) {
-      window.cancelAnimationFrame(this.gameLoopId)
-    }
+  stop = () => {
+    if (window) window.cancelAnimationFrame(this.gameLoopId)
   }
 }
