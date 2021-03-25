@@ -9,6 +9,7 @@ export default class Entity {
     this.active = true
     this.dirty = true
     this.priority = priority
+    this.color = '#ffbad2'
   }
 
   /**
@@ -39,11 +40,15 @@ export default class Entity {
   }
 
   get width () {
-    return this.transform.scale.x
+    return this.transform.width
   }
 
   get height () {
-    return this.transform.scale.y
+    return this.transform.height
+  }
+
+  get center() {
+    return new Vector2(this.x + this.width / 2, this.y + this.height / 2)
   }
 
   /**
@@ -141,10 +146,18 @@ export default class Entity {
   render (ctx) {
     if (this.ready && this.dirty && this.active) {
       // Draw using canvas context
-      ctx.fillStyle = '#FFBAD2'
-      ctx.rotate(this.rotation)
+      ctx.translate(this.center.x, this.center.y)
+      ctx.rotate((Math.PI / 180) * this.rotation)
+      ctx.translate(-this.center.x, -this.center.y)
+
+      ctx.fillStyle = this.color
+      ctx.strokeStyle = '#000000'
       ctx.fillRect(this.x, this.y, this.width, this.height)
-      ctx.rotate(-this.rotation)
+      ctx.strokeRect(this.x, this.y, this.width, this.height)
+
+      ctx.translate(this.center.x, this.center.y)
+      ctx.rotate((Math.PI / 180) * -this.rotation)
+      ctx.translate(-this.center.x, -this.center.y)
     }
   }
 

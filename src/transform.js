@@ -9,6 +9,34 @@ export default class Transform {
   /**
    * @returns {number}
    */
+  get x () {
+    return this.position.x
+  }
+
+  /**
+   * @returns {number}
+   */
+  get y () {
+    return this.position.y
+  }
+
+  /**
+   * @returns {number}
+   */
+  get width () {
+    return this.scale.x
+  }
+
+  /**
+   * @returns {number}
+   */
+  get height () {
+    return this.scale.y
+  }
+
+  /**
+   * @returns {number}
+   */
   get position () {
     return this._position
   }
@@ -25,6 +53,50 @@ export default class Transform {
    */
   get scale () {
     return this._scale
+  }
+
+  /**
+   * @param {number} newX
+   */
+  set x (newX) {
+    if (typeof newX == 'number') {
+      this.position = new Vector2(newX, this.position.y)
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * @param {number} newY
+   */
+  set y (newY) {
+    if (typeof newY == 'number') {
+      this.position = new Vector2(this.position.x, newY)
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * @param {number} newX
+   */
+  set width (newX) {
+    if (typeof newX == 'number') {
+      this.scale = new Vector2(newX, this.scale.y)
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * @param {number} newY
+   */
+  set height (newY) {
+    if (typeof newY == 'number') {
+      this.scale = new Vector2(newY, this.scale.y)
+    } else {
+      throw new TypeError()
+    }
   }
 
   /**
