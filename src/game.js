@@ -4,6 +4,7 @@ import PhysicsEntity from './physicsEntity.js'
 import Entity from './entity.js'
 import Layer from './layer.js'
 import Vector2 from './vector2.js'
+import MouseController from './mouseController.js'
 
 const s = new Scene()
 const l1 = new Layer('Background', 0)
@@ -33,6 +34,9 @@ e2.sprite =
   'https://static.wikia.nocookie.net/supersmashbrosfanon/images/b/bf/8Bit_Mario.png'
 e2.applyForce(new Vector2(0.05, 0))
 
+const mouse = new MouseController()
+mouse.onclick = event => console.log(`${event.clientX} on ${event.target}`)
+
 l2.addEntity(e2)
 l2.addEntity(e)
 l1.addEntity(b)
@@ -43,3 +47,8 @@ s.addLayer(l1)
 s.addLayer(l3)
 
 s.start()
+
+// setTimeout(() => keyboard.keydown = event => console.log(`New ${event.key}`), 2000)
+setTimeout(() => {
+  mouse.element = l3.canvas
+}, 2000)
