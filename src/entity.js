@@ -162,7 +162,7 @@ export default class Entity {
   }
 
   /**
-   * @param {Vector2} delta 
+   * @param {Vector2} delta
    */
   translate (delta) {
     this.transform.translate(delta)
@@ -170,7 +170,7 @@ export default class Entity {
   }
 
   /**
-   * @param {Controller} controller 
+   * @param {Controller} controller
    */
   addController (controller) {
     if (controller instanceof Controller) {
@@ -183,7 +183,7 @@ export default class Entity {
   /**
    * @param {Controller[]} controllers
    */
-   addControllers (controllers) {
+  addControllers (controllers) {
     if (controllers.every(controller => controller instanceof Controller)) {
       this.controllers.push(...controllers)
     } else {
@@ -192,9 +192,9 @@ export default class Entity {
   }
 
   /**
-   * @param {Controller} controller 
+   * @param {Controller} controller
    */
-   removeController (controller) {
+  removeController (controller) {
     if (controller instanceof Controller) {
       this.controllers.pop(controller)
     } else {
@@ -205,9 +205,9 @@ export default class Entity {
   /**
    * @param {Controller[]} controller s
    */
-   removeControllers (controllers) {
+  removeControllers (controllers) {
     if (controllers.every(controller => controller instanceof Controller)) {
-      this.controllers.pop(...controller)
+      this.controllers.pop(...controllers)
     } else {
       throw new TypeError()
     }

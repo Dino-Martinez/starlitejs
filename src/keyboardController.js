@@ -1,4 +1,4 @@
-import Controller from "./controller.js"
+import Controller from './controller.js'
 
 export default class KeyboardController extends Controller {
   /**

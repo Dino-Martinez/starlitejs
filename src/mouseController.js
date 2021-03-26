@@ -1,4 +1,4 @@
-import Controller from "./controller.js"
+import Controller from './controller.js'
 
 export default class Mouse extends Controller {
   /**
@@ -7,17 +7,17 @@ export default class Mouse extends Controller {
    */
 
   /**
-   * @param {mouseCallback} onclick 
-   * @param {mouseCallback} oncontextmenu 
-   * @param {mouseCallback} ondblclick 
-   * @param {mouseCallback} onmousedown 
-   * @param {mouseCallback} onmouseenter 
-   * @param {mouseCallback} onmouseleave 
-   * @param {mouseCallback} onmousemove 
-   * @param {mouseCallback} onmouseout 
-   * @param {mouseCallback} onmouseover 
-   * @param {mouseCallback} onmouseup 
-   * @param {Element|Document} element 
+   * @param {mouseCallback} onclick
+   * @param {mouseCallback} oncontextmenu
+   * @param {mouseCallback} ondblclick
+   * @param {mouseCallback} onmousedown
+   * @param {mouseCallback} onmouseenter
+   * @param {mouseCallback} onmouseleave
+   * @param {mouseCallback} onmousemove
+   * @param {mouseCallback} onmouseout
+   * @param {mouseCallback} onmouseover
+   * @param {mouseCallback} onmouseup
+   * @param {Element|Document} element
    */
   constructor (onclick = event => {}, oncontextmenu = event => {}, ondblclick = event => {}, onmousedown = event => {}, onmouseenter = event => {}, onmouseleave = event => {}, onmousemove = event => {}, onmouseout = event => {}, onmouseover = event => {}, onmouseup = event => {}, element = document) {
     super()
@@ -51,14 +51,14 @@ export default class Mouse extends Controller {
   /**
    * @returns {Element|Document}
    */
-  get element() {
+  get element () {
     return this._element
   }
 
   /**
    * @param {Element|Document} newElement
    */
-  set element(newElement) {
+  set element (newElement) {
     if (newElement instanceof Element || newElement instanceof Document) {
       this._element.onclick = event => {}
       this._element.oncontextmenu = event => {}
