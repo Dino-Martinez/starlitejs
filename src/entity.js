@@ -3,8 +3,8 @@ import Vector2 from './vector2.js'
 
 export default class Entity {
   /**
-   * @param {string} sprite
-   * @param {number} priority
+   * @param {string} sprite The Sprite image source
+   * @param {number} priority The z-index priority level of this entity
    */
   constructor (sprite = 'default', priority = 0) {
     this.transform = new Transform()
@@ -54,14 +54,29 @@ export default class Entity {
     return this.transform.scale
   }
 
+  /**
+   * get width - Get the width of this transform
+   *
+   * @return {number} width
+   */
   get width () {
     return this.transform.width
   }
 
+  /**
+   * get height - Get the height of this transform
+   *
+   * @return {number} height
+   */
   get height () {
     return this.transform.height
   }
 
+  /**
+   * get center - Get the center vector of this transform
+   *
+   * @return {Vector2} center
+   */
   get center () {
     return new Vector2(this.x + this.width / 2, this.y + this.height / 2)
   }

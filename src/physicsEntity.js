@@ -3,6 +3,13 @@ import Collider from './collider.js'
 import Vector2 from './vector2.js'
 
 export default class PhysicsEntity extends Entity {
+  /**
+   * @param {string} [sprite=default] The Sprite image source
+   * @param {number} [priority=0]     The z-index priority level of this entity
+   * @param {number} [mass=1]         The mass of this entity, used for physics calculations
+   * @param {object} [freeze={}]      An object of shape {x: boolean, y:boolean} specifying if either axis is 'frozen'
+   *
+   */
   constructor (
     sprite = 'default',
     priority = 0,
@@ -35,10 +42,16 @@ export default class PhysicsEntity extends Entity {
     return super.y
   }
 
+  /**
+   * get velocity - Returns the velocity vector of this entity
+   */
   get velocity () {
     return this._velocity
   }
 
+  /**
+   * get acceleration - Returns the acceleration vector of this entity
+   */
   get acceleration () {
     return this._acceleration
   }
@@ -108,10 +121,19 @@ export default class PhysicsEntity extends Entity {
     }
   }
 
+  /**
+   * collide - If another entity collides with this entity, handle that collision
+   *
+   * @param {PhysicsEntity} other The other entity to check collision against
+   */
   collide (other) {
     this.collider.collide(other.collider, this.handleCollision)
   }
 
+  /**
+   * update - Updates this entity's state based on implicit Euler's method
+   *
+   */
   update () {
     if (this) {
       this.velocity.add(this.acceleration)
@@ -121,11 +143,21 @@ export default class PhysicsEntity extends Entity {
     }
   }
 
+  /**
+   * applyForce - Applies a force to this entity to update acceleration
+   *
+   * @param {Vector2} force The force vector to apply
+   */
   applyForce (force) {
     force.scale(this.mass)
     this.acceleration.add(force)
   }
 
+  /**
+   * preRender - Extends the Entity pre render to add the physics check and canvas clearing
+   *
+   * @param {CanvasRenderingContext2D} ctx the canvas context used to draw
+   */
   preRender (ctx) {
     // Do Physics stuff
     ctx.clearRect(this.x, this.y, this.width, this.height)

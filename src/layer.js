@@ -4,8 +4,8 @@ import Vector2 from './vector2.js'
 
 export default class Layer {
   /**
-   * @param {string} name
-   * @param {number} priority
+   * @param {string} name The name of this layer
+   * @param {number} priority The z-index priority level of this entity
    */
   constructor (name, priority = 0, width = 640, height = 480) {
     this.name = name
@@ -84,6 +84,9 @@ export default class Layer {
     }
   }
 
+  /**
+   * render - Renders all entities on this layer
+   */
   render = () => {
     this.entities.forEach(entity => entity.preRender(this.ctx))
     this.entities.forEach(entity => entity.render(this.ctx))

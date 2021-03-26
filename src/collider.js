@@ -73,6 +73,13 @@ export default class Collider {
     }
   }
 
+  /**
+   * checkCollision - Check collision between this collider and another collider
+   *
+   * @param {Collider} other The collider to check against
+   *
+   * @returns {boolean} True if there is a collision, false otherwise
+   */
   checkCollision (other) {
     return (
       this.x < other.x + other.width &&
@@ -82,6 +89,14 @@ export default class Collider {
     )
   }
 
+  /**
+   * collide - If this collider is colliding with another collider, call callback
+   *
+   * @param {Collider} other The other collider to check against
+   * @param {function} callback The callback to execute upon a collision
+   *
+   * @returns {type} Description
+   */
   collide (other, callback) {
     const collided = this.checkCollision(other)
     callback({ collided, other })
