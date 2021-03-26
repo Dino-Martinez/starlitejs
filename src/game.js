@@ -30,6 +30,7 @@ const e2 = new PhysicsEntity()
 e2.x = 200
 e2.y = 200
 e2.scale = new Vector2(50, 50)
+e2.rotation = 80
 e2.sprite =
   'https://static.wikia.nocookie.net/supersmashbrosfanon/images/b/bf/8Bit_Mario.png'
 e2.applyForce(new Vector2(0.05, 0))
