@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: vector2.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: vector2.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Vector2 {
+  /**
+   * Represents a vector with x component of 0 and y component of 0
+   * 
+   * @memberof Vector2
+   * 
+   * @type {Vector2}
+   */
+  static zero = new Vector2(0, 0)
+  /**
+   * Represents a vector with x component of 1 and y component of 1
+   * 
+   * @memberof Vector2
+   * 
+   * @type {Vector2}
+   */
+  static one = new Vector2(1, 1)
+  /**
+   * Represents a vector with x component of 0 and y component of 1
+   * 
+   * @memberof Vector2
+   * 
+   * @type {Vector2}
+   */
+  static up = new Vector2(0, 1)
+  /**
+   * Represents a vector with x component of 1 and y component of 0
+   * 
+   * @memberof Vector2
+   * 
+   * @type {Vector2}
+   */
+  static right = new Vector2(1, 0)
+  /**
+   * Represents a vector with x component of 0 and y component of -1
+   * 
+   * @memberof Vector2
+   * 
+   * @type {Vector2}
+   */
+  static down = new Vector2(0, -1)
+  /**
+   * Represents a vector with x component of -1 and y component of 0
+   * 
+   * @memberof Vector2
+   * 
+   * @type {Vector2}
+   */
+  static left = new Vector2(-1, 0)
+
+  /**
+   * Creates a vector with 2 components.
+   * 
+   * @class Vector2
+   * @classdesc Class representing a vector with 2 components.
+   * 
+   * @param {number} [x=0] The x component of the vector.
+   * @param {number} [y=0] The y component of the vector.
+   */
+  constructor (x = 0, y = 0) {
+    this._x = x
+    this._y = y
+  }
+
+  /**
+   * Represents the x component of the vector.
+   * 
+   * @type {number}
+   */
+  get x () {
+    return this._x
+  }
+
+  /**
+   * Represents the y component of the vector.
+   * 
+   * @type {number}
+   */
+  get y () {
+    return this._y
+  }
+
+  /**
+   * Represents the magnitude of the vector.
+   * 
+   * @type {number}
+   * @readonly
+   */
+  get magnitude () {
+    return Math.sqrt(this.x ** 2 + this.y ** 2)
+  }
+
+  /**
+   * Represents the direction of the vector in degrees.
+   * 
+   * @type {number}
+   * @readonly
+   */
+  get direction () {
+    return (Math.PI * 180) * Math.atan(this.y / this.x)
+  }
+
+  /**
+   * Represents the unit of the vector.
+   * 
+   * @type {Vector2}
+   * @readonly
+   */
+  get unit () {
+    return new Vector2(this.x, this.y).scale(1 / this.magnitude)
+  }
+
+  /**
+   * Represents the inverse of the vector.
+   * 
+   * @type {Vector2}
+   * @readonly
+   */
+  get inverse () {
+    return new Vector2(this.y, this.x)
+  }
+
+  set x (newX) {
+    if (typeof newX === 'number') {
+      this._x = newX
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  set y (newY) {
+    if (typeof newY === 'number') {
+      this._y = newY
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * Calculates the distance between the vector and another vector.
+   * 
+   * @param {Vector2} other The other vector.
+   * @throws {TypeError}
+   */
+  distance (other) {
+    if (other instanceof Vector2) {
+      return new Vector2().magnitude
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * Adds to the components of the vector given another vector.
+   * 
+   * @param {Vector2} other The other vector.
+   * @throws {TypeError}
+   */
+  add (other) {
+    if (other instanceof Vector2) {
+      this.x += other.x
+      this.y += other.y
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * Subtracts the components of the vector given another vector.
+   * 
+   * @param {Vector2} other The other vector.
+   * @throws {TypeError}
+   */
+  subtract (other) {
+    if (other instanceof Vector2) {
+      this.x -= other.x
+      this.y -= other.y
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * Multiplies the components of the vector given another vector. 
+   * 
+   * @param {Vector2} other The other vector.
+   */
+  dot (other) {
+    if (other instanceof Vector2) {
+      this.x *= other.x
+      this.y *= other.y
+    }
+  }
+
+  /**
+   * Scales the components of the vector given a scalar factor.
+   * 
+   * @param {number} factor The scale factor.
+   * @throws {TypeError}
+   */
+  scale (factor) {
+    if (typeof factor === 'number') {
+      this.x *= factor
+      this.y *= factor
+    } else {
+      throw new TypeError()
+    }
+  }
+}
+
+export default Vector2
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Collider.html">Collider</a></li><li><a href="Entity.html">Entity</a></li><li><a href="KeyboardController.html">KeyboardController</a></li><li><a href="Layer.html">Layer</a></li><li><a href="MouseController.html">MouseController</a></li><li><a href="PhysicsEntity.html">PhysicsEntity</a></li><li><a href="PhysicsLayer.html">PhysicsLayer</a></li><li><a href="Scene.html">Scene</a></li><li><a href="TouchController.html">TouchController</a></li><li><a href="Transform.html">Transform</a></li><li><a href="Vector2.html">Vector2</a></li></ul><h3>Interfaces</h3><ul><li><a href="Controller.html">Controller</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Mar 27 2021 13:50:13 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
