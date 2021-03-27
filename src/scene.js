@@ -58,7 +58,7 @@ export default class Scene {
 
   gameLoop = () => {
     this.render()
-    if (window) this.gameLoopId = window.requestAnimationFrame(this.gameLoop)
+    this.gameLoopId = requestAnimationFrame(this.gameLoop)
   }
 
   start () {
@@ -66,6 +66,6 @@ export default class Scene {
   }
 
   stop () {
-    if (window) window.cancelAnimationFrame(this.gameLoopId)
+    cancelAnimationFrame(this.gameLoopId)
   }
 }
