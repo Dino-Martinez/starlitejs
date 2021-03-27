@@ -128,7 +128,15 @@ export default class PhysicsEntity extends Entity {
 
   preRender (ctx) {
     // Do Physics stuff
+    ctx.translate(this.center.x, this.center.y)
+    ctx.rotate((Math.PI / 180) * this.rotation)
+    ctx.translate(-this.center.x, -this.center.y)
+
     ctx.clearRect(this.x, this.y, this.width, this.height)
+
+    ctx.translate(this.center.x, this.center.y)
+    ctx.rotate((Math.PI / 180) * -this.rotation)
+    ctx.translate(-this.center.x, -this.center.y)
 
     this.update()
 

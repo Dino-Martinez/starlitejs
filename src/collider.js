@@ -84,6 +84,10 @@ export default class Collider {
 
   collide (other, callback) {
     const collided = this.checkCollision(other)
-    callback({ collided, other })
+    const args = {
+      collided,
+      other
+    }
+    callback(args)
   }
 }
