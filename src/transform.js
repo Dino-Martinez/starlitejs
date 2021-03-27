@@ -137,6 +137,7 @@ class Transform {
    * Changes the position vector of the transform by a given delta vector (adds components).
    * 
    * @param {Vector2} delta The vector by which to change the position.
+   * @throws {TypeError}
    */
   translate (delta) {
     if (delta instanceof Vector2) {
@@ -151,6 +152,7 @@ class Transform {
    * Changes the rotation scalar of the tranform by a given delta scalar (adds).
    * 
    * @param {number} delta The scalar by which to change the rotation.
+   * @throws {TypeError}
    */
   rotate (delta) {
     if (typeof delta === 'number') {
@@ -191,6 +193,7 @@ class Transform {
    * 
    * @param {Transform} other The other transform.
    * @returns {number}
+   * @throws {TypeError}
    */
   distance (other) {
     if (other instanceof Transform) {

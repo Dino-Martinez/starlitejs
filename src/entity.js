@@ -201,6 +201,7 @@ class Entity {
    * Scales the size of the entity by a given scale factor.
    *
    * @param  {number} scaleFactor The factor by which to scale the size of the entity.
+   * @throws {TypeError}
    */
   scaleBy (scaleFactor) {
     try {
@@ -228,6 +229,7 @@ class Entity {
    * @see {@linkcode Entity#removeController} for removing a controller.
    *
    * @param {Controller} controller The controller to add to the entity.
+   * @throws {TypeError}
    */
   addController (controller) {
     if (controller instanceof Controller) {
@@ -244,6 +246,7 @@ class Entity {
    * @see {@linkcode Entity#removeController} for removing a controller.
    *
    * @param {Controller[]} controllers The list of controllers to add to the entity.
+   * @throws {TypeError}
    */
   addControllers (controllers) {
     if (controllers.every(controller => controller instanceof Controller)) {
@@ -260,6 +263,7 @@ class Entity {
    * @see {@linkcode Entity#addController} for adding a controller.
    *
    * @param {Controller} controller The controller to remove from the entity.
+   * @throws {TypeError}
    */
   removeController (controller) {
     if (controller instanceof Controller) {
@@ -276,6 +280,7 @@ class Entity {
    * @see {@linkcode Entity#addController} for adding a controller.
    *
    * @param {Controller[]} controllers The list of controllers to remove from the entity.
+   * @throws {TypeError}
    */
   removeControllers (controllers) {
     if (controllers.every(controller => controller instanceof Controller)) {

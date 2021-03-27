@@ -140,6 +140,7 @@ class Vector2 {
    * Calculates the distance between the vector and another vector.
    * 
    * @param {Vector2} other The other vector.
+   * @throws {TypeError}
    */
   distance (other) {
     if (other instanceof Vector2) {
@@ -153,6 +154,7 @@ class Vector2 {
    * Adds to the components of the vector given another vector.
    * 
    * @param {Vector2} other The other vector.
+   * @throws {TypeError}
    */
   add (other) {
     if (other instanceof Vector2) {
@@ -167,6 +169,7 @@ class Vector2 {
    * Subtracts the components of the vector given another vector.
    * 
    * @param {Vector2} other The other vector.
+   * @throws {TypeError}
    */
   subtract (other) {
     if (other instanceof Vector2) {
@@ -193,6 +196,7 @@ class Vector2 {
    * Scales the components of the vector given a scalar factor.
    * 
    * @param {number} factor The scale factor.
+   * @throws {TypeError}
    */
   scale (factor) {
     if (typeof factor === 'number') {

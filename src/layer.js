@@ -94,6 +94,7 @@ class Layer {
    * @see {@linkcode Layer#removeEntity} for removing an entity.
    *
    * @param {Entity} entity The entity to add to the layer.
+   * @throws {TypeError}
    */
   addEntity (entity) {
     if (entity instanceof Entity) {
@@ -111,6 +112,7 @@ class Layer {
    * @see {@linkcode Layer#removeEntity} for removing an entity.
    *
    * @param {Entity[]} entities The list of entities to add to the layer.
+   * @throws {TypeError}
    */
   addEntities (entities) {
     if (entities.every(entity => entity instanceof Entity)) {
@@ -128,6 +130,7 @@ class Layer {
    * @see {@linkcode Layer#addEntity} for adding an entity.
    *
    * @param {Entity} entity The entity to remove from the layer.
+   * @throws {TypeError}
    */
   removeEntity (entity) {
     if (entity instanceof Entity) {
@@ -144,6 +147,7 @@ class Layer {
    * @see {@linkcode Layer#addEntity} for adding an entity.
    *
    * @param {Entity[]} entities The list of entities to remove from the layer.
+   * @throws {TypeError}
    */
   removeEntities (entities) {
     if (entities.every(entity => entity instanceof Entity)) {

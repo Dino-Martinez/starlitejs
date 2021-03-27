@@ -25,6 +25,7 @@ class Scene {
    * @see {@linkcode Scene@removeLayer} for removing a layer.
    * 
    * @param {Layer} layer The layer to add to the scene.
+   * @throws {TypeError}
    */
   addLayer (layer) {
     if (layer instanceof Layer) {
@@ -42,6 +43,7 @@ class Scene {
    * @see {@linkcode Scene#removeLayer} for removing a layer.
    * 
    * @param {Layer[]} layers The list of layers to add to the scene.
+   * @throws {TypeError}
    */
   addLayers (layers) {
     if (layers.every(layer => layer instanceof Layer)) {
@@ -59,6 +61,7 @@ class Scene {
    * @see {@linkcode Scene#addLayer} for adding a layer.
    * 
    * @param {Layer} layer The layer to remove from the scene.
+   * @throws {TypeError}
    */
   removeLayer (layer) {
     if (layer instanceof Layer) {
@@ -75,6 +78,7 @@ class Scene {
    * @see {@linkcode Scene#addLayer} for adding a layer.
    * 
    * @param {Layer[]} layers The list of layers to remove from the scene.
+   * @throws {TypeError}
    */
   removeLayers (layers) {
     if (layers.every(layer => layer instanceof Layer)) {
