@@ -2,8 +2,12 @@ import Controller from './controller.js'
 
 class MouseController extends Controller {
   /**
+   * Represents a callback for a {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent|MouseEvent}
+   *
    * @memberof MouseController
    * @callback mouseCallback
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent|MouseEvent}
+   *
    * @param {MouseEvent} event Information about the triggered event.
    */
 
@@ -14,6 +18,8 @@ class MouseController extends Controller {
    * @classdesc Class representing a keyboard controller.
    * @implements Controller
    *
+   * @param {(Element|Document)} [element=document] The element that will listen for mouse events.
+   * @param {mouseCallback} [onauxclick=event => {}] The callback to be executed upon the auxclick event.
    * @param {mouseCallback} [onclick=event => {}] The callback to be executed upon the click event.
    * @param {mouseCallback} [oncontextmenu=event => {}] The callback to be executed upon the contextmenu event.
    * @param {mouseCallback} [ondblclick=event => {}] The callback to be executed upon the dblclick event.
@@ -24,82 +30,89 @@ class MouseController extends Controller {
    * @param {mouseCallback} [onmouseout=event => {}] The callback to be executed upon the mouseout event.
    * @param {mouseCallback} [onmouseover=event => {}] The callback to be executed upon the mouseover event.
    * @param {mouseCallback} [onmouseup=event => {}] The callback to be executed upon the mouseup event.
-   * @param {(Element|Document)} [element=document] The element that will listen for mouse events.
    */
-  constructor (element = document, onclick = event => {}, oncontextmenu = event => {}, ondblclick = event => {}, onmousedown = event => {}, onmouseenter = event => {}, onmouseleave = event => {}, onmousemove = event => {}, onmouseout = event => {}, onmouseover = event => {}, onmouseup = event => {}) {
+  constructor (element = document, onauxclick = event => {}, onclick = event => {}, oncontextmenu = event => {}, ondblclick = event => {}, onmousedown = event => {}, onmouseenter = event => {}, onmouseleave = event => {}, onmousemove = event => {}, onmouseout = event => {}, onmouseover = event => {}, onmouseup = event => {}) {
     super()
     /**
+     * Represents the callback to be executed upon the auxclick event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onauxclick = onauxclick
+    /**
      * Represents the callback to be executed upon the click event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onclick = onclick
     /**
      * Represents the callback to be executed upon the contextmenu event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.oncontextmenu = oncontextmenu
     /**
      * Represents the callback to be executed upon the dblclick event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.ondblclick = ondblclick
     /**
      * Represents the callback to be executed upon the mousedown event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmousedown = onmousedown
     /**
      * Represents the callback to be executed upon the mouseenter event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmouseenter = onmouseenter
     /**
      * Represents the callback to be executed upon the mouseleave event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmouseleave = onmouseleave
     /**
      * Represents the callback to be executed upon the mousemove event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmousemove = onmousemove
     /**
      * Represents the callback to be executed upon the mouseout event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmouseout = onmouseout
     /**
      * Represents the callback to be executed upon the mouseover event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmouseover = onmouseover
     /**
      * Represents the callback to be executed upon the mouseup event.
-     * 
+     *
      * @type {mouseCallback}
      * @default event => {}
      */
     this.onmouseup = onmouseup
     if (element instanceof Element || element instanceof Document) {
       this._element = element
+      this._element.onauxclick = event => this.onauxclick(event)
       this._element.onclick = event => this.onclick(event)
       this._element.oncontextmenu = event => this.oncontextmenu(event)
       this._element.ondblclick = event => this.ondblclick(event)
@@ -118,7 +131,11 @@ class MouseController extends Controller {
   /**
    * Represents the element that will listen for mouse events.
    *
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Element|Element}
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Document|Document}
+   *
    * @type {(Element|Document)}
+   * @default document
    */
   get element () {
     return this._element
@@ -126,6 +143,7 @@ class MouseController extends Controller {
 
   set element (newElement) {
     if (newElement instanceof Element || newElement instanceof Document) {
+      this._element.onauxclick = event => {}
       this._element.onclick = event => {}
       this._element.oncontextmenu = event => {}
       this._element.ondblclick = event => {}
@@ -137,6 +155,7 @@ class MouseController extends Controller {
       this._element.onmouseover = event => {}
       this._element.onmouseup = event => {}
       this._element = newElement
+      this._element.onauxclick = event => this.onauxclick(event)
       this._element.onclick = event => this.onclick(event)
       this._element.oncontextmenu = event => this.oncontextmenu(event)
       this._element.ondblclick = event => this.ondblclick(event)

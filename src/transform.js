@@ -3,7 +3,7 @@ import Vector2 from './vector2.js'
 class Transform {
   /**
    * Creates a transform.
-   * 
+   *
    * @class Transform
    * @classdesc Class representing a transform.
    */
@@ -15,7 +15,7 @@ class Transform {
 
   /**
    * Represents the x component of the position vector of the transform.
-   * 
+   *
    * @type {number}
    */
   get x () {
@@ -24,7 +24,7 @@ class Transform {
 
   /**
    * Represents the y component of the position vector of the transform.
-   * 
+   *
    * @type {number}
    */
   get y () {
@@ -33,7 +33,7 @@ class Transform {
 
   /**
    * Represents the x component of the scale vector of the transform.
-   * 
+   *
    * @type {number}
    */
   get width () {
@@ -42,7 +42,7 @@ class Transform {
 
   /**
    * Represents the y component of the scale vector of the transform.
-   * 
+   *
    * @type {number}
    */
   get height () {
@@ -51,7 +51,7 @@ class Transform {
 
   /**
    * Represents the position vector of the transform.
-   * 
+   *
    * @type {Vector2}
    */
   get position () {
@@ -60,7 +60,7 @@ class Transform {
 
   /**
    * Represents the rotation of the transform.
-   * 
+   *
    * @type {number}
    * @default 0
    */
@@ -70,7 +70,7 @@ class Transform {
 
   /**
    * Represents the scale vector of the transform.
-   * 
+   *
    * @type {number}
    */
   get scale () {
@@ -135,7 +135,7 @@ class Transform {
 
   /**
    * Changes the position vector of the transform by a given delta vector (adds components).
-   * 
+   *
    * @param {Vector2} delta The vector by which to change the position.
    * @throws {TypeError}
    */
@@ -150,7 +150,7 @@ class Transform {
 
   /**
    * Changes the rotation scalar of the tranform by a given delta scalar (adds).
-   * 
+   *
    * @param {number} delta The scalar by which to change the rotation.
    * @throws {TypeError}
    */
@@ -164,7 +164,7 @@ class Transform {
 
   /**
    * Changes the scale vector of the transform by a given delta scalar (multiplies components).
-   * 
+   *
    * @param {number} scalar The scalar by which to change the scale.
    */
   scalarScale (scalar) {
@@ -177,7 +177,7 @@ class Transform {
 
   /**
    * Changes the scale vector of the transform by a given delta vector (multiplies components).
-   * 
+   *
    * @param {Vector2} vector The vector by which to change the scale.
    */
   vectorScale (vector) {
@@ -190,7 +190,7 @@ class Transform {
 
   /**
    * Calculates the distance between the transform and another transform.
-   * 
+   *
    * @param {Transform} other The other transform.
    * @returns {number}
    * @throws {TypeError}

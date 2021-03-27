@@ -5,11 +5,11 @@ import Vector2 from './vector2.js'
 class Layer {
   /**
    * Creates a layer.
-   * 
+   *
    * @class Layer
    * @classdesc Class representing a canvas layer.
    * @see {@linkcode PhysicsLayer} for a layer that handles physics.
-   * 
+   *
    * @param {string} name The name of the layer.
    * @param {number} [priority=0] The z-index of the layer.
    * @param {number} [width=640] The width of the layer in pixels.
@@ -18,27 +18,27 @@ class Layer {
   constructor (name, priority = 0, width = 640, height = 480) {
     /**
      * Represents the name of the layer.
-     * 
+     *
      * @type {string}
      */
     this.name = name
     /**
      * Represents the z-index of the layer.
-     * 
+     *
      * @type {number}
      * @default 0
      */
     this.priority = priority
     /**
      * Represents the list of entities that the layer renders.
-     * 
+     *
      * @type {Entity[]}
      * @default []
      */
     this.entities = []
     /**
      * Represents the transform of the layer.
-     * 
+     *
      * @type {Transform}
      */
     this.transform = new Transform()
@@ -49,7 +49,7 @@ class Layer {
     this.active = true
     /**
      * Represents the canvas element of the layer.
-     * 
+     *
      * @type {HTMLCanvasElement}
      */
     this.canvas = document.createElement('canvas')
@@ -60,7 +60,7 @@ class Layer {
     this.canvas.style.border = '1px solid'
     /**
      * Represents the rendering context for the canvas of the layer.
-     * 
+     *
      * @type {CanvasRenderingContext2D}
      */
     this.ctx = this.canvas.getContext('2d')
@@ -69,7 +69,7 @@ class Layer {
 
   /**
    * Represents the width of the layer in pixels.
-   * 
+   *
    * @type {number}
    * @readonly
    */
@@ -79,7 +79,7 @@ class Layer {
 
   /**
    * Represents the height of the layer in pixels.
-   * 
+   *
    * @returns {number}
    * @readonly
    */
@@ -89,7 +89,7 @@ class Layer {
 
   /**
    * Adds an entity for the layer to render.
-   * 
+   *
    * @see {@linkcode Layer#addEntities} for adding multiple entities.
    * @see {@linkcode Layer#removeEntity} for removing an entity.
    *
@@ -107,7 +107,7 @@ class Layer {
 
   /**
    * Adds multiple entities for the layer to render.
-   * 
+   *
    * @see {@linkcode Layer#addEntity} for adding a single entity.
    * @see {@linkcode Layer#removeEntity} for removing an entity.
    *
@@ -125,7 +125,7 @@ class Layer {
 
   /**
    * Removes an entity for the layer to render.
-   * 
+   *
    * @see {@linkcode Layer#removeEntities} for removing multiple entities.
    * @see {@linkcode Layer#addEntity} for adding an entity.
    *
@@ -142,7 +142,7 @@ class Layer {
 
   /**
    * Removes multiple entities for the layer to render.
-   * 
+   *
    * @see {@linkcode Layer#removeEntity} for removing a single entity.
    * @see {@linkcode Layer#addEntity} for adding an entity.
    *
@@ -159,7 +159,7 @@ class Layer {
 
   /**
    * Renders the entities that have been added to the layer.
-   * 
+   *
    * @see {@linkcode Entity#preRender}
    * @see {@linkcode Entity#render}
    * @see {@linkcode Entity#postRender}

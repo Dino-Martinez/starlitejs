@@ -2,8 +2,12 @@ import Controller from './controller.js'
 
 class KeyboardController extends Controller {
   /**
+   * Represents a callback for a {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent|KeyboardEvent}
+   *
    * @memberof KeyboardController
    * @callback keyboardCallback
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent|KeyboardEvent}
+   *
    * @param {KeyboardEvent} event Information about the triggered event.
    */
 
@@ -22,21 +26,21 @@ class KeyboardController extends Controller {
     super()
     /**
      * Represents the callback to be executed upon the keydown event.
-     * 
+     *
      * @type {keyboardCallback}
      * @default event => {}
      */
     this.keydown = keydown
     /**
      * Represents the callback to be executed upon the keypress event.
-     * 
+     *
      * @type {keyboardCallback}
      * @default event => {}
      */
     this.keypress = keypress
     /**
      * Represents the callback to be executed upon the keyup event.
-     * 
+     *
      * @type {keyboardCallback}
      * @default event => {}
      */

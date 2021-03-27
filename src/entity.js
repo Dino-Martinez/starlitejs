@@ -23,42 +23,42 @@ class Entity {
     this._sprite = sprite
     /**
      * Represents whether or not the entity is ready to be drawn.
-     * 
+     *
      * @type {boolean}
      * @default false
      */
     this.ready = false
     /**
      * Represents whether or not the entity is active (will be drawn at all).
-     * 
+     *
      * @type {boolean}
      * @default true
      */
     this.active = true
     /**
      * Represents whether or not the entity has changed and must be redrawn.
-     * 
+     *
      * @type {boolean}
      * @default true
      */
     this.dirty = true
     /**
      * Represents the canvas draw priority (z-index).
-     * 
+     *
      * @type {number}
      * @default 0
      */
     this.priority = priority
     /**
      * Represents the fill color of default sprite.
-     * 
+     *
      * @type {string}
      * @default #ffbad2
      */
     this.color = '#ffbad2'
     /**
      * Represents the list of controllers that can affect the entity.
-     * 
+     *
      * @type {Controller[]}
      * @default []
      */
@@ -224,7 +224,7 @@ class Entity {
 
   /**
    * Adds a controller for the entity to access.
-   * 
+   *
    * @see {@linkcode Entity#addControllers} for adding multiple controllers.
    * @see {@linkcode Entity#removeController} for removing a controller.
    *
@@ -241,7 +241,7 @@ class Entity {
 
   /**
    * Adds multiple controllers for the entity to access.
-   * 
+   *
    * @see {@linkcode Entity#addController} for adding a single controller.
    * @see {@linkcode Entity#removeController} for removing a controller.
    *
@@ -258,7 +258,7 @@ class Entity {
 
   /**
    * Removes a controller from the entity.
-   * 
+   *
    * @see {@linkcode Entity#removeControllers} for removing multiple controllers.
    * @see {@linkcode Entity#addController} for adding a controller.
    *
@@ -275,7 +275,7 @@ class Entity {
 
   /**
    * Removes multiple controllers from the entity.
-   * 
+   *
    * @see {@linkcode Entity#removeController} for removing a single controller.
    * @see {@linkcode Entity#addController} for adding a controller.
    *
@@ -292,7 +292,7 @@ class Entity {
 
   /**
    * Does actions before rendering. Must be called in order for {@linkcode Entity#render} to work properly.
-   * 
+   *
    * @see {@linkcode Entity#render}
    * @see {@linkcode Entity#postRender}
    *
@@ -307,7 +307,7 @@ class Entity {
 
   /**
    * Renders the entity. Relies on {@linkcode Entity#preRender} and {@linkcode Entity#postRender} to work properly.
-   * 
+   *
    * @see {@linkcode Entity#preRender}
    * @see {@linkcode Entity#postRender}
    *
@@ -337,7 +337,7 @@ class Entity {
 
   /**
    * Does actions after rendering. Must be called in order for {@linkcode Entity#render} to work properly.
-   * 
+   *
    * @see {@linkcode Entity#render}
    * @see {@linkcode Entity#preRender}
    *

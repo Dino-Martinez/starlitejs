@@ -3,11 +3,11 @@ import Layer from './layer.js'
 class PhysicsLayer extends Layer {
   /**
    * Creates a phyiscs layer.
-   * 
+   *
    * @class PhysicsLayer
    * @classdesc Class representing a physics layer.
    * @extends Layer
-   * 
+   *
    * @param {string} name The name of the layer.
    * @param {number} [priority=0] The z-index of the layer.
    * @param {number} [width=640] The width of the layer in pixels.
