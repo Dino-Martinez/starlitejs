@@ -77,6 +77,88 @@ class Transform {
     return this._scale
   }
 
+  get edges () {
+    const rotation = (Math.PI * this.rotation) / 180
+    const x =
+      this.x +
+      (this.width / 2) * Math.cos(rotation) -
+      (this.height / 2) * Math.sin(rotation)
+    const y =
+      this.y +
+      (this.width / 2) * Math.sin(rotation) +
+      (this.height / 2) * Math.cos(rotation)
+
+    const x1 =
+      this.x -
+      (this.width / 2) * Math.cos(rotation) -
+      (this.height / 2) * Math.sin(rotation)
+    const y1 =
+      this.y -
+      (this.width / 2) * Math.sin(rotation) +
+      (this.height / 2) * Math.cos(rotation)
+
+    const x2 =
+      this.x -
+      (this.width / 2) * Math.cos(rotation) +
+      (this.height / 2) * Math.sin(rotation)
+    const y2 =
+      this.y -
+      (this.width / 2) * Math.sin(rotation) -
+      (this.height / 2) * Math.cos(rotation)
+
+    const x3 =
+      this.x +
+      (this.width / 2) * Math.cos(rotation) +
+      (this.height / 2) * Math.sin(rotation)
+    const y3 =
+      this.y +
+      (this.width / 2) * Math.sin(rotation) -
+      (this.height / 2) * Math.cos(rotation)
+
+    return [
+      {
+        start: {
+          x,
+          y
+        },
+        end: {
+          x: x1,
+          y: y1
+        }
+      },
+      {
+        start: {
+          x: x1,
+          y: y1
+        },
+        end: {
+          x: x2,
+          y: y2
+        }
+      },
+      {
+        start: {
+          x: x2,
+          y: y2
+        },
+        end: {
+          x: x3,
+          y: y3
+        }
+      },
+      {
+        start: {
+          x: x3,
+          y: y3
+        },
+        end: {
+          x,
+          y
+        }
+      }
+    ]
+  }
+
   set x (newX) {
     if (typeof newX === 'number') {
       this.position = new Vector2(newX, this.position.y)

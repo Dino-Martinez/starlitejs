@@ -1,5 +1,19 @@
 import Transform from './transform.js'
 
+// Helper function to check if two line segments (a,b) -> (c,d) and (p,q) -> (r,s) intersect
+// In the future this should be put on the GPU for acceleration
+const intersects = (a, b, c, d, p, q, r, s) => {
+  let det, gamma, lambda
+  det = (c - a) * (s - q) - (r - p) * (d - b)
+  if (det === 0) {
+    return false
+  } else {
+    lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det
+    gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det
+    return lambda > 0 && lambda < 1 && gamma > 0 && gamma < 1
+  }
+}
+
 class Collider {
   /**
    * @callback collisionCallback
@@ -93,12 +107,30 @@ class Collider {
    * @returns {boolean} Whether or not a collision has occurred.
    */
   checkCollision (other) {
-    return (
-      this.x < other.x + other.width &&
-      this.x + this.width > other.x &&
-      this.y < other.y + other.height &&
-      this.y + this.height > other.y
-    )
+    let collided = false
+    const thisEdges = this.transform.edges
+    const otherEdges = other.transform.edges
+
+    // Check all line segments, if any from this collide with any from other, then we have a collision
+    thisEdges.forEach((edge1, i) => {
+      otherEdges.forEach((edge2, j) => {
+        if (
+          intersects(
+            edge1.start.x,
+            edge1.start.y,
+            edge1.end.x,
+            edge1.end.y,
+            edge2.start.x,
+            edge2.start.y,
+            edge2.end.x,
+            edge2.end.y
+          )
+        ) {
+          collided = true
+        }
+      })
+    })
+    return collided
   }
 
   /**
