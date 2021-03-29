@@ -169,6 +169,10 @@ class Layer {
     this.entities.forEach(entity => entity.render(this.ctx))
     this.entities.forEach(entity => entity.postRender())
   }
+
+  clear () {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  }
 }
 
 export default Layer

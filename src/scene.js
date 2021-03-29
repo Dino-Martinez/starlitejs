@@ -3,14 +3,14 @@ import Layer from './layer.js'
 class Scene {
   /**
    * Creates a scene.
-   * 
+   *
    * @class Scene
    * @classdesc Class representing a scene.
    */
   constructor () {
     /**
      * Represents the list of layers that belong to the scene.
-     * 
+     *
      * @type {Layer[]}
      * @default []
      */
@@ -20,10 +20,10 @@ class Scene {
 
   /**
    * Adds a layer to the scene.
-   * 
+   *
    * @see {@linkcode Scene#addLayers} for adding multiple layers.
    * @see {@linkcode Scene@removeLayer} for removing a layer.
-   * 
+   *
    * @param {Layer} layer The layer to add to the scene.
    * @throws {TypeError}
    */
@@ -38,10 +38,10 @@ class Scene {
 
   /**
    * Adds multiple layers to the scene
-   * 
+   *
    * @see {@linkcode Scene#addLayer} for adding a single layer.
    * @see {@linkcode Scene#removeLayer} for removing a layer.
-   * 
+   *
    * @param {Layer[]} layers The list of layers to add to the scene.
    * @throws {TypeError}
    */
@@ -56,10 +56,10 @@ class Scene {
 
   /**
    * Removes a layer from the scene.
-   * 
+   *
    * @see {@linkcode Scene#removeLayers} for removing multiple layers.
    * @see {@linkcode Scene#addLayer} for adding a layer.
-   * 
+   *
    * @param {Layer} layer The layer to remove from the scene.
    * @throws {TypeError}
    */
@@ -73,10 +73,10 @@ class Scene {
 
   /**
    * Removes multiple layers from the scene.
-   * 
+   *
    * @see {@linkcode Scene#removeLayer} for removing a single layer.
    * @see {@linkcode Scene#addLayer} for adding a layer.
-   * 
+   *
    * @param {Layer[]} layers The list of layers to remove from the scene.
    * @throws {TypeError}
    */
@@ -90,16 +90,20 @@ class Scene {
 
   /**
    * Calls the render function for all of the layers in the scene.
-   * 
+   *
    * @see {@linkcode Layer#render}}
    */
   render () {
     this.layers.forEach(layer => layer.render())
   }
 
+  clear () {
+    this.layers.forEach(layer => layer.clear())
+  }
+
   /**
    * Runs the game loop for the scene once {@linkcode Scene#start} is called.
-   * 
+   *
    * @function
    * @memberof Scene
    * @instance
@@ -120,6 +124,7 @@ class Scene {
    * Stops the game loop.
    */
   stop () {
+    this.clear()
     cancelAnimationFrame(this._gameLoopId)
   }
 }

@@ -117,6 +117,15 @@ class PhysicsEntity extends Entity {
     }
   }
 
+  set velocity (newV) {
+    try {
+      this._velocity = newV
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
+  }
+
   set scale (newSize) {
     super.scale = newSize
     try {
@@ -213,6 +222,12 @@ class PhysicsEntity extends Entity {
   update () {
     if (this) {
       this.velocity.add(this.acceleration)
+      if (this.freeze.x) {
+        this.velocity.x = 0
+      }
+      if (this.freeze.y) {
+        this.velocity.y = 0
+      }
       this.position.add(this.velocity)
       this.collider.position.add(this.velocity)
       this.dirty = true
