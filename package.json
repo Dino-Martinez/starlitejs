@@ -1,6 +1,6 @@
 {
   "name": "starlite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A comprehensive and extensible game engine using JavaScript and HTML Canvas",
   "main": "index.js",
   "scripts": {
