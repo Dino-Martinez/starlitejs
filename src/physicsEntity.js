@@ -5,11 +5,11 @@ import Vector2 from './vector2.js'
 class PhysicsEntity extends Entity {
   /**
    * Creates an entity with physics.
-   * 
+   *
    * @class PhysicsEntity
    * @classdesc Class representing an entity with physics.
    * @extends Entity
-   * 
+   *
    * @param {string} [sprite=default] The URL of the image to be rendered with the entity.
    * @param {number} [priority=0] The canvas draw priority (z-index)].
    * @param {number} [mass=1] The mass of the entity.
@@ -24,20 +24,20 @@ class PhysicsEntity extends Entity {
     super(sprite, priority)
     /**
      * Represents the collider of the entity.
-     * 
+     *
      * @type {Collider}
      */
     this.collider = new Collider()
     /**
      * Represents the mass of the entity.
-     * 
+     *
      * @type {number}
      * @default 1
      */
     this.mass = mass
     /**
      * Represents the frozen axes of the entity.
-     * 
+     *
      * @type {Object}
      * @default { x: false, y: false }
      */
@@ -66,7 +66,7 @@ class PhysicsEntity extends Entity {
 
   /**
    * Represents the velocity of the entity.
-   * 
+   *
    * @type {Vector2}
    * @readonly
    */
@@ -76,7 +76,7 @@ class PhysicsEntity extends Entity {
 
   /**
    * Represents the acceleration of the entity.
-   * 
+   *
    * @type {Vector2}
    * @readonly
    */
@@ -91,6 +91,10 @@ class PhysicsEntity extends Entity {
    */
   get scale () {
     return super.scale
+  }
+
+  get rotation () {
+    return this.transform.rotation
   }
 
   set x (newX) {
@@ -123,9 +127,19 @@ class PhysicsEntity extends Entity {
     }
   }
 
+  set rotation (newRot) {
+    super.rotation = newRot
+    try {
+      this.collider.transform.rotation = newRot
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
+  }
+
   /**
    * Does actions upon collision. Used as a callback for {@linkcode PhysicsEntity#collide}.
-   * 
+   *
    * @memberof PhysicsEntity
    * @function handleCollision
    * @instance
@@ -136,12 +150,55 @@ class PhysicsEntity extends Entity {
   handleCollision = result => {
     if (result.collided) {
       this.velocity.scale(-1)
+      this.position.add(this.velocity)
+      this.collider.position.add(this.velocity)
+      this.dirty = true
+    }
+  }
+
+  /**
+   * Provides very basic keyboard controls for player movement. Used as a callback for {@linkcode KeyboardController#keyup} and {@linkcode KeyboardController#keydown}.
+   *
+   * @memberof PhysicsEntity
+   * @function movement
+   * @instance
+   *
+   * @param {Object} event A KeyboardEvent containing type = keyup | keydown.
+   */
+  movement = event => {
+    if (event.type === 'keydown') {
+      if (event.key === 'w') {
+        this.velocity.y = -4
+      }
+      if (event.key === 'a') {
+        this.velocity.x = -4
+      }
+      if (event.key === 's') {
+        this.velocity.y = 4
+      }
+      if (event.key === 'd') {
+        this.velocity.x = 4
+      }
+    }
+    if (event.type === 'keyup') {
+      if (event.key === 'w') {
+        this.velocity.y = 0
+      }
+      if (event.key === 'a') {
+        this.velocity.x = 0
+      }
+      if (event.key === 's') {
+        this.velocity.y = 0
+      }
+      if (event.key === 'd') {
+        this.velocity.x = 0
+      }
     }
   }
 
   /**
    * Checks collision with another entity.
-   * 
+   *
    * @param {PhysicsEntity} other The other entity.
    */
   collide (other) {
@@ -150,7 +207,7 @@ class PhysicsEntity extends Entity {
 
   /**
    * Updates the physics of the entity. Called in {@linkcode PhysicsEntity#preRender}.
-   * 
+   *
    * @see {@linkcode PhysicsEntity#preRender}
    */
   update () {
@@ -164,7 +221,7 @@ class PhysicsEntity extends Entity {
 
   /**
    * Applies a force to the entity.
-   * 
+   *
    * @param {Vector2} force The force to be applied to the entity.
    */
   applyForce (force) {
@@ -177,15 +234,20 @@ class PhysicsEntity extends Entity {
    */
   preRender (ctx) {
     // Do Physics stuff
-    ctx.translate(this.center.x, this.center.y)
+    ctx.translate(this.x, this.y)
     ctx.rotate((Math.PI / 180) * this.rotation)
-    ctx.translate(-this.center.x, -this.center.y)
+    ctx.translate(-this.x, -this.y)
 
-    ctx.clearRect(this.x, this.y, this.width, this.height)
+    ctx.clearRect(
+      this.x - 5 - Math.ceil(this.width / 2),
+      this.y - 5 - Math.ceil(this.height / 2),
+      this.width + 10,
+      this.height + 10
+    )
 
-    ctx.translate(this.center.x, this.center.y)
+    ctx.translate(this.x, this.y)
     ctx.rotate((Math.PI / 180) * -this.rotation)
-    ctx.translate(-this.center.x, -this.center.y)
+    ctx.translate(-this.x, -this.y)
 
     this.update()
 

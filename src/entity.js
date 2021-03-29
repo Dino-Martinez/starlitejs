@@ -93,11 +93,11 @@ class Entity {
   }
 
   /**
-     * Represents the path of the entity sprite, or default.
-     *
-     * @type {string}
-     * @default default
-     */
+   * Represents the path of the entity sprite, or default.
+   *
+   * @type {string}
+   * @default default
+   */
   get sprite () {
     return this._sprite
   }
@@ -148,6 +148,10 @@ class Entity {
    */
   get rotation () {
     return this.transform.rotation
+  }
+
+  get edges () {
+    return this.transform.edges
   }
 
   set x (newX) {
@@ -305,6 +309,16 @@ class Entity {
     this.ready = true
   }
 
+  // ** TEMPORARY ** Edge drawing function for debugging
+  drawEdges (ctx) {
+    const edges = this.edges
+    edges.forEach((edge, i) => {
+      ctx.moveTo(edge.start.x, edge.start.y)
+      ctx.lineTo(edge.end.x, edge.end.y)
+    })
+    ctx.stroke()
+  }
+
   /**
    * Renders the entity. Relies on {@linkcode Entity#preRender} and {@linkcode Entity#postRender} to work properly.
    *
@@ -316,22 +330,31 @@ class Entity {
   render (ctx) {
     if (this.ready && this.dirty && this.active) {
       // Draw using canvas context
-      ctx.translate(this.center.x, this.center.y)
+      ctx.translate(this.x, this.y)
       ctx.rotate((Math.PI / 180) * this.rotation)
-      ctx.translate(-this.center.x, -this.center.y)
+      ctx.translate(-this.x, -this.y)
 
       if (this.sprite === 'default') {
         ctx.fillStyle = this.color
         ctx.strokeStyle = '#000000'
-        ctx.fillRect(this.x, this.y, this.width, this.height)
-        ctx.strokeRect(this.x + 1, this.y + 1, this.width - 1, this.height - 2)
+        ctx.fillRect(
+          this.x - this.width / 2,
+          this.y - this.height / 2,
+          this.width,
+          this.height
+        )
       } else {
-        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height)
+        ctx.drawImage(
+          this.sprite,
+          this.x - this.width / 2,
+          this.y - this.height / 2,
+          this.width,
+          this.height
+        )
       }
-
-      ctx.translate(this.center.x, this.center.y)
+      ctx.translate(this.x, this.y)
       ctx.rotate((Math.PI / 180) * -this.rotation)
-      ctx.translate(-this.center.x, -this.center.y)
+      ctx.translate(-this.x, -this.y)
     }
   }
 
