@@ -3,59 +3,59 @@ import Controller from './controller.js'
 class TouchController extends Controller {
   /**
    * Represents a callback for a {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent|TouchEvent}
-   * 
+   *
    * @memberof TouchController
    * @callback touchCallback
    * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent|TouchEvent}
-   * 
+   *
    * @param {TouchEvent} event Information about the triggered event.
    */
 
   /**
    * Creates a touch controller.
-   * 
+   *
    * @class TouchController
    * @classdesc Class representing a touch controller.
    * @implements Controller
-   * 
+   *
    * @param {(Element|Document|Window)} [element=document] The element that will listen for touch events.
    * @param {touchCallback} [ontouchstart=event => {}] The callback to be executed upon the touchstart event.
    * @param {touchCallback} [ontouchend=event => {}] The callback to be executed upon the touchend event.
    * @param {touchCallback} [ontouchmove=event => {}] The callback to be executed upon the touchmove event.
    * @param {touchCallback} [ontouchcancel=event => {}] The callback to be executed upon the touchcancel event.
    */
-  constructor(
-    element = document, 
-    ontouchstart = event => {}, 
-    ontouchend = event => {}, 
-    ontouchmove = event => {}, 
+  constructor (
+    element = document,
+    ontouchstart = event => {},
+    ontouchend = event => {},
+    ontouchmove = event => {},
     ontouchcancel = event => {}
   ) {
     super()
     /**
      * Represents the callback to be executed upon the touchstart event.
-     * 
+     *
      * @type {touchCallback}
      * @default event => {}
      */
     this.ontouchstart = ontouchstart
     /**
      * Represents the callback to be executed upon the touchend event.
-     * 
+     *
      * @type {touchCallback}
      * @default event => {}
      */
     this.ontouchend = ontouchend
     /**
      * Represents the callback to be executed upon the touchmove event.
-     * 
+     *
      * @type {touchCallback}
      * @default event => {}
      */
     this.ontouchmove = ontouchmove
     /**
      * Represents the callback to be executed upon the touchcancel event.
-     * 
+     *
      * @type {touchCallback}
      * @default event => {}
      */

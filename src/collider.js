@@ -16,6 +16,8 @@ const intersects = (a, b, c, d, p, q, r, s) => {
 
 class Collider {
   /**
+   * Represents a callback for a collision event.
+   * 
    * @callback collisionCallback
    * @memberof Collider
    * @param {boolean} collided Whether or not a collision has occurred.

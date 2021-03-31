@@ -77,6 +77,11 @@ class Transform {
     return this._scale
   }
 
+  /**
+   * Represents the edges of the transform as a rectangle.
+   * 
+   * @type {Object}
+   */
   get edges () {
     const rotation = (Math.PI * this.rotation) / 180
     const x =

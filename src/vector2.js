@@ -1,59 +1,59 @@
 class Vector2 {
   /**
    * Represents a vector with x component of 0 and y component of 0
-   * 
+   *
    * @memberof Vector2
-   * 
+   *
    * @type {Vector2}
    */
   static zero = new Vector2(0, 0)
   /**
    * Represents a vector with x component of 1 and y component of 1
-   * 
+   *
    * @memberof Vector2
-   * 
+   *
    * @type {Vector2}
    */
   static one = new Vector2(1, 1)
   /**
    * Represents a vector with x component of 0 and y component of 1
-   * 
+   *
    * @memberof Vector2
-   * 
+   *
    * @type {Vector2}
    */
   static up = new Vector2(0, 1)
   /**
    * Represents a vector with x component of 1 and y component of 0
-   * 
+   *
    * @memberof Vector2
-   * 
+   *
    * @type {Vector2}
    */
   static right = new Vector2(1, 0)
   /**
    * Represents a vector with x component of 0 and y component of -1
-   * 
+   *
    * @memberof Vector2
-   * 
+   *
    * @type {Vector2}
    */
   static down = new Vector2(0, -1)
   /**
    * Represents a vector with x component of -1 and y component of 0
-   * 
+   *
    * @memberof Vector2
-   * 
+   *
    * @type {Vector2}
    */
   static left = new Vector2(-1, 0)
 
   /**
    * Creates a vector with 2 components.
-   * 
+   *
    * @class Vector2
    * @classdesc Class representing a vector with 2 components.
-   * 
+   *
    * @param {number} [x=0] The x component of the vector.
    * @param {number} [y=0] The y component of the vector.
    */
@@ -64,7 +64,7 @@ class Vector2 {
 
   /**
    * Represents the x component of the vector.
-   * 
+   *
    * @type {number}
    */
   get x () {
@@ -73,7 +73,7 @@ class Vector2 {
 
   /**
    * Represents the y component of the vector.
-   * 
+   *
    * @type {number}
    */
   get y () {
@@ -82,7 +82,7 @@ class Vector2 {
 
   /**
    * Represents the magnitude of the vector.
-   * 
+   *
    * @type {number}
    * @readonly
    */
@@ -92,7 +92,7 @@ class Vector2 {
 
   /**
    * Represents the direction of the vector in degrees.
-   * 
+   *
    * @type {number}
    * @readonly
    */
@@ -102,7 +102,7 @@ class Vector2 {
 
   /**
    * Represents the unit of the vector.
-   * 
+   *
    * @type {Vector2}
    * @readonly
    */
@@ -112,7 +112,7 @@ class Vector2 {
 
   /**
    * Represents the inverse of the vector.
-   * 
+   *
    * @type {Vector2}
    * @readonly
    */
@@ -138,7 +138,7 @@ class Vector2 {
 
   /**
    * Calculates the distance between the vector and another vector.
-   * 
+   *
    * @param {Vector2} other The other vector.
    * @throws {TypeError}
    */
@@ -152,7 +152,7 @@ class Vector2 {
 
   /**
    * Adds to the components of the vector given another vector.
-   * 
+   *
    * @param {Vector2} other The other vector.
    * @throws {TypeError}
    */
@@ -167,7 +167,7 @@ class Vector2 {
 
   /**
    * Subtracts the components of the vector given another vector.
-   * 
+   *
    * @param {Vector2} other The other vector.
    * @throws {TypeError}
    */
@@ -181,8 +181,8 @@ class Vector2 {
   }
 
   /**
-   * Multiplies the components of the vector given another vector. 
-   * 
+   * Multiplies the components of the vector given another vector.
+   *
    * @param {Vector2} other The other vector.
    */
   dot (other) {
@@ -194,7 +194,7 @@ class Vector2 {
 
   /**
    * Scales the components of the vector given a scalar factor.
-   * 
+   *
    * @param {number} factor The scale factor.
    * @throws {TypeError}
    */
