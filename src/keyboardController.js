@@ -18,11 +18,12 @@ class KeyboardController extends Controller {
    * @classdesc Class representing a keyboard controller.
    * @implements Controller
    *
-   * @param {keyboardCallback} [keydown] The callback to be executed upon the keydown event.
-   * @param {keyboardCallback} [keypress] The callback to be exectued upon the keypress event
-   * @param {keyboardCallback} [keyup] The callback to be executed upon the keyup event.
+   * @param {keyboardCallback} [keydown=event => {}] The callback to be executed upon the keydown event.
+   * @param {keyboardCallback} [keypress=event => {}] The callback to be exectued upon the keypress event
+   * @param {keyboardCallback} [keyup=event => {}] The callback to be executed upon the keyup event.
+   * @param {boolean} [norepeat=false]
    */
-  constructor (keydown = event => {}, keypress = event => {}, keyup = event => {}) {
+  constructor (norepeat = false, keydown = event => {}, keypress = event => {}, keyup = event => {}) {
     super()
     this._keysDown = []
     /**
@@ -31,6 +32,13 @@ class KeyboardController extends Controller {
      * @type {keyboardCallback}
      * @default event => {}
      */
+    /**
+     * Represents whether or not the keyboard should allow repeating key down events.
+     * 
+     * @type {boolean}
+     * @default = false
+     */
+    this.norepeat = norepeat
     this.keydown = keydown
     /**
      * Represents the callback to be executed upon the keypress event.
@@ -50,14 +58,22 @@ class KeyboardController extends Controller {
       if (!this.isKeyDown(event.key)) {
         this._keysDown.push(event.key)
       }
-      this.keydown(event)
+      if (this.norepeat != event.repeat) {
+        this.keydown(event)
+      }
     }
-    document.onkeypress = event => this.keypress(event)
+    document.onkeypress = event => {
+      if (this.norepeat && event.repeat) {
+        this.keypress(event)
+      }
+    }
     document.onkeyup = event => {
       if (this.isKeyDown(event.key)) {
         this._keysDown.pop(event.key)
       }
-      this.keyup(event)
+      if (this.norepeat && event.repeat) {
+        this.keyup(event)
+      }
     }
   }
 
