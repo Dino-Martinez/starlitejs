@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mouseController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mouseController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Controller from './controller.js'
+import { StarliteMouseEvent, StarliteDragEvent } from './customEvents.js'
+
+class MouseController extends Controller {
+  /**
+   * Represents a callback for a {@linkcode StarliteMouseEvent}
+   *
+   * @memberof MouseController
+   * @callback mouseCallback
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent|MouseEvent}
+   *
+   * @param {StarliteMouseEvent} event Information about the triggered event.
+   */
+
+  /**
+   * Represents a callback for a {@linkcode StarliteDragEvent}
+   *
+   * @memberof MouseController
+   * @callback dragCallback
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/DragEvent|DragEvent}
+   *
+   * @param {StarliteDragEvent} event Information about the triggered event.
+   */
+
+  /**
+   * Creates a mouse controller.
+   *
+   * @class MouseController
+   * @classdesc Class representing a keyboard controller.
+   * @implements Controller
+   *
+   * @param {(Element|Document|Window)} [element=document] The element that will listen for mouse events.
+   * @param {mouseCallback} [onclick=event => {}] The callback to be executed upon the click event.
+   * @param {mouseCallback} [oncontextmenu=event => {}] The callback to be executed upon the contextmenu event.
+   * @param {mouseCallback} [ondblclick=event => {}] The callback to be executed upon the dblclick event.
+   * @param {mouseCallback} [onmousedown=event => {}] The callback to be executed upon the mousedown event.
+   * @param {mouseCallback} [onmouseenter=event => {}] The callback to be executed upon the mouseenter event.
+   * @param {mouseCallback} [onmouseleave=event => {}] The callback to be executed upon the mouseleave event.
+   * @param {mouseCallback} [onmousemove=event => {}] The callback to be executed upon the mousemove event.
+   * @param {mouseCallback} [onmouseout=event => {}] The callback to be executed upon the mouseout event.
+   * @param {mouseCallback} [onmouseover=event => {}] The callback to be executed upon the mouseover event.
+   * @param {mouseCallback} [onmouseup=event => {}] The callback to be executed upon the mouseup event.
+   * @param {dragCallback} [ondrag=event => {}] The callback to be executed upon the drag event.
+   * @param {dragCallback} [ondragend=event => {}] The callback to be executed upon the dragend event.
+   * @param {dragCallback} [ondragenter=event => {}] The callback to be executed upon the dragenter event.
+   * @param {dragCallback} [ondragexit=event => {}] The callback to be executed upon the dragexit event.
+   * @param {dragCallback} [ondragleave=event => {}] The callback to be executed upon the dragleave event.
+   * @param {dragCallback} [ondragover=event => {}] The callback to be executed upon the dragover event.
+   * @param {dragCallback} [ondragstart=event => {}] The callback to be executed upon the dragstart event.
+   * @param {dragCallback} [ondrop=event => {}] The callback to be executed upon the drop event.
+   */
+  constructor (
+    element = document, 
+    onclick = event => {}, 
+    oncontextmenu = event => {}, 
+    ondblclick = event => {}, 
+    onmousedown = event => {}, 
+    onmouseenter = event => {}, 
+    onmouseleave = event => {}, 
+    onmousemove = event => {}, 
+    onmouseout = event => {}, 
+    onmouseover = event => {}, 
+    onmouseup = event => {},
+    ondrag = event => {},
+    ondragend = event => {},
+    ondragenter = event => {},
+    ondragexit = event => {},
+    ondragleave = event => {},
+    ondragover = event => {},
+    ondragstart = event => {},
+    ondrop = event => {}
+  ) {
+    super()
+    /**
+     * Represents the callback to be executed upon the click event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onclick = onclick
+    /**
+     * Represents the callback to be executed upon the contextmenu event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.oncontextmenu = oncontextmenu
+    /**
+     * Represents the callback to be executed upon the dblclick event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.ondblclick = ondblclick
+    /**
+     * Represents the callback to be executed upon the mousedown event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmousedown = onmousedown
+    /**
+     * Represents the callback to be executed upon the mouseenter event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmouseenter = onmouseenter
+    /**
+     * Represents the callback to be executed upon the mouseleave event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmouseleave = onmouseleave
+    /**
+     * Represents the callback to be executed upon the mousemove event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmousemove = onmousemove
+    /**
+     * Represents the callback to be executed upon the mouseout event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmouseout = onmouseout
+    /**
+     * Represents the callback to be executed upon the mouseover event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmouseover = onmouseover
+    /**
+     * Represents the callback to be executed upon the mouseup event.
+     *
+     * @type {mouseCallback}
+     * @default event => {}
+     */
+    this.onmouseup = onmouseup
+    /**
+     * Represents the callack to be executed upon the drag event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondrag = ondrag
+    /**
+     * Represents the callack to be executed upon the dragend event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondragend = ondragend
+    /**
+     * Represents the callack to be executed upon the dragenter event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondragenter = ondragenter
+    /**
+     * Represents the callack to be executed upon the dragexit event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondragexit = ondragexit
+    /**
+     * Represents the callack to be executed upon the dragleave event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondragleave = ondragleave
+    /**
+     * Represents the callack to be executed upon the dragover event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondragover = ondragover
+    /**
+     * Represents the callack to be executed upon the dragstart event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondragstart = ondragstart
+    /**
+     * Represents the callack to be executed upon the drop event.
+     * 
+     * @type {dragCallback}
+     * @default event => {}
+     */
+    this.ondrop = ondrop
+    if (element instanceof Element || element instanceof Document || element instanceof Window) {
+      this._element = element
+      this._element.onclick = event => this.onclick(new StarliteMouseEvent(event))
+      this._element.oncontextmenu = event => this.oncontextmenu(new StarliteMouseEvent(event))
+      this._element.ondblclick = event => this.ondblclick(new StarliteMouseEvent(event))
+      this._element.onmousedown = event => this.onmousedown(new StarliteMouseEvent(event))
+      this._element.onmouseenter = event => this.onmouseenter(new StarliteMouseEvent(event))
+      this._element.onmouseleave = event => this.onmouseleave(new StarliteMouseEvent(event))
+      this._element.onmousemove = event => this.onmousemove(new StarliteMouseEvent(event))
+      this._element.onmouseout = event => this.onmouseout(new StarliteMouseEvent(event))
+      this._element.onmouseover = event => this.onmouseover(new StarliteMouseEvent(event))
+      this._element.onmouseup = event => this.onmouseup(new StarliteMouseEvent(event))
+      this._element.ondrag = event => this.ondrag(new StarliteDragEvent(event))
+      this._element.ondragend = event => this.ondragend(new StarliteDragEvent(event)),
+      this._element.ondragenter = event => this.ondragenter(new StarliteDragEvent(event))
+      this._element.ondragexit = event => this.ondragexit(new StarliteDragEvent(event))
+      this._element.ondragleave = event => this.ondragleave(new StarliteDragEvent(event))
+      this._element.ondragover = event => this.ondragover(new StarliteDragEvent(event))
+      this._element.ondragstart = event => this.ondragstart(new StarliteDragEvent(event))
+      this._element.ondrop = event => this.ondrop(new StarliteDragEvent(event))
+    } else {
+      throw new TypeError()
+    }
+  }
+
+  /**
+   * Represents the element that will listen for mouse events.
+   *
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Element|Element}
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Document|Document}
+   * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Window|Window}
+   *
+   * @type {(Element|Document|Window)}
+   * @default document
+   */
+  get element () {
+    return this._element
+  }
+
+  set element (newElement) {
+    if (newElement instanceof Element || newElement instanceof Document || newElement instanceof Window) {
+      this._element.onclick = event => {}
+      this._element.oncontextmenu = event => {}
+      this._element.ondblclick = event => {}
+      this._element.onmousedown = event => {}
+      this._element.onmouseenter = event => {}
+      this._element.onmouseleave = event => {}
+      this._element.onmousemove = event => {}
+      this._element.onmouseout = event => {}
+      this._element.onmouseover = event => {}
+      this._element.onmouseup = event => {}
+      this._element.ondrag = event => {}
+      this._element.ondragend = event => {}
+      this._element.ondragenter = event => {}
+      this._element.ondragexit = event => {}
+      this._element.ondragleave = event => {}
+      this._element.ondragover = event => {}
+      this._element.ondragstart = event => {}
+      this._element.ondrop = event => {}
+      this._element = newElement
+      this._element.onclick = event => this.onclick(new StarliteMouseEvent(event))
+      this._element.oncontextmenu = event => this.oncontextmenu(new StarliteMouseEvent(event))
+      this._element.ondblclick = event => this.ondblclick(new StarliteMouseEvent(event))
+      this._element.onmousedown = event => this.onmousedown(new StarliteMouseEvent(event))
+      this._element.onmouseenter = event => this.onmouseenter(new StarliteMouseEvent(event))
+      this._element.onmouseleave = event => this.onmouseleave(new StarliteMouseEvent(event))
+      this._element.onmousemove = event => this.onmousemove(new StarliteMouseEvent(event))
+      this._element.onmouseout = event => this.onmouseout(new StarliteMouseEvent(event))
+      this._element.onmouseover = event => this.onmouseover(new StarliteMouseEvent(event))
+      this._element.onmouseup = event => this.onmouseup(new StarliteMouseEvent(event))
+      this._element.ondrag = event => this.ondrag(new StarliteDragEvent(event))
+      this._element.ondragend = event => this.ondragend(new StarliteDragEvent(event)),
+      this._element.ondragenter = event => this.ondragenter(new StarliteDragEvent(event))
+      this._element.ondragexit = event => this.ondragexit(new StarliteDragEvent(event))
+      this._element.ondragleave = event => this.ondragleave(new StarliteDragEvent(event))
+      this._element.ondragover = event => this.ondragover(new StarliteDragEvent(event))
+      this._element.ondragstart = event => this.ondragstart(new StarliteDragEvent(event))
+      this._element.ondrop = event => this.ondrop(new StarliteDragEvent(event))
+    } else {
+      throw new TypeError()
+    }
+  }
+}
+
+export default MouseController
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Collider.html">Collider</a></li><li><a href="Entity.html">Entity</a></li><li><a href="KeyboardController.html">KeyboardController</a></li><li><a href="Layer.html">Layer</a></li><li><a href="MouseController.html">MouseController</a></li><li><a href="PhysicsEntity.html">PhysicsEntity</a></li><li><a href="PhysicsLayer.html">PhysicsLayer</a></li><li><a href="Scene.html">Scene</a></li><li><a href="TouchController.html">TouchController</a></li><li><a href="Transform.html">Transform</a></li><li><a href="Vector2.html">Vector2</a></li></ul><h3>Interfaces</h3><ul><li><a href="Controller.html">Controller</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Mar 30 2021 05:02:13 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

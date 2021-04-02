@@ -1,99 +1,87 @@
-class Vector2 {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: vector2.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: vector2.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Vector2 {
   /**
    * Represents a vector with x component of 0 and y component of 0
-   *
+   * 
    * @memberof Vector2
-   *
+   * 
    * @type {Vector2}
    */
   static zero = new Vector2(0, 0)
   /**
    * Represents a vector with x component of 1 and y component of 1
-   *
+   * 
    * @memberof Vector2
-   *
+   * 
    * @type {Vector2}
    */
   static one = new Vector2(1, 1)
   /**
    * Represents a vector with x component of 0 and y component of 1
-   *
+   * 
    * @memberof Vector2
-   *
+   * 
    * @type {Vector2}
    */
   static up = new Vector2(0, 1)
   /**
    * Represents a vector with x component of 1 and y component of 0
-   *
+   * 
    * @memberof Vector2
-   *
+   * 
    * @type {Vector2}
    */
   static right = new Vector2(1, 0)
   /**
    * Represents a vector with x component of 0 and y component of -1
-   *
+   * 
    * @memberof Vector2
-   *
+   * 
    * @type {Vector2}
    */
   static down = new Vector2(0, -1)
   /**
    * Represents a vector with x component of -1 and y component of 0
-   *
+   * 
    * @memberof Vector2
-   *
+   * 
    * @type {Vector2}
    */
   static left = new Vector2(-1, 0)
 
-  static distance (a, b) {
-    if (a instanceof Vector2 && b instanceof Vector2) {
-      return new Vector2(b.x - a.x, b.y - a.y).magnitude
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  static add (a, b) {
-    if (a instanceof Vector2 && b instanceof Vector2) {
-      return new Vector2(a.x + b.x, a.y + b.y)
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  static subtract (a, b) {
-    if (a instanceof Vector2 && b instanceof Vector2) {
-      return new Vector2(a.x - b.x, a.y - b.y)
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  static dot (a, b) {
-    if (a instanceof Vector2 && b instanceof Vector2) {
-      return new Vector2(a.x * b.x, a.y * b.y)
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  static scale (vector, scalar) {
-    if (vector instanceof Vector2 && typeof scalar == 'number') {
-      return new Vector2(vector.x * scalar, vector.y * scalar)
-    } else {
-      throw new TypeError()
-    }
-  }
-
   /**
    * Creates a vector with 2 components.
-   *
+   * 
    * @class Vector2
    * @classdesc Class representing a vector with 2 components.
-   *
+   * 
    * @param {number} [x=0] The x component of the vector.
    * @param {number} [y=0] The y component of the vector.
    */
@@ -104,7 +92,7 @@ class Vector2 {
 
   /**
    * Represents the x component of the vector.
-   *
+   * 
    * @type {number}
    */
   get x () {
@@ -113,7 +101,7 @@ class Vector2 {
 
   /**
    * Represents the y component of the vector.
-   *
+   * 
    * @type {number}
    */
   get y () {
@@ -122,7 +110,7 @@ class Vector2 {
 
   /**
    * Represents the magnitude of the vector.
-   *
+   * 
    * @type {number}
    * @readonly
    */
@@ -132,17 +120,17 @@ class Vector2 {
 
   /**
    * Represents the direction of the vector in degrees.
-   *
+   * 
    * @type {number}
    * @readonly
    */
   get direction () {
-    return Math.PI * 180 * Math.atan(this.y / this.x)
+    return (Math.PI * 180) * Math.atan(this.y / this.x)
   }
 
   /**
    * Represents the unit of the vector.
-   *
+   * 
    * @type {Vector2}
    * @readonly
    */
@@ -152,7 +140,7 @@ class Vector2 {
 
   /**
    * Represents the inverse of the vector.
-   *
+   * 
    * @type {Vector2}
    * @readonly
    */
@@ -178,13 +166,13 @@ class Vector2 {
 
   /**
    * Calculates the distance between the vector and another vector.
-   *
+   * 
    * @param {Vector2} other The other vector.
    * @throws {TypeError}
    */
   distance (other) {
     if (other instanceof Vector2) {
-      return new Vector2(this.x - other.x, this.y - other.y).magnitude
+      return new Vector2().magnitude
     } else {
       throw new TypeError()
     }
@@ -192,7 +180,7 @@ class Vector2 {
 
   /**
    * Adds to the components of the vector given another vector.
-   *
+   * 
    * @param {Vector2} other The other vector.
    * @throws {TypeError}
    */
@@ -207,7 +195,7 @@ class Vector2 {
 
   /**
    * Subtracts the components of the vector given another vector.
-   *
+   * 
    * @param {Vector2} other The other vector.
    * @throws {TypeError}
    */
@@ -221,8 +209,8 @@ class Vector2 {
   }
 
   /**
-   * Multiplies the components of the vector given another vector.
-   *
+   * Multiplies the components of the vector given another vector. 
+   * 
    * @param {Vector2} other The other vector.
    */
   dot (other) {
@@ -234,7 +222,7 @@ class Vector2 {
 
   /**
    * Scales the components of the vector given a scalar factor.
-   *
+   * 
    * @param {number} factor The scale factor.
    * @throws {TypeError}
    */
@@ -246,15 +234,29 @@ class Vector2 {
       throw new TypeError()
     }
   }
-
-  rotate (angle) {
-    const newX = this.x * Math.cos(angle) - this.y * Math.sin(angle)
-    const newY = this.x * Math.sin(angle) + this.y * Math.cos(angle)
-    if (newX === newX && newY === newY) {
-      this.x = newX
-      this.y = newY
-    }
-  }
 }
 
 export default Vector2
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Collider.html">Collider</a></li><li><a href="Entity.html">Entity</a></li><li><a href="KeyboardController.html">KeyboardController</a></li><li><a href="Layer.html">Layer</a></li><li><a href="MouseController.html">MouseController</a></li><li><a href="PhysicsEntity.html">PhysicsEntity</a></li><li><a href="PhysicsLayer.html">PhysicsLayer</a></li><li><a href="Scene.html">Scene</a></li><li><a href="TouchController.html">TouchController</a></li><li><a href="Transform.html">Transform</a></li><li><a href="Vector2.html">Vector2</a></li></ul><h3>Interfaces</h3><ul><li><a href="Controller.html">Controller</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Mar 30 2021 05:02:13 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
