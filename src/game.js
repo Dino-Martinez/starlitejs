@@ -10,77 +10,99 @@ import KeyboardController from './keyboardController.js'
 const s = new Scene()
 const l1 = new Layer('Background', 0)
 const l2 = new PhysicsLayer('Ground', 1)
+const e = new PhysicsEntity()
+e.scale = new Vector2(50, 50)
+e.x = 50
+e.y = 150
+e.rotation = 45
+e.color = '#000000'
+e.velocity = new Vector2(1, 0)
 
-const paddle = new PhysicsEntity()
-paddle.scale = new Vector2(15, 75)
-paddle.x = 50
-paddle.y = 100
-paddle.freeze = { x: true, y: false }
+const e2 = new PhysicsEntity()
+e2.scale = new Vector2(50, 50)
+e2.x = 250
+e2.y = 150
+e2.rotation = 30
+e2.color = '#ff0000'
+e2.velocity = new Vector2(-1, 0)
+console.log(e2.velocity)
 
-const b = new Entity()
-b.scale = new Vector2(l1.width, l1.height)
-b.color = '#bbeebb'
-b.x = l1.width / 2
-b.y = l1.height / 2
-
-const right = new PhysicsEntity()
-right.scale = new Vector2(100, l2.height)
-right.x = l2.width + 50
-right.y = l2.height / 2
-right.color = '#000000'
-
-const ball = new PhysicsEntity()
-ball.scale = new Vector2(25, 25)
-ball.x = l2.width / 2
-ball.y = l2.height / 2
-ball.color = '#9999ff'
-ball.velocity = new Vector2(-1, 0)
-
-const keyboard = new KeyboardController()
-keyboard.keydown = paddle.movement
-keyboard.keyup = paddle.movement
-
-l2.addEntity(paddle)
-l2.addEntity(ball)
-l2.addEntity(right)
-l1.addEntity(b)
-
-s.addLayer(l2)
-s.addLayer(l1)
-
-const splash = new Scene()
-const splashLayer = new Layer()
-const splashSreen = new Entity()
-splashSreen.scale = new Vector2(splashLayer.width, splashLayer.height)
-splashSreen.x = splashLayer.width / 2
-splashSreen.y = splashLayer.height / 2
-splashSreen.color = '#000000'
-
-const button = new Entity()
-button.scale = new Vector2(250, 50)
-button.x = splashLayer.width / 2
-button.y = splashLayer.height / 2
-button.color = '#ffffff'
 const mouse = new MouseController()
-mouse.onclick = event => {
-  if (
-    event.clientX > button.x - button.width / 2 &&
-    event.clientX < button.x + button.width / 2
-  ) {
-    if (
-      event.clientY > button.y - button.height / 2 &&
-      event.clientY < button.y + button.height / 2
-    ) {
-      splash.stop()
-      s.start()
-    }
-  }
-}
-splashLayer.addEntity(splashSreen)
-splashLayer.addEntity(button)
-splash.addLayer(splashLayer)
+mouse.onclick = event => console.log(event.clientX)
 
-splash.start()
+l2.addEntities([e, e2])
+s.addLayers([l1, l2])
+s.start()
+// const paddle = new PhysicsEntity()
+// paddle.scale = new Vector2(15, 75)
+// paddle.x = 50
+// paddle.y = 100
+// paddle.freeze = { x: true, y: false }
+//
+// const b = new Entity()
+// b.scale = new Vector2(l1.width, l1.height)
+// b.color = '#bbeebb'
+// b.x = l1.width / 2
+// b.y = l1.height / 2
+//
+// const right = new PhysicsEntity()
+// right.scale = new Vector2(100, l2.height)
+// right.x = l2.width + 50
+// right.y = l2.height / 2
+// right.color = '#000000'
+//
+// const ball = new PhysicsEntity()
+// ball.scale = new Vector2(25, 25)
+// ball.x = l2.width / 2
+// ball.y = l2.height / 2
+// ball.color = '#9999ff'
+// ball.velocity = new Vector2(-1, 0)
+//
+// const keyboard = new KeyboardController()
+// keyboard.keydown = paddle.movement
+// keyboard.keyup = paddle.movement
+//
+// l2.addEntity(paddle)
+// l2.addEntity(ball)
+// l2.addEntity(right)
+// l1.addEntity(b)
+//
+// s.addLayer(l2)
+// s.addLayer(l1)
+//
+// const splash = new Scene()
+// const splashLayer = new Layer()
+// const splashSreen = new Entity()
+// splashSreen.scale = new Vector2(splashLayer.width, splashLayer.height)
+// splashSreen.x = splashLayer.width / 2
+// splashSreen.y = splashLayer.height / 2
+// splashSreen.color = '#000000'
+//
+// const button = new Entity()
+// button.scale = new Vector2(250, 50)
+// button.x = splashLayer.width / 2
+// button.y = splashLayer.height / 2
+// button.color = '#ffffff'
+// const mouse = new MouseController()
+// mouse.onclick = event => {
+//   if (
+//     event.clientX > button.x - button.width / 2 &&
+//     event.clientX < button.x + button.width / 2
+//   ) {
+//     if (
+//       event.clientY > button.y - button.height / 2 &&
+//       event.clientY < button.y + button.height / 2
+//     ) {
+//       splash.stop()
+//       s.start()
+//     }
+//   }
+// }
+// splashLayer.addEntity(splashSreen)
+// splashLayer.addEntity(button)
+// splash.addLayer(splashLayer)
+//
+// splash.start()
 
 // const l3 = new Layer('Foreground', 2)
 //

@@ -17,7 +17,7 @@ const intersects = (a, b, c, d, p, q, r, s) => {
 class Collider {
   /**
    * Represents a callback for a collision event.
-   * 
+   *
    * @callback collisionCallback
    * @memberof Collider
    * @param {boolean} collided Whether or not a collision has occurred.
@@ -112,6 +112,7 @@ class Collider {
     let collided = false
     const thisEdges = this.transform.edges
     const otherEdges = other.transform.edges
+    let collidedEdge = {}
 
     // Check all line segments, if any from this collide with any from other, then we have a collision
     thisEdges.forEach((edge1, i) => {
@@ -129,10 +130,11 @@ class Collider {
           )
         ) {
           collided = true
+          collidedEdge = edge2
         }
       })
     })
-    return collided
+    return { collided, collidedEdge }
   }
 
   /**
@@ -142,10 +144,10 @@ class Collider {
    * @param {collisionCallback} callback The callback to be executed upon collision.
    */
   collide (other, callback) {
-    const collided = this.checkCollision(other)
+    const { collided, collidedEdge } = this.checkCollision(other)
     const args = {
       collided,
-      other
+      collidedEdge
     }
     callback(args)
   }

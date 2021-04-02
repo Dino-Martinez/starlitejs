@@ -97,7 +97,7 @@ class Vector2 {
    * @readonly
    */
   get direction () {
-    return (Math.PI * 180) * Math.atan(this.y / this.x)
+    return Math.PI * 180 * Math.atan(this.y / this.x)
   }
 
   /**
@@ -204,6 +204,15 @@ class Vector2 {
       this.y *= factor
     } else {
       throw new TypeError()
+    }
+  }
+
+  rotate (angle) {
+    const newX = this.x * Math.cos(angle) - this.y * Math.sin(angle)
+    const newY = this.x * Math.sin(angle) + this.y * Math.cos(angle)
+    if (newX === newX && newY === newY) {
+      this.x = newX
+      this.y = newY
     }
   }
 }

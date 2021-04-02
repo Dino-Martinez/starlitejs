@@ -157,9 +157,15 @@ class PhysicsEntity extends Entity {
    * @see {@linkcode PhysicsEntity#collide}
    */
   handleCollision = result => {
-    if (result.collided) {
-      this.velocity.scale(-1)
-      this.position.add(this.velocity)
+    const { collided, collidedEdge } = result
+    if (collided) {
+      const delta_x = collidedEdge.start.x - collidedEdge.end.x
+      const delta_y = collidedEdge.start.y - collidedEdge.end.y
+      const thetaRadians = Math.atan(delta_y / delta_x) - Math.PI / 2
+
+      const thisRadians = (this.velocity.direction * Math.PI) / 180
+      // THIS NEEDS TO BE REFLECTED OVER THE NORMAL VECTOR INSTEAD OF JUST DIFFERENCE / 2
+      this.velocity.rotate((thetaRadians - thisRadians) / 2)
       this.collider.position.add(this.velocity)
       this.dirty = true
     }
