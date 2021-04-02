@@ -159,13 +159,17 @@ class PhysicsEntity extends Entity {
   handleCollision = result => {
     const { collided, collidedEdge } = result
     if (collided) {
-      const delta_x = collidedEdge.start.x - collidedEdge.end.x
-      const delta_y = collidedEdge.start.y - collidedEdge.end.y
-      const thetaRadians = Math.atan(delta_y / delta_x) - Math.PI / 2
+      // Courtesy of https://stackoverflow.com/questions/42159032/how-to-find-angle-between-two-straight-lines-paths-on-a-svg-in-javascript
+      const dAx = collidedEdge.start.x - collidedEdge.end.x
+      const dAy = collidedEdge.start.y - collidedEdge.end.y
+      const dBx = this.velocity.x
+      const dBy = this.velocity.y
+      let angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy)
+      if (angle < 0) {
+        angle = angle * -1
+      }
 
-      const thisRadians = (this.velocity.direction * Math.PI) / 180
-      // THIS NEEDS TO BE REFLECTED OVER THE NORMAL VECTOR INSTEAD OF JUST DIFFERENCE / 2
-      this.velocity.rotate((thetaRadians - thisRadians) / 2)
+      this.velocity.rotate(angle * 2)
       this.collider.position.add(this.velocity)
       this.dirty = true
     }

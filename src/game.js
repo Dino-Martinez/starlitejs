@@ -22,7 +22,7 @@ const e2 = new PhysicsEntity()
 e2.scale = new Vector2(50, 50)
 e2.x = 250
 e2.y = 150
-e2.rotation = 30
+e2.rotation = 60
 e2.color = '#ff0000'
 e2.velocity = new Vector2(-1, 0)
 console.log(e2.velocity)
