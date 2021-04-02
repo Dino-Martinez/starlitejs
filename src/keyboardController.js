@@ -24,6 +24,7 @@ class KeyboardController extends Controller {
    */
   constructor (keydown = event => {}, keypress = event => {}, keyup = event => {}) {
     super()
+    this._keysDown = []
     /**
      * Represents the callback to be executed upon the keydown event.
      *
@@ -45,9 +46,27 @@ class KeyboardController extends Controller {
      * @default event => {}
      */
     this.keyup = keyup
-    document.onkeydown = event => this.keydown(event)
+    document.onkeydown = event => {
+      if (!this.isKeyDown(event.key)) {
+        this._keysDown.push(event.key)
+      }
+      this.keydown(event)
+    }
     document.onkeypress = event => this.keypress(event)
-    document.onkeyup = event => this.keyup(event)
+    document.onkeyup = event => {
+      if (this.isKeyDown(event.key)) {
+        this._keysDown.pop(event.key)
+      }
+      this.keyup(event)
+    }
+  }
+
+  isKeyDown(key) {
+    return this._keysDown.includes(key)
+  }
+
+  get keysDown() {
+    return this._keysDown
   }
 }
 
