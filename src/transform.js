@@ -79,11 +79,11 @@ class Transform {
 
   /**
    * Represents the edges of the transform as a rectangle.
-   *
+   * 
    * @type {Object}
    */
   get edges () {
-    const rotation = (Math.PI / 180) * this.rotation
+    const rotation = (Math.PI * this.rotation) / 180
     const x =
       this.x +
       (this.width / 2) * Math.cos(rotation) -
@@ -241,9 +241,8 @@ class Transform {
    * @param {number} delta The scalar by which to change the rotation.
    * @throws {TypeError}
    */
-  rotate (delta, radians = false) {
+  rotate (delta) {
     if (typeof delta === 'number') {
-      if (radians) delta *= (180 / Math.PI)
       this.rotation += delta
     } else {
       throw new TypeError()

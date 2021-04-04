@@ -171,7 +171,7 @@ class PhysicsEntity extends Entity {
         angle = angle * -1
       }
 
-      this.velocity.rotate(angle * 2, true)
+      this.velocity.rotate(angle * 2)
       this.collider.position.add(this.velocity)
       this.dirty = true
     }

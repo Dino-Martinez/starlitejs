@@ -10,17 +10,7 @@ class Controller {
      * @type {boolean}
      * @default true
      */
-    this._type = 'generic'
     this.enabled = true
-  }
-
-  /**
-   * Represents the type of the controller.
-   *
-   * @type {string}
-   */
-  get type () {
-    return this._type
   }
 }
 
