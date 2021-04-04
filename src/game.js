@@ -28,7 +28,7 @@ e2.velocity = new Vector2(-1, 0)
 console.log(e2.velocity)
 
 const mouse = new MouseController()
-mouse.onclick = event => console.log(event.clientX)
+mouse.click = event => console.log(event.clientX)
 
 l2.addEntities([e, e2])
 s.addLayers([l1, l2])
