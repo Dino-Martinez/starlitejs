@@ -19,7 +19,8 @@ class PhysicsEntity extends Entity {
     sprite = 'default',
     priority = 0,
     mass = 1,
-    freeze = { x: false, y: false }
+    freeze = { x: false, y: false },
+    playerNum = 1
   ) {
     super(sprite, priority)
     /**
@@ -44,6 +45,7 @@ class PhysicsEntity extends Entity {
     this.freeze = freeze
     this._velocity = new Vector2(0, 0)
     this._acceleration = new Vector2(0, 0)
+    this.playerNum = playerNum
   }
 
   /**
@@ -184,32 +186,39 @@ class PhysicsEntity extends Entity {
    *
    * @param {Object} event A KeyboardEvent containing type = keyup | keydown.
    */
-  movement = event => {
-    if (event.type === 'keydown') {
-      if (event.key === 'w') {
+  movement (event) {
+    const kb = this.controllers.find(controller => controller.type === 'keyboard')
+    if (this.playerNum === 1) {
+      if (kb.isKeyDown('w')) {
         this.velocity.y = -4
-      }
-      if (event.key === 'a') {
-        this.velocity.x = -4
-      }
-      if (event.key === 's') {
+      } else if (kb.isKeyDown('s')) {
         this.velocity.y = 4
-      }
-      if (event.key === 'd') {
-        this.velocity.x = 4
-      }
-    }
-    if (event.type === 'keyup') {
-      if (event.key === 'w') {
+      } else {
         this.velocity.y = 0
       }
-      if (event.key === 'a') {
+
+      if (kb.isKeyDown('d')) {
+        this.velocity.x = 4
+      } else if (kb.isKeyDown('a')) {
+        this.velocity.x = -4
+      } else {
         this.velocity.x = 0
       }
-      if (event.key === 's') {
+    }
+    if (this.playerNum === 2) {
+      if (kb.isKeyDown('ArrowUp')) {
+        this.velocity.y = -4
+      } else if (kb.isKeyDown('ArrowDown')) {
+        this.velocity.y = 4
+      } else {
         this.velocity.y = 0
       }
-      if (event.key === 'd') {
+
+      if (kb.isKeyDown('ArrowRight')) {
+        this.velocity.x = 4
+      } else if (kb.isKeyDown('ArrowLeft')) {
+        this.velocity.x = -4
+      } else {
         this.velocity.x = 0
       }
     }
@@ -255,9 +264,11 @@ class PhysicsEntity extends Entity {
   }
 
   /**
-   * @override
+   * Clears the entity from the screen.
+   * 
+   * @param {CanvasRenderingContext2D} ctx The rendering context to clear the entity.
    */
-  preRender (ctx) {
+  clear (ctx) {
     // Do Physics stuff
     ctx.translate(this.x, this.y)
     ctx.rotate((Math.PI / 180) * this.rotation)
@@ -273,8 +284,16 @@ class PhysicsEntity extends Entity {
     ctx.translate(this.x, this.y)
     ctx.rotate((Math.PI / 180) * -this.rotation)
     ctx.translate(-this.x, -this.y)
+  }
 
-    this.update()
+  /**
+   * @override
+   */
+  preRender (ctx) {
+    this.clear(ctx)
+
+    this.collider.x = this.x
+    this.collider.y = this.y
 
     super.preRender(ctx)
   }

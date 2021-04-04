@@ -134,6 +134,7 @@ class Layer {
    */
   removeEntity (entity) {
     if (entity instanceof Entity) {
+      entity.clear(this.ctx)
       this.entities.pop(entity)
     } else {
       throw new TypeError()
@@ -171,6 +172,7 @@ class Layer {
   }
 
   clear () {
+    this.removeEntities(this.entities)
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 }

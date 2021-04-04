@@ -22,6 +22,9 @@ class PhysicsLayer extends Layer {
    */
   render () {
     this.entities.forEach(entity => {
+      entity.update()
+    })
+    this.entities.forEach(entity => {
       entity.preRender(this.ctx)
       this.entities.forEach(other => {
         if (entity !== other) entity.collide(other)

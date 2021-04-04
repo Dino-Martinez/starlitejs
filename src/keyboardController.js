@@ -59,12 +59,12 @@ class KeyboardController extends Controller {
       if (!this.isKeyDown(event.key)) {
         this._keysDown[event.key] = true
       }
-      if (this.enabled && !!(this.norepeat && event.repeat)) {
+      if (this.enabled && !(this.norepeat && event.repeat)) {
         this.keydown(event)
       }
     }
     document.onkeypress = event => {
-      if (this.enabled && !!(this.norepeat && event.repeat)) {
+      if (this.enabled && !(this.norepeat && event.repeat)) {
         this.keypress(event)
       }
     }

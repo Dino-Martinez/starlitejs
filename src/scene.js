@@ -97,6 +97,9 @@ class Scene {
     this.layers.forEach(layer => layer.render())
   }
 
+  /**
+   * Clears all layers in the scene.
+   */
   clear () {
     this.layers.forEach(layer => layer.clear())
   }
