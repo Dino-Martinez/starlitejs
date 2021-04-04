@@ -103,6 +103,7 @@ const doubleHandler = e => {
 keyboard.keydown = doubleHandler
 keyboard.keyup = doubleHandler
 paddle.addController(keyboard)
+paddle2.addController(keyboard)
 paddle.handleCollision = result => {
   if (result.collided) {
     paddle.velocity.y = 0

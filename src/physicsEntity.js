@@ -186,65 +186,40 @@ class PhysicsEntity extends Entity {
    *
    * @param {Object} event A KeyboardEvent containing type = keyup | keydown.
    */
-  movement = event => {
+  movement (event) {
+    const kb = this.controllers.find(controller => controller.type === 'keyboard')
     if (this.playerNum === 1) {
-      if (event.type === 'keydown') {
-        if (event.key === 'w') {
-          this.velocity.y = -4
-        }
-        if (event.key === 'a') {
-          this.velocity.x = -4
-        }
-        if (event.key === 's') {
-          this.velocity.y = 4
-        }
-        if (event.key === 'd') {
-          this.velocity.x = 4
-        }
+      if (kb.isKeyDown('w')) {
+        this.velocity.y = -4
+      } else if (kb.isKeyDown('s')) {
+        this.velocity.y = 4
+      } else {
+        this.velocity.y = 0
       }
-      if (event.type === 'keyup') {
-        if (event.key === 'w') {
-          this.velocity.y = 0
-        }
-        if (event.key === 'a') {
-          this.velocity.x = 0
-        }
-        if (event.key === 's') {
-          this.velocity.y = 0
-        }
-        if (event.key === 'd') {
-          this.velocity.x = 0
-        }
+
+      if (kb.isKeyDown('d')) {
+        this.velocity.x = 4
+      } else if (kb.isKeyDown('a')) {
+        this.velocity.x = -4
+      } else {
+        this.velocity.x = 0
       }
     }
     if (this.playerNum === 2) {
-      if (event.type === 'keydown') {
-        if (event.key === 'ArrowUp') {
-          this.velocity.y = -4
-        }
-        if (event.key === 'ArrowLeft') {
-          this.velocity.x = -4
-        }
-        if (event.key === 'ArrowDown') {
-          this.velocity.y = 4
-        }
-        if (event.key === 'ArrowRight') {
-          this.velocity.x = 4
-        }
+      if (kb.isKeyDown('ArrowUp')) {
+        this.velocity.y = -4
+      } else if (kb.isKeyDown('ArrowDown')) {
+        this.velocity.y = 4
+      } else {
+        this.velocity.y = 0
       }
-      if (event.type === 'keyup') {
-        if (event.key === 'ArrowUp') {
-          this.velocity.y = 0
-        }
-        if (event.key === 'ArrowLeft') {
-          this.velocity.x = 0
-        }
-        if (event.key === 'ArrowDown') {
-          this.velocity.y = 0
-        }
-        if (event.key === 'ArrowRight') {
-          this.velocity.x = 0
-        }
+
+      if (kb.isKeyDown('ArrowRight')) {
+        this.velocity.x = 4
+      } else if (kb.isKeyDown('ArrowLeft')) {
+        this.velocity.x = -4
+      } else {
+        this.velocity.x = 0
       }
     }
   }
@@ -288,6 +263,11 @@ class PhysicsEntity extends Entity {
     this.acceleration.add(force)
   }
 
+  /**
+   * Clears the entity from the screen.
+   * 
+   * @param {CanvasRenderingContext2D} ctx The rendering context to clear the entity.
+   */
   clear (ctx) {
     // Do Physics stuff
     ctx.translate(this.x, this.y)

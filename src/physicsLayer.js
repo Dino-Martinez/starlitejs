@@ -24,7 +24,6 @@ class PhysicsLayer extends Layer {
     this.entities.forEach(entity => {
       entity.update()
     })
-
     this.entities.forEach(entity => {
       entity.preRender(this.ctx)
       this.entities.forEach(other => {
