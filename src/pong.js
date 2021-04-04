@@ -18,6 +18,11 @@ const s = new Scene()
 const l1 = new Layer('Background', 0)
 const l2 = new PhysicsLayer('Ground', 1)
 
+const endGame = winner => {
+  s.stop()
+  window.alert(`${winner} wins!`)
+}
+
 const b = new Entity()
 b.x = l1.width / 2
 b.y = l1.height / 2
@@ -37,6 +42,9 @@ border1.handleCollision = result => {
     ball.x = l2.width / 2
     ball.y = l2.height / 2
     l2.addEntity(ball)
+    if (rightPoints >= 5) {
+      endGame('Right')
+    }
   }
 }
 
@@ -55,8 +63,13 @@ border3.handleCollision = result => {
   if (result.collided) {
     leftPoints++
     pointsElement.innerHTML = `Left: ${leftPoints} | Right: ${rightPoints}`
+    l2.removeEntity(ball)
     ball.x = l2.width / 2
     ball.y = l2.height / 2
+    l2.addEntity(ball)
+    if (leftPoints >= 5) {
+      endGame('Left')
+    }
   }
 }
 
@@ -108,4 +121,3 @@ l2.addEntities([border1, border2, border3, border4, paddle, paddle2, ball])
 l1.addEntity(b)
 s.addLayers([l1, l2])
 s.start()
-3
