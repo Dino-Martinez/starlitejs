@@ -274,7 +274,8 @@ class PhysicsEntity extends Entity {
     ctx.rotate((Math.PI / 180) * -this.rotation)
     ctx.translate(-this.x, -this.y)
 
-    this.update()
+    this.collider.x = this.x
+    this.collider.y = this.y
 
     super.preRender(ctx)
   }
