@@ -32,10 +32,6 @@ class TouchController extends Controller {
     ontouchcancel = event => {}
   ) {
     super()
-    this._type = 'touch'
-    this._element = element
-    this._touches = []
-    this._targetTouches = []
     /**
      * Represents the callback to be executed upon the touchstart event.
      *
@@ -64,32 +60,15 @@ class TouchController extends Controller {
      * @default event => {}
      */
     this.ontouchcancel = ontouchcancel
-    this.element = element
-    // if (element instanceof Element || element instanceof Document || element instanceof Window) {
-    //   this._element = element
-    //   this._element.ontouchstart = event => {
-    //     if (this.enabled) {
-    //       this.ontouchstart(event)
-    //     }
-    //   }
-    //   this._element.ontouchend = event => {
-    //     if (this.enabled) {
-    //       this.ontouchend(event)
-    //     }
-    //   }
-    //   this._element.ontouchmove = event => {
-    //     if (this.enabled) {
-    //       this.ontouchmove(event)
-    //     }
-    //   }
-    //   this._element.ontouchcancel = event => {
-    //     if (this.enabled) {
-    //       this.ontouchcancel(event)
-    //     }
-    //   }
-    // } else {
-    //   throw new TypeError()
-    // }
+    if (element instanceof Element || element instanceof Document || element instanceof Window) {
+      this._element = element
+      this._element.ontouchstart = event => this.ontouchstart(event)
+      this._element.ontouchend = event => this.ontouchend(event)
+      this._element.ontouchmove = event => this.ontouchmove(event)
+      this._element.ontouchcancel = event => this.ontouchcancel(event)
+    } else {
+      throw new TypeError()
+    }
   }
 
   /**
@@ -113,55 +92,13 @@ class TouchController extends Controller {
       this._element.ontouchmove = event => {}
       this._element.ontouchcancel = event => {}
       this._element = newElement
-      this._element.ontouchstart = event => {
-        this._touches = event.touches
-        this._targetTouches = event.targetTouches
-        if (this.enabled) {
-          this.ontouchstart(event)
-        }
-      }
-      this._element.ontouchend = event => {
-        this._touches = event.touches
-        this._targetTouches = event.targetTouches
-        if (this.enabled) {
-          this.ontouchend(event)
-        }
-      }
-      this._element.ontouchmove = event => {
-        this._touches = event.touches
-        this._targetTouches = event.targetTouches
-        if (this.enabled) {
-          this.ontouchmove(event)
-        }
-      }
-      this._element.ontouchcancel = event => {
-        this._touches = event.touches
-        this._targetTouches = event.targetTouches
-        if (this.enabled) {
-          this.ontouchcancel(event)
-        }
-      }
+      this._element.ontouchstart = event => this.ontouchstart(event)
+      this._element.ontouchend = event => this.ontouchend(event)
+      this._element.ontouchmove = event => this.ontouchmove(event)
+      this._element.ontouchcancel = event => this.ontouchcancel(event)
     } else {
       throw new TypeError()
     }
-  }
-
-  /**
-   * Represents all touches from the last touch event.
-   *
-   * @type {(TouchList|Touch[])}
-   */
-  get touches () {
-    return this._touches
-  }
-
-  /**
-   * Represents all touches from the last touch event on the target element.
-   *
-   * @type {(TouchList|Touch[])}
-   */
-  get targetTouches () {
-    return this._targetTouches
   }
 }
 
