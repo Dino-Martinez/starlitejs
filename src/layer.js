@@ -134,6 +134,7 @@ class Layer {
    */
   removeEntity (entity) {
     if (entity instanceof Entity) {
+      entity.clear(this.ctx)
       this.entities.pop(entity)
     } else {
       throw new TypeError()

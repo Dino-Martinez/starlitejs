@@ -294,6 +294,10 @@ class Entity {
     }
   }
 
+  clear (ctx) {
+    ctx.clearRect(this.x, this.y, this.width, this.height)
+  }
+
   /**
    * Does actions before rendering. Must be called in order for {@linkcode Entity#render} to work properly.
    *
@@ -304,7 +308,7 @@ class Entity {
    */
   preRender (ctx) {
     if (this.dirty) {
-      ctx.clearRect(this.x, this.y, this.width, this.height)
+      this.clear(ctx)
     }
     this.ready = true
   }
