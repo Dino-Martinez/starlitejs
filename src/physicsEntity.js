@@ -265,7 +265,7 @@ class PhysicsEntity extends Entity {
 
   /**
    * Clears the entity from the screen.
-   * 
+   *
    * @param {CanvasRenderingContext2D} ctx The rendering context to clear the entity.
    */
   clear (ctx) {
