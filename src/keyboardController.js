@@ -21,24 +21,25 @@ class KeyboardController extends Controller {
    * @param {keyboardCallback} [keydown=event => {}] The callback to be executed upon the keydown event.
    * @param {keyboardCallback} [keypress=event => {}] The callback to be exectued upon the keypress event
    * @param {keyboardCallback} [keyup=event => {}] The callback to be executed upon the keyup event.
-   * @param {boolean} [norepeat=false]
+   * @param {boolean} [norepeat=false] Whether or not the keyboard should allow automatically repeating key events.
    */
   constructor (norepeat = false, keydown = event => {}, keypress = event => {}, keyup = event => {}) {
     super()
-    this._keysDown = []
+    this._type = 'keyboard'
+    this._keysDown = {}
+    /**
+     * Represents whether or not the keyboard should allow automatically repeating key events.
+     *
+     * @type {boolean}
+     * @default = false
+     */
+    this.norepeat = norepeat
     /**
      * Represents the callback to be executed upon the keydown event.
      *
      * @type {keyboardCallback}
      * @default event => {}
      */
-    /**
-     * Represents whether or not the keyboard should allow repeating key down events.
-     * 
-     * @type {boolean}
-     * @default = false
-     */
-    this.norepeat = norepeat
     this.keydown = keydown
     /**
      * Represents the callback to be executed upon the keypress event.
@@ -56,7 +57,7 @@ class KeyboardController extends Controller {
     this.keyup = keyup
     document.onkeydown = event => {
       if (!this.isKeyDown(event.key)) {
-        this._keysDown.push(event.key)
+        this._keysDown[event.key] = true
       }
       if (this.enabled && !(this.norepeat && event.repeat)) {
         this.keydown(event)
@@ -69,20 +70,26 @@ class KeyboardController extends Controller {
     }
     document.onkeyup = event => {
       if (this.isKeyDown(event.key)) {
-        this._keysDown.pop(event.key)
+        this._keysDown[event.key] = false
       }
-      if (!(this.norepeat && event.repeat)) {
+      if (this.enabled && !(this.norepeat && event.repeat)) {
         this.keyup(event)
       }
     }
   }
 
-  isKeyDown(key) {
-    return this._keysDown.includes(key)
+  isKeyDown (key) {
+    return this._keysDown[key]
   }
 
-  get keysDown() {
-    return this._keysDown
+  get keysDown () {
+    const trueKeys = []
+    Object.keys(this._keysDown).forEach(key => {
+      if (this._keysDown[key]) {
+        trueKeys.push(key)
+      }
+    })
+    return trueKeys
   }
 }
 

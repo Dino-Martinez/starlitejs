@@ -81,7 +81,7 @@ class Vector2 {
   }
 
   static scale (vector, scalar) {
-    if (vector instanceof Vector2 && typeof scalar == 'number') {
+    if (vector instanceof Vector2 && typeof scalar === 'number') {
       return new Vector2(vector.x * scalar, vector.y * scalar)
     } else {
       throw new TypeError()
@@ -137,7 +137,7 @@ class Vector2 {
    * @readonly
    */
   get direction () {
-    return Math.PI * 180 * Math.atan(this.y / this.x)
+    return (180 / Math.PI) * Math.atan(this.y / this.x)
   }
 
   /**
@@ -247,7 +247,8 @@ class Vector2 {
     }
   }
 
-  rotate (angle) {
+  rotate (angle, radians = false) {
+    if (!radians) angle *= (Math.PI / 180)
     const newX = this.x * Math.cos(angle) - this.y * Math.sin(angle)
     const newY = this.x * Math.sin(angle) + this.y * Math.cos(angle)
     if (newX === newX && newY === newY) {
