@@ -23,7 +23,9 @@ border1.x = -25
 border1.y = l1.height / 2
 border1.freeze = { x: true, y: true }
 border1.handleCollision = result => {
-  console.log(result.collided)
+  if (result.collided) {
+    console.log('right wins')
+  }
 }
 
 const border2 = new PhysicsEntity()
@@ -37,6 +39,11 @@ border3.scale = new Vector2(50, l1.height)
 border3.x = l1.width + 25
 border3.y = l1.height / 2
 border3.freeze = { x: true, y: true }
+border3.handleCollision = result => {
+  if (result.collided) {
+    console.log('left wins')
+  }
+}
 
 const border4 = new PhysicsEntity()
 border4.scale = new Vector2(l1.width, 50)
@@ -66,10 +73,10 @@ ball.x = l1.width / 2
 ball.y = l1.height / 2
 ball.scale = new Vector2(15, 15)
 ball.color = '#ffffff'
-ball.velocity = new Vector2(-3, 3)
+ball.velocity = new Vector2(-3, 0)
 ball.rotation = 1
 
-l2.addEntities([paddle, ball, border1, border2, border3, border4])
+l2.addEntities([border1, border2, border3, border4, paddle, ball])
 l1.addEntity(b)
 s.addLayers([l1, l2])
 s.start()
