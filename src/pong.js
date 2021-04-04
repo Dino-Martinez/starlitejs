@@ -109,6 +109,11 @@ paddle.handleCollision = result => {
     paddle.velocity.y = 0
   }
 }
+paddle2.handleCollision = result => {
+  if (result.collided) {
+    paddle2.velocity.y = 0
+  }
+}
 
 const ball = new PhysicsEntity()
 ball.x = l2.width / 2
