@@ -15,7 +15,7 @@ import Button from './button.js'
 
 const menu = new Scene()
 const mb = new StaticLayer('Background', 0)
-const ml = new StaticLayer('Menu', 1)
+const ml = new Layer('Menu', 1)
 
 const back = new Entity()
 back.x = mb.width / 2
@@ -175,6 +175,26 @@ mouse.click = event => {
       menu.clear()
       s.start()
     }
+  }
+}
+mouse.mousemove = event => {
+  if (
+    event.clientX > button.x - button.width / 2 &&
+    event.clientX < button.x + button.width / 2
+  ) {
+    if (
+      event.clientY > button.y - button.height / 2 &&
+      event.clientY < button.y + button.height / 2
+    ) {
+      button.color = '#dddddd'
+      button.dirty = true
+    } else {
+      button.color = '#ffffff'
+      button.dirty = true
+    }
+  } else {
+    button.color = '#ffffff'
+    button.dirty = true
   }
 }
 mouse.element = l3.canvas
