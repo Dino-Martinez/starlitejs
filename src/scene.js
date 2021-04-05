@@ -114,7 +114,6 @@ class Scene {
    */
   gameLoop = () => {
     if (!this.stopped) {
-      console.log('still going')
       this.render()
       this._gameLoopId = requestAnimationFrame(this.gameLoop)
     }
