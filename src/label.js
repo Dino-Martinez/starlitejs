@@ -15,6 +15,10 @@ class Label extends Entity {
     this.dirty = true
   }
 
+  clear (ctx) {
+    ctx.clearRect(0, 0, 500, 500)
+  }
+
   render (ctx) {
     if (this.dirty && this.ready && this.active) {
       ctx.font = '30px Arial'
@@ -23,9 +27,8 @@ class Label extends Entity {
       const h =
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
 
-      ctx.clearRect(0, 0, 500, 500)
       ctx.textAlign = 'center'
-      ctx.fillStyle = '#ffffff'
+      ctx.fillStyle = this.color
       ctx.fillText(this._text, this.x, this.y)
     }
   }

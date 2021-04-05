@@ -11,12 +11,37 @@ import {
   Label
 } from './starlite.js'
 
+import Button from './button.js'
+
+const menu = new Scene()
+const mb = new StaticLayer('Background', 0)
+const ml = new StaticLayer('Menu', 1)
+
+const back = new Entity()
+back.x = mb.width / 2
+back.y = mb.height / 2
+back.scale = new Vector2(mb.width, mb.height)
+back.color = '#000000'
+
+const button = new Button()
+button.text = 'Start'
+button.x = ml.width / 2
+button.y = ml.height / 2
+button.scale = new Vector2(150, 50)
+button.color = '#ffffff'
+button.fontColor = '#000000'
+
+mb.addEntity(back)
+ml.addEntity(button)
+menu.addLayers([ml, mb])
+menu.start()
+
 // Create a temporary points counter
 let leftPoints = 0
 let rightPoints = 0
 
 const s = new Scene()
-const l1 = new StaticLayer('Background', 0, false)
+const l1 = new StaticLayer('Background', 0)
 const l2 = new PhysicsLayer('Ground', 1)
 const l3 = new Layer('Foreground', 2)
 
@@ -24,6 +49,7 @@ const score = new Label()
 score.text = '0 | 0'
 score.x = l3.width / 2
 score.y = 30
+score.color = '#ffffff'
 
 const endGame = winner => {
   s.stop()
@@ -122,7 +148,7 @@ paddle2.handleCollision = result => {
   }
 }
 
-const ball = new PhysicsEntity('https://icon-library.com/images/8-bit-mario-icon/8-bit-mario-icon-13.jpg')
+const ball = new PhysicsEntity()
 ball.x = l2.width / 2
 ball.y = l2.height / 2
 ball.scale = new Vector2(15, 15)
@@ -134,4 +160,21 @@ l3.addEntity(score)
 l2.addEntities([border1, border2, border3, border4, paddle, paddle2, ball])
 l1.addEntity(b)
 s.addLayers([l1, l2, l3])
-s.start()
+
+const mouse = new MouseController()
+mouse.click = event => {
+  if (
+    event.clientX > button.x - button.width / 2 &&
+    event.clientX < button.x + button.width / 2
+  ) {
+    if (
+      event.clientY > button.y - button.height / 2 &&
+      event.clientY < button.y + button.height / 2
+    ) {
+      menu.stop()
+      menu.clear()
+      s.start()
+    }
+  }
+}
+mouse.element = l3.canvas
