@@ -6,9 +6,9 @@ import {
   Layer,
   Vector2,
   MouseController,
-  KeyboardController
-} from './starlite-core.js'
-import { Label } from './starlite-ui.js'
+  KeyboardController,
+  Label
+} from './starlite.js'
 
 // Create a temporary points counter
 let leftPoints = 0
