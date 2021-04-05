@@ -1,6 +1,4 @@
-import Entity from './entity.js'
-import Transform from './transform.js'
-import Vector2 from './vector2.js'
+import { Entity, Transform, Vector2 } from './starlite-core.js'
 
 class Layer {
   /**

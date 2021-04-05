@@ -1,4 +1,4 @@
-import Controller from './controller.js'
+import { Controller } from './starlite-core.js'
 
 class TouchController extends Controller {
   /**
@@ -107,7 +107,11 @@ class TouchController extends Controller {
   }
 
   set element (newElement) {
-    if (newElement instanceof Element || newElement instanceof Document || newElement instanceof Window) {
+    if (
+      newElement instanceof Element ||
+      newElement instanceof Document ||
+      newElement instanceof Window
+    ) {
       this._element.ontouchstart = event => {}
       this._element.ontouchend = event => {}
       this._element.ontouchmove = event => {}

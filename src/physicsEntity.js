@@ -1,6 +1,4 @@
-import Entity from './entity.js'
-import Collider from './collider.js'
-import Vector2 from './vector2.js'
+import { Entity, Collider, Vector2 } from './starlite-core.js'
 
 class PhysicsEntity extends Entity {
   /**
@@ -187,7 +185,9 @@ class PhysicsEntity extends Entity {
    * @param {Object} event A KeyboardEvent containing type = keyup | keydown.
    */
   movement (event) {
-    const kb = this.controllers.find(controller => controller.type === 'keyboard')
+    const kb = this.controllers.find(
+      controller => controller.type === 'keyboard'
+    )
     if (this.playerNum === 1) {
       if (kb.isKeyDown('w')) {
         this.velocity.y = -4

@@ -1,11 +1,13 @@
-import Scene from './scene.js'
-import PhysicsLayer from './physicsLayer.js'
-import PhysicsEntity from './physicsEntity.js'
-import Entity from './entity.js'
-import Layer from './layer.js'
-import Vector2 from './vector2.js'
-import MouseController from './mouseController.js'
-import KeyboardController from './keyboardController.js'
+import {
+  Scene,
+  PhysicsLayer,
+  PhysicsEntity,
+  Entity,
+  Layer,
+  Vector2,
+  MouseController,
+  KeyboardController
+} from './starlite-core.js'
 
 const s = new Scene()
 const l1 = new Layer('Background', 0)

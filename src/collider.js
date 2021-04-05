@@ -1,4 +1,4 @@
-import Transform from './transform.js'
+import { Transform } from './starlite-core.js'
 
 // Helper function to check if two line segments (a,b) -> (c,d) and (p,q) -> (r,s) intersect
 // In the future this should be put on the GPU for acceleration

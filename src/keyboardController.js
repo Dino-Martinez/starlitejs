@@ -1,4 +1,4 @@
-import Controller from './controller.js'
+import { Controller } from './starlite-core.js'
 
 class KeyboardController extends Controller {
   /**
@@ -23,7 +23,12 @@ class KeyboardController extends Controller {
    * @param {keyboardCallback} [keyup=event => {}] The callback to be executed upon the keyup event.
    * @param {boolean} [norepeat=false] Whether or not the keyboard should allow automatically repeating key events.
    */
-  constructor (norepeat = false, keydown = event => {}, keypress = event => {}, keyup = event => {}) {
+  constructor (
+    norepeat = false,
+    keydown = event => {},
+    keypress = event => {},
+    keyup = event => {}
+  ) {
     super()
     this._type = 'keyboard'
     this._keysDown = {}

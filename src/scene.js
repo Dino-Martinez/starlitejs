@@ -1,4 +1,4 @@
-import Layer from './layer.js'
+import { Layer } from './starlite-core.js'
 
 class Scene {
   /**

@@ -1,5 +1,4 @@
-import Controller from './controller.js'
-import Vector2 from './vector2.js'
+import { Controller, Vector2 } from './starlite-core.js'
 
 class MouseController extends Controller {
   /**
@@ -350,7 +349,11 @@ class MouseController extends Controller {
   }
 
   set element (newElement) {
-    if (newElement instanceof Element || newElement instanceof Document || newElement instanceof Window) {
+    if (
+      newElement instanceof Element ||
+      newElement instanceof Document ||
+      newElement instanceof Window
+    ) {
       this._element.onclick = event => {}
       this._element.oncontextmenu = event => {}
       this._element.ondblclick = event => {}

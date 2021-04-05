@@ -1,22 +1,28 @@
-import Scene from './scene.js'
-import PhysicsLayer from './physicsLayer.js'
-import PhysicsEntity from './physicsEntity.js'
-import Entity from './entity.js'
-import Layer from './layer.js'
-import Vector2 from './vector2.js'
-import MouseController from './mouseController.js'
-import KeyboardController from './keyboardController.js'
+import {
+  Scene,
+  PhysicsLayer,
+  PhysicsEntity,
+  Entity,
+  Layer,
+  Vector2,
+  MouseController,
+  KeyboardController
+} from './starlite-core.js'
+import { Label } from './starlite-ui.js'
 
 // Create a temporary points counter
 let leftPoints = 0
 let rightPoints = 0
-const pointsElement = document.createElement('h1')
-pointsElement.innerHTML = `Left: ${leftPoints} | Right: ${rightPoints}`
-document.body.appendChild(pointsElement)
 
 const s = new Scene()
 const l1 = new Layer('Background', 0)
 const l2 = new PhysicsLayer('Ground', 1)
+const l3 = new Layer('Foreground', 2)
+
+const score = new Label()
+score.text = '0 | 0'
+score.x = l3.width / 2
+score.y = 30
 
 const endGame = winner => {
   s.stop()
@@ -37,7 +43,7 @@ border1.freeze = { x: true, y: true }
 border1.handleCollision = result => {
   if (result.collided) {
     rightPoints++
-    pointsElement.innerHTML = `Left: ${leftPoints} | Right: ${rightPoints}`
+    score.text = `${leftPoints} | ${rightPoints}`
     l2.removeEntity(ball)
     ball.x = l2.width / 2
     ball.y = l2.height / 2
@@ -62,7 +68,7 @@ border3.freeze = { x: true, y: true }
 border3.handleCollision = result => {
   if (result.collided) {
     leftPoints++
-    pointsElement.innerHTML = `Left: ${leftPoints} | Right: ${rightPoints}`
+    score.text = `${leftPoints} | ${rightPoints}`
     l2.removeEntity(ball)
     ball.x = l2.width / 2
     ball.y = l2.height / 2
@@ -123,7 +129,8 @@ ball.color = '#ffffff'
 ball.velocity = new Vector2(-3, 3)
 ball.rotation = 1
 
+l3.addEntity(score)
 l2.addEntities([border1, border2, border3, border4, paddle, paddle2, ball])
 l1.addEntity(b)
-s.addLayers([l1, l2])
+s.addLayers([l1, l2, l3])
 s.start()

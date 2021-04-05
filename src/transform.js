@@ -1,4 +1,4 @@
-import Vector2 from './vector2.js'
+import { Vector2 } from './starlite-core.js'
 
 class Transform {
   /**
@@ -243,7 +243,7 @@ class Transform {
    */
   rotate (delta, radians = false) {
     if (typeof delta === 'number') {
-      if (radians) delta *= (180 / Math.PI)
+      if (radians) delta *= 180 / Math.PI
       this.rotation += delta
     } else {
       throw new TypeError()
