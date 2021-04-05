@@ -8,6 +8,7 @@ export {
   PhysicsEntity,
   PhysicsLayer,
   Scene,
+  StaticLayer,
   TouchController,
   Transform,
   Vector2

@@ -1,5 +1,6 @@
 import {
   Scene,
+  StaticLayer,
   PhysicsLayer,
   PhysicsEntity,
   Entity,
@@ -15,7 +16,7 @@ let leftPoints = 0
 let rightPoints = 0
 
 const s = new Scene()
-const l1 = new Layer('Background', 0)
+const l1 = new StaticLayer('Background', 0, false)
 const l2 = new PhysicsLayer('Ground', 1)
 const l3 = new Layer('Foreground', 2)
 
@@ -121,7 +122,7 @@ paddle2.handleCollision = result => {
   }
 }
 
-const ball = new PhysicsEntity()
+const ball = new PhysicsEntity('https://icon-library.com/images/8-bit-mario-icon/8-bit-mario-icon-13.jpg')
 ball.x = l2.width / 2
 ball.y = l2.height / 2
 ball.scale = new Vector2(15, 15)

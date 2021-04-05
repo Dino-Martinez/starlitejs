@@ -1,12 +1,11 @@
 import { Layer } from './starlite-core.js'
 
-class PhysicsLayer extends Layer {
+class StaticLayer extends Layer {
   /**
-   * Creates a phyiscs layer.
+   * Creates a static layer.
    *
-   * @class PhysicsLayer
-   * @classdesc Class representing a physics layer.
-   * @extends Layer
+   * @class StaticLayer
+   * @classdesc Class representing a static layer (never redraws).
    *
    * @param {string} name The name of the layer.
    * @param {number} [priority=0] The z-index of the layer.
@@ -16,24 +15,18 @@ class PhysicsLayer extends Layer {
    */
   constructor (name, priority = 0, transparent = true, width = 640, height = 480) {
     super(name, priority, transparent, width, height)
+    this._rendered = false
   }
 
   /**
    * @override
    */
   render () {
-    this.entities.forEach(entity => {
-      entity.update()
-    })
-    this.entities.forEach(entity => {
-      entity.preRender(this.ctx)
-      this.entities.forEach(other => {
-        if (entity !== other) entity.collide(other)
-      })
-    })
-    this.entities.forEach(entity => entity.render(this.ctx))
-    this.entities.forEach(entity => entity.postRender())
+    if (!this._rendered) {
+      super.render()
+      this._rendered = true
+    }
   }
 }
 
-export default PhysicsLayer
+export default StaticLayer

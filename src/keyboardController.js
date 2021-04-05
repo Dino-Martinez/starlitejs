@@ -83,10 +83,12 @@ class KeyboardController extends Controller {
     }
   }
 
-  isKeyDown (key) {
-    return this._keysDown[key]
-  }
-
+  /**
+   * Represents the keys that are being pressed down.
+   *
+   * @type {boolean[]}
+   * @readonly
+   */
   get keysDown () {
     const trueKeys = []
     Object.keys(this._keysDown).forEach(key => {
@@ -95,6 +97,16 @@ class KeyboardController extends Controller {
       }
     })
     return trueKeys
+  }
+
+  /**
+   * Checks whether or not a given key is being pressed down.
+   *
+   * @param {string} key The key or character code to check if down.
+   * @returns {boolean}
+   */
+  isKeyDown (key) {
+    return this._keysDown[key]
   }
 }
 

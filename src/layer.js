@@ -10,10 +10,12 @@ class Layer {
    *
    * @param {string} name The name of the layer.
    * @param {number} [priority=0] The z-index of the layer.
+   * @param {boolean} [transparent=true] Whether or not the pixels in the layer can be transparent.
    * @param {number} [width=640] The width of the layer in pixels.
    * @param {number} [height=480] The height of the layer in pixels.
    */
-  constructor (name, priority = 0, width = 640, height = 480) {
+  constructor (name, priority = 0, transparent = true, width = 640, height = 480) {
+    this._transparent = transparent
     /**
      * Represents the name of the layer.
      *
@@ -61,7 +63,7 @@ class Layer {
      *
      * @type {CanvasRenderingContext2D}
      */
-    this.ctx = this.canvas.getContext('2d')
+    this.ctx = this.canvas.getContext('2d', { alpha: this._transparent })
     document.body.appendChild(this.canvas)
   }
 
@@ -78,11 +80,26 @@ class Layer {
   /**
    * Represents the height of the layer in pixels.
    *
-   * @returns {number}
+   * @type {number}
    * @readonly
    */
   get height () {
     return this.transform.height
+  }
+
+  /**
+   * Represents whether or not the canvas is transparent.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  get transparent () {
+    return this._transparent
+  }
+
+  set transparent (newTransparency) {
+    this._transparent = newTransparency
+    this.ctx = this.canvas.getContext('2d', { alpha: this._transparent })
   }
 
   /**
