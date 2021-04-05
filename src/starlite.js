@@ -13,4 +13,4 @@ export {
   Transform,
   Vector2
 } from './starlite-core.js'
-export { Label } from './starlite-ui.js'
+export { Label, Button } from './starlite-ui.js'
