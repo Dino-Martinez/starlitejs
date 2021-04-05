@@ -19,6 +19,8 @@ class Entity {
      */
     this.transform = new Transform()
     this._sprite = sprite
+    this.sprite = sprite
+    this._loaded = false
     /**
      * Represents whether or not the entity is ready to be drawn.
      *
@@ -171,12 +173,15 @@ class Entity {
   }
 
   set sprite (newSprite) {
-    if (window) {
+    if (newSprite === 'default') {
+      this._sprite = newSprite
+    } else if (window) {
       this._sprite = new window.Image(this.width, this.height)
       this._sprite.src = newSprite
       this.ready = false
-      this.sprite.onload = () => {
+      this._sprite.onload = () => {
         this.dirty = true
+        this._loaded = true
       }
     }
   }
@@ -336,7 +341,7 @@ class Entity {
       ctx.rotate((Math.PI / 180) * this.rotation)
       ctx.translate(-this.x, -this.y)
 
-      if (this.sprite === 'default') {
+      if (this.sprite === 'default' || !this._loaded) {
         ctx.fillStyle = this.color
         ctx.strokeStyle = '#000000'
         ctx.fillRect(
