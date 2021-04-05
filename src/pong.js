@@ -26,7 +26,7 @@ score.y = 30
 
 const endGame = winner => {
   s.stop()
-  window.alert(`${winner} wins!`)
+  score.text = `${winner} wins!`
 }
 
 const b = new Entity()

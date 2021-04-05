@@ -16,6 +16,7 @@ class Scene {
      */
     this.layers = []
     this._gameLoopId = 0
+    this.stopped = false
   }
 
   /**
@@ -112,8 +113,11 @@ class Scene {
    * @instance
    */
   gameLoop = () => {
-    this.render()
-    this._gameLoopId = requestAnimationFrame(this.gameLoop)
+    if (!this.stopped) {
+      console.log('still going')
+      this.render()
+      this._gameLoopId = requestAnimationFrame(this.gameLoop)
+    }
   }
 
   /**
@@ -127,7 +131,7 @@ class Scene {
    * Stops the game loop.
    */
   stop () {
-    this.clear()
+    this.stopped = true
     cancelAnimationFrame(this._gameLoopId)
   }
 }
