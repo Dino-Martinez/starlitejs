@@ -8,10 +8,9 @@ import {
   Vector2,
   MouseController,
   KeyboardController,
-  Label
+  Label,
+  Button
 } from './starlite.js'
-
-import Button from './button.js'
 
 const menu = new Scene()
 const mb = new StaticLayer('Background', 0)

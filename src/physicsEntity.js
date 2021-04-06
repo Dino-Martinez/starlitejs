@@ -275,10 +275,10 @@ class PhysicsEntity extends Entity {
     ctx.translate(-this.x, -this.y)
 
     ctx.clearRect(
-      this.x - 5 - Math.ceil(this.width / 2),
-      this.y - 5 - Math.ceil(this.height / 2),
-      this.width + 10,
-      this.height + 10
+      this.x - 10 - Math.ceil(this.width / 2),
+      this.y - 10 - Math.ceil(this.height / 2),
+      this.width + 20,
+      this.height + 20
     )
 
     ctx.translate(this.x, this.y)
