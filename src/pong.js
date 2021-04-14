@@ -29,19 +29,6 @@ button.y = ml.height / 2
 button.color = '#ffffff'
 button.fontColor = '#000000'
 button.fontSize = 72
-let size = 72
-let text = 'aaa'
-setInterval(() => {
-  if (size > 12) {
-    size = size - 1
-    button.fontSize = size
-  } else {
-    if (text !== 'aaaaaaaaaaaaaaa') {
-      text = text + 'a'
-      button.text = text
-    }
-  }
-}, 150)
 
 mb.addEntity(back)
 ml.addEntity(button)
