@@ -22,20 +22,35 @@ class Label extends Entity {
   }
 
   clear (ctx) {
-    ctx.font = this.font
-    const metrics = ctx.measureText(this._text)
-    const w = metrics.width
-    const h = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+    if (this.dirty) {
+      ctx.font = this.font
+      const metrics = ctx.measureText(this._text)
+      const w = metrics.width
+      const h =
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
 
-    ctx.clearRect(0, 0, 500, 500)
+      ctx.clearRect(
+        this.x - 10 - Math.ceil(w / 2),
+        this.y - 10 - Math.ceil(h / 2),
+        w + 20,
+        h + 20
+      )
+    }
   }
 
   render (ctx) {
     if (this.dirty && this.ready && this.active) {
       ctx.font = this.font
       ctx.textAlign = 'center'
+      const metrics = ctx.measureText(this._text)
+      const w = metrics.width
+      const h =
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+      ctx.translate(0, h / 2)
       ctx.fillStyle = this.color
       ctx.fillText(this._text, this.x, this.y)
+      ctx.strokeStyle = '#FF0000'
+      ctx.translate(0, -h / 2)
     }
   }
 }

@@ -44,7 +44,7 @@ class Button extends Entity {
     if (this.dirty && this.ready && this.active) {
       super.render(ctx)
       this.label.x = this.x
-      this.label.y = this.y + this.height / 4
+      this.label.y = this.y
       this.label.dirty = true
       this.label.ready = true
       this.label.active = true
