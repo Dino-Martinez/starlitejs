@@ -26,9 +26,9 @@ const button = new Button()
 button.text = 'Start'
 button.x = ml.width / 2
 button.y = ml.height / 2
-button.scale = new Vector2(150, 50)
 button.color = '#ffffff'
 button.fontColor = '#000000'
+button.fontSize = 72
 
 mb.addEntity(back)
 ml.addEntity(button)
