@@ -23,12 +23,12 @@ back.scale = new Vector2(mb.width, mb.height)
 back.color = '#000000'
 
 const button = new Button()
-button.text = 'aaa'
+button.text = 'Start Pong!'
 button.x = ml.width / 2
 button.y = ml.height / 2
 button.color = '#ffffff'
 button.fontColor = '#000000'
-button.fontSize = 72
+button.fontSize = 48
 
 mb.addEntity(back)
 ml.addEntity(button)
