@@ -11,6 +11,7 @@ export {
   StaticLayer,
   TouchController,
   Transform,
-  Vector2
+  Vector2,
+  GameKit
 } from './starlite-core.js'
 export { Label, Button } from './starlite-ui.js'
