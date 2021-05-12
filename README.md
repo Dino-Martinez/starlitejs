@@ -76,9 +76,9 @@ game.start()
 
 ```
 
-# Tutorial
+# Documentation
 
-Below is a simple tutorial on building a game with StarLite
+Below is a some simple documentation about our general classes
 
 ## Creating a Scene
 
