@@ -319,11 +319,13 @@ class Entity {
   // ** TEMPORARY ** Edge drawing function for debugging
   drawEdges (ctx) {
     const edges = this.edges
+    ctx.strokeStyle = '#FF0000'
     edges.forEach((edge, i) => {
       ctx.moveTo(edge.start.x, edge.start.y)
       ctx.lineTo(edge.end.x, edge.end.y)
     })
     ctx.stroke()
+    ctx.strokeStyle = '#000000'
   }
 
   /**

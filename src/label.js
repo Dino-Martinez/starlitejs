@@ -67,7 +67,7 @@ class Label extends Entity {
       const metrics = ctx.measureText(this._text)
       const w = metrics.width
       const h =
-        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent - 10
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
       ctx.translate(0, h / 2)
       ctx.fillStyle = this.color
       ctx.fillText(this._text, this.x, this.y)

@@ -38,7 +38,7 @@ class Button extends Entity {
       const w = metrics.width
       const h =
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-      this.transform._scale = new Vector2(1.5 * w, 2 * h)
+      this.transform._scale = new Vector2(1.3 * w, 2 * h)
       ctx.clearRect(
         this.x - 10 - Math.ceil(this.width / 2),
         this.y - 10 - Math.ceil(this.height / 2),

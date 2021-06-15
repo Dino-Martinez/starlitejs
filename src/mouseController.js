@@ -223,109 +223,109 @@ class MouseController extends Controller {
     // if (element instanceof Element || element instanceof Document || element instanceof Window) {
     //   this._element.onclick = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.click(event)
     //   }
     //   this._element.oncontextmenu = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.contextmenu(event)
     //   }
     //   this._element.ondblclick = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dblclick(event)
     //   }
     //   this._element.onmousedown = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mousedown(event)
     //   }
     //   this._element.onmouseenter = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mouseenter(event)
     //   }
     //   this._element.onmouseleave = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mouseleave(event)
     //   }
     //   this._element.onmousemove = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mousemove(event)
     //   }
     //   this._element.onmouseout = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mouseout(event)
     //   }
     //   this._element.onmouseover = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mouseover(event)
     //   }
     //   this._element.onmouseup = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.mouseup(event)
     //   }
     //   this._element.ondrag = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.drag(event)
     //   }
     //   this._element.ondragend = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dragend(event)
     //   }
     //   this._element.ondragenter = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dragenter(event)
     //   }
     //   this._element.ondragexit = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dragexit(event)
     //   }
     //   this._element.ondragleave = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dragleave(event)
     //   }
     //   this._element.ondragover = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dragover(event)
     //   }
     //   this._element.ondragstart = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.dragstart(event)
     //   }
     //   this._element.ondrop = event => {
     //     this._lastPosition = this._position
-    //     this._position = new Vector2(event.clientX, event.clientY)
+    //     this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
     //     this._velocity = Vector2.subtract(this._position, this._lastPosition)
     //     this.drop(event)
     //   }
@@ -354,6 +354,9 @@ class MouseController extends Controller {
       newElement instanceof Document ||
       newElement instanceof Window
     ) {
+      this._element = newElement
+      // Offset mouse position to be relative to the canvas
+      const offset = {x: -8, y: -8}
       this._element.onclick = event => {}
       this._element.oncontextmenu = event => {}
       this._element.ondblclick = event => {}
@@ -375,7 +378,7 @@ class MouseController extends Controller {
       this._element.onwheel = event => {}
       this._element.onclick = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.click(event)
@@ -383,7 +386,7 @@ class MouseController extends Controller {
       }
       this._element.oncontextmenu = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.contextmenu(event)
@@ -391,7 +394,7 @@ class MouseController extends Controller {
       }
       this._element.ondblclick = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dblclick(event)
@@ -399,7 +402,7 @@ class MouseController extends Controller {
       }
       this._element.onmousedown = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mousedown(event)
@@ -407,7 +410,7 @@ class MouseController extends Controller {
       }
       this._element.onmouseenter = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mouseenter(event)
@@ -415,7 +418,7 @@ class MouseController extends Controller {
       }
       this._element.onmouseleave = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mouseleave(event)
@@ -423,7 +426,7 @@ class MouseController extends Controller {
       }
       this._element.onmousemove = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mousemove(event)
@@ -431,7 +434,7 @@ class MouseController extends Controller {
       }
       this._element.onmouseout = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mouseout(event)
@@ -439,7 +442,7 @@ class MouseController extends Controller {
       }
       this._element.onmouseover = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mouseover(event)
@@ -447,7 +450,7 @@ class MouseController extends Controller {
       }
       this._element.onmouseup = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.mouseup(event)
@@ -455,7 +458,7 @@ class MouseController extends Controller {
       }
       this._element.ondrag = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.drag(event)
@@ -463,7 +466,7 @@ class MouseController extends Controller {
       }
       this._element.ondragend = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dragend(event)
@@ -471,7 +474,7 @@ class MouseController extends Controller {
       }
       this._element.ondragenter = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dragenter(event)
@@ -479,7 +482,7 @@ class MouseController extends Controller {
       }
       this._element.ondragexit = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dragexit(event)
@@ -487,7 +490,7 @@ class MouseController extends Controller {
       }
       this._element.ondragleave = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dragleave(event)
@@ -495,7 +498,7 @@ class MouseController extends Controller {
       }
       this._element.ondragover = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dragover(event)
@@ -503,7 +506,7 @@ class MouseController extends Controller {
       }
       this._element.ondragstart = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.dragstart(event)
@@ -511,7 +514,7 @@ class MouseController extends Controller {
       }
       this._element.ondrop = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.drop(event)
@@ -519,7 +522,7 @@ class MouseController extends Controller {
       }
       this._element.onwheel = event => {
         this._lastPosition = this._position
-        this._position = new Vector2(event.clientX, event.clientY)
+        this._position = new Vector2(event.clientX + offset.x, event.clientY + offset.y)
         this._velocity = Vector2.subtract(this._position, this._lastPosition)
         if (this.enabled) {
           this.wheel(event)

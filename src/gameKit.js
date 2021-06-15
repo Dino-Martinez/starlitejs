@@ -10,6 +10,8 @@ import {
   Vector2
 } from './starlite.js'
 
+import mouseButtonHandler from './utils.js'
+
 class GameKit {
   constructor () {
     // Create default start menu
@@ -57,43 +59,25 @@ class GameKit {
 
     // Create some default listeners
     this.mouse = new MouseController()
-
-    this.mouse.click = event => {
-      if (
-        event.clientX > this.menuButton.x - this.menuButton.width / 2 &&
-        event.clientX < this.menuButton.x + this.menuButton.width / 2
-      ) {
-        if (
-          event.clientY > this.menuButton.y - this.menuButton.height / 2 &&
-          event.clientY < this.menuButton.y + this.menuButton.height / 2
-        ) {
-          this.menu.stop()
-          this.menu.clear()
-          this.game.start()
-        }
-      }
-    }
-    this.mouse.mousemove = event => {
-      if (
-        event.clientX > this.menuButton.x - this.menuButton.width / 2 &&
-        event.clientX < this.menuButton.x + this.menuButton.width / 2
-      ) {
-        if (
-          event.clientY > this.menuButton.y - this.menuButton.height / 2 &&
-          event.clientY < this.menuButton.y + this.menuButton.height / 2
-        ) {
-          this.menuButton.color = '#dddddd'
-          this.menuButton.dirty = true
-        } else {
-          this.menuButton.color = '#ffffff'
-          this.menuButton.dirty = true
-        }
-      } else {
-        this.menuButton.color = '#ffffff'
-        this.menuButton.dirty = true
-      }
-    }
     this.mouse.element = ui.canvas
+
+    const click = () => {
+      this.menu.stop()
+      this.menu.clear()
+      this.game.start()
+    }
+
+    const hover = (isHovered) => {
+      if (isHovered) {
+        this.menuButton.color = '#dddddd'
+        this.menuButton.dirty = true
+        return
+      }
+      this.menuButton.color = '#ffffff'
+      this.menuButton.dirty = true
+    }
+    mouseButtonHandler(this.mouse, this.menuButton, click, hover)
+
   }
 
   set gameScene (newScene) {
