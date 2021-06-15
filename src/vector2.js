@@ -146,7 +146,7 @@ class Vector2 {
    * @type {Vector2}
    * @readonly
    */
-  get unit () {
+  unit = () => {
     return new Vector2(this.x, this.y).scale(1 / this.magnitude)
   }
 
@@ -248,7 +248,7 @@ class Vector2 {
   }
 
   rotate (angle, radians = false) {
-    if (!radians) angle *= (Math.PI / 180)
+    if (!radians) angle *= Math.PI / 180
     const newX = this.x * Math.cos(angle) - this.y * Math.sin(angle)
     const newY = this.x * Math.sin(angle) + this.y * Math.cos(angle)
     if (newX === newX && newY === newY) {

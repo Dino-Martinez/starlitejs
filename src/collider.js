@@ -147,7 +147,8 @@ class Collider {
     const { collided, collidedEdge } = this.checkCollision(other)
     const args = {
       collided,
-      collidedEdge
+      collidedEdge,
+      other
     }
     callback(args)
   }

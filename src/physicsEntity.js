@@ -157,7 +157,7 @@ class PhysicsEntity extends Entity {
    * @see {@linkcode PhysicsEntity#collide}
    */
   handleCollision = result => {
-    const { collided, collidedEdge } = result
+    const { collided, collidedEdge, other } = result
     if (collided) {
       // Courtesy of https://stackoverflow.com/questions/42159032/how-to-find-angle-between-two-straight-lines-paths-on-a-svg-in-javascript
       const dAx = collidedEdge.start.x - collidedEdge.end.x
@@ -170,7 +170,40 @@ class PhysicsEntity extends Entity {
       }
 
       this.velocity.rotate(angle * 2, true)
-      this.collider.position.add(this.velocity)
+
+      // Move this to barely touch collided edge
+      // Linear algebra concepts driven by my friend Violet :)
+      const x1 = this.position.x
+      const x2 = other.position.x
+      const y1 = this.position.y
+      const y2 = other.position.y
+      const x3 = collidedEdge.start.x
+      const x4 = collidedEdge.end.x
+      const y3 = collidedEdge.start.y
+      const y4 = collidedEdge.end.y
+      const t =
+        ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) /
+        ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
+      const px = x1 + t * (x2 - x1)
+      const py = y1 + t * (y2 - y1)
+      const ax = px - x2
+      const ay = py - y2
+      const distance = new Vector2(ax, ay)
+      const adjustment = new Vector2(this.velocity.x, this.velocity.y)
+
+      adjustment.scale(adjustment.magnitude / distance.magnitude)
+
+      if (this.freeze.x) {
+        adjustment.x = 0
+      }
+
+      if (this.freeze.y) {
+        adjustment.y = 0
+      }
+
+      this.position.add(adjustment)
+      this.collider.position.add(adjustment)
+
       this.dirty = true
     }
   }
