@@ -5,7 +5,9 @@ class Label extends Entity {
     sprite = 'default',
     priority = 0,
     text = '',
-    font = '30px Arial'
+    fontSize = '30px',
+    fontFamily = 'Arial',
+    font = `${fontSize} ${fontFamily}`
   ) {
     super(sprite, priority)
     this._text = text
@@ -18,6 +20,26 @@ class Label extends Entity {
 
   set text (newText) {
     this._text = newText
+    this.dirty = true
+  }
+
+  set fontSize(newSize) {
+    if (newSize < 4) {
+      newSize = 4
+    } else if (newSize > 72) {
+      newSize = 72
+    }
+    this.fontSize = `${newSize}px`
+    this.updateFont()
+  }
+
+  set fontFamily(newFamily) {
+    this.fontFamily = newFamily
+    this.updateFont()
+  }
+
+  updateFont() {
+    this.font = `${fontSize} ${fontFamily}`
     this.dirty = true
   }
 
@@ -45,7 +67,7 @@ class Label extends Entity {
       const metrics = ctx.measureText(this._text)
       const w = metrics.width
       const h =
-        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent - 10
       ctx.translate(0, h / 2)
       ctx.fillStyle = this.color
       ctx.fillText(this._text, this.x, this.y)
