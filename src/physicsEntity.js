@@ -160,6 +160,7 @@ class PhysicsEntity extends Entity {
     const { collided, collidedEdge, other } = result
     if (collided) {
       // Courtesy of https://stackoverflow.com/questions/42159032/how-to-find-angle-between-two-straight-lines-paths-on-a-svg-in-javascript
+      // Rotate the velocity based on the law of reflection
       const dAx = collidedEdge.start.x - collidedEdge.end.x
       const dAy = collidedEdge.start.y - collidedEdge.end.y
       const dBx = this.velocity.x
@@ -168,10 +169,10 @@ class PhysicsEntity extends Entity {
       if (angle < 0) {
         angle = angle * -1
       }
-
       this.velocity.rotate(angle * 2, true)
 
-      // Move this to barely touch collided edge
+      // Move this to barely touch collided edge, so that it does not stay inside
+      // of the other object
       // Linear algebra concepts driven by my friend Violet :)
       const x1 = this.position.x
       const x2 = other.position.x
