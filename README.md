@@ -2,7 +2,7 @@
 
 # starlite.js
 
-## A comprehensive and extensible game engine using JavaScript and HTML Canvas
+## A comprehensive and extensible game engine using JavaScript and HTML Canvas. Built with ES6 Classes and Object Oriented Design, our goal is to make browser games easy and fun to build.
 
 # Installation
 
@@ -20,7 +20,7 @@ game.start()
 
 ```
 
-In order to buil a simple pong game using GameKit:
+In order to build a simple pong game using GameKit:
 
 ```
 import {
@@ -78,7 +78,7 @@ game.start()
 
 # Documentation
 
-Below is a some simple documentation about our general classes
+Below is some simple documentation about our general classes
 
 ## Creating a Scene
 

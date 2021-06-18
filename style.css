@@ -6,13 +6,13 @@ body {
 .grid {
   display: grid;
   grid-template-columns: auto auto auto auto;
+  grid-gap: 2rem;
 }
 
 a {
-  text-decoration: none;
   color: #000;
 }
 
 a:hover {
-  color: #aaa;
+  color: #00f;
 }

@@ -33,12 +33,12 @@ const l = new PhysicsLayer(name, 0, true, 1152, 648)
 const entities = []
 
 const color = '#000000'
-for (let i = 0; i < 4; i++) {
-  for (let j = 0; j < 4; j++) {
+for (let i = 0; i < 6; i++) {
+  for (let j = 0; j < 6; j++) {
     const e = new PhysicsEntity()
     e.scale = new Vector2(l.width / 75, l.width / 75)
-    e.x = i * 40 + 50
-    e.y = j * 40 + 50
+    e.x = i * 60 + 50
+    e.y = j * 60 + 50
     const step = 16677217 / 16
     e.color = incrementColor(color, i * j * step)
     const r = Math.random() * 360
