@@ -25,12 +25,19 @@ class PhysicsLayer extends Layer {
     this.entities.forEach(entity => {
       entity.update()
     })
-    this.entities.forEach(entity => {
-      entity.preRender(this.ctx)
-      this.entities.forEach(other => {
-        if (entity !== other) entity.collide(other)
-      })
-    })
+    const length = this.entities.length
+    for (let i = 0; i < length; i++) {
+      this.entities[i].preRender(this.ctx)
+      for (let j = length-1; j > i; j--)
+      {
+        if (this.entities[i] !== this.entities[j]){
+          this.entities[j].preRender(this.ctx)
+          this.entities[i].collide(this.entities[j])
+          this.entities[j].collide(this.entities[i])
+        }
+      }
+    }
+    this.entities.forEach(entity => entity.handleCollision())
     this.entities.forEach(entity => entity.render(this.ctx))
     this.entities.forEach(entity => entity.postRender())
   }

@@ -44,6 +44,7 @@ class PhysicsEntity extends Entity {
     this._velocity = new Vector2(0, 0)
     this._acceleration = new Vector2(0, 0)
     this.playerNum = playerNum
+    this.collisionResults = {}
   }
 
   /**
@@ -156,8 +157,13 @@ class PhysicsEntity extends Entity {
    * @param {Object} result An object containing {collided: boolean, other: collider}.
    * @see {@linkcode PhysicsEntity#collide}
    */
-  handleCollision = result => {
+  getResults = (result) => {
     const { collided, collidedEdge, other } = result
+    if (collided) this.collisionResults = {collided, collidedEdge, other}
+  }
+
+  handleCollision = () => {
+    const { collided, collidedEdge, other } = this.collisionResults
     if (collided) {
       // Courtesy of https://stackoverflow.com/questions/42159032/how-to-find-angle-between-two-straight-lines-paths-on-a-svg-in-javascript
       // Rotate the velocity based on the law of reflection
@@ -206,6 +212,7 @@ class PhysicsEntity extends Entity {
       this.collider.position.add(adjustment)
 
       this.dirty = true
+      this.collisionResults = {}
     }
   }
 
@@ -264,7 +271,7 @@ class PhysicsEntity extends Entity {
    * @param {PhysicsEntity} other The other entity.
    */
   collide (other) {
-    this.collider.collide(other.collider, this.handleCollision)
+    this.collider.collide(other.collider, this.getResults)
   }
 
   /**
