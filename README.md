@@ -10,6 +10,6 @@
 
 # UPDATE NOTES:
 
-We have decided to upgrade our tools by integrating [Matter]() as our underlying physics engine.
+We have decided to upgrade our tools by integrating [Matter](https://brm.io/matter-js/) as our underlying physics engine.
 We will be pivoting from building our own physics to, instead, building a game engine on top of Matter.
 This process is currently under way.
