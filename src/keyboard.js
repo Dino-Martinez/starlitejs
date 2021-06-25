@@ -1,5 +1,5 @@
 /**
-* The `Matter.Keyboard` module contains methods for creating and receiving keyboard inputs.
+* The `Keyboard` module contains methods for creating and receiving keyboard inputs.
 *
 * @class Keyboard
 */
@@ -14,7 +14,7 @@ var Events = Matter.Events;
 (function() {
 
     /**
-     * Creates a keyboard input.
+     * Creates a keyboard handler.
      * @method create
      * @param {HTMLElement} element
      * @return {keyboard} A new keyboard
@@ -27,53 +27,61 @@ var Events = Matter.Events;
         }
 
         keyboard.element = element || document;
-        keyboard.keys = {}
+        keyboard.keys = {} // Of the structure: {a: false, b: false, ..., z: true} where true means the key is currently pressed
         keyboard.sourceEvents = {
             keydown: null,
-            keyup: null
+            keyup: null,
+            keychange: null
         };
 
         keyboard.keydown = function(event) {
-          const key = event.code.slice(3).toLowerCase();
-          keyboard.keys[key] = true;
-          keyboard.sourceEvents.keydown = event
+          event.key = event.code.slice(3).toLowerCase();
+          keyboard.keys[event.key] = true;
+          keyboard.sourceEvents.keydown = event;
+          keyboard.sourceEvents.keychange = event;
         };
 
         keyboard.keyup = function(event) {
-          const key = event.code.slice(3).toLowerCase();
-          keyboard.keys[key] = false;
-          keyboard.sourceEvents.keyup = event
+          event.key = event.code.slice(3).toLowerCase();
+          keyboard.keys[event.key] = false;
+          keyboard.sourceEvents.keyup = event;
+          keyboard.sourceEvents.keychange = event;
         };
 
         Keyboard.setElement(keyboard, keyboard.element);
 
         Events.on(engine, 'beforeUpdate', async function () {
-          Keyboard._triggerEvents(keyboard)
+          Keyboard._triggerEvents(keyboard);
         });
 
         return keyboard;
     };
 
     /**
-    * Triggers keyboard constraint events.
+    * Triggers keyboard events.
     * @method _triggerEvents
     * @private
-    * @param {keyboard} keyboardConstraint
+    * @param {keyboard} keyboard
     */
    Keyboard._triggerEvents = function(keyboard) {
-       const keyboardEvents = keyboard.sourceEvents
-       if (keyboardEvents.keydown)
-        Events.trigger(keyboard, 'keydown', { keys: keyboard.keys });
+      const keyboardEvents = keyboard.sourceEvents
+      if (keyboardEvents.keydown)
+        Events.trigger(keyboard, 'keydown', { key: keyboardEvents.keydown.key });
 
-       if (keyboardEvents.keyup)
-        Events.trigger(keyboard, 'keyup', { keys: keyboard.keys });
+      if (keyboardEvents.keyup)
+        Events.trigger(keyboard, 'keyup', { key: keyboardEvents.keyup.key });
 
-       // reset the keyboard state ready for the next step
-       Keyboard.clearSourceEvents(keyboard);
+      if (keyboardEvents.keychange)
+        Events.trigger(keyboard, 'keychange', { keys: keyboard.keys });
+
+      // reset the keyboard state ready for the next step
+      Keyboard.clearSourceEvents(keyboard);
    };
 
     /**
      * Sets the element the keyboard is bound to (and relative to).
+     * Note that this will mean keyboard events are only registered if this
+     * element is in focus (i.e. is the last element the mouse clicked)
      * @method setElement
      * @param {keyboard} keyboard
      * @param {HTMLElement} element
@@ -83,9 +91,6 @@ var Events = Matter.Events;
 
         element.addEventListener('keydown', keyboard.keydown);
         element.addEventListener('keyup', keyboard.keyup);
-
-        element.addEventListener('touchstart', keyboard.keydown);
-        element.addEventListener('touchend', keyboard.keyup);
     };
 
     /**
@@ -97,5 +102,4 @@ var Events = Matter.Events;
         keyboard.sourceEvents.keydown = null;
         keyboard.sourceEvents.keyup = null;
     };
-
 })();

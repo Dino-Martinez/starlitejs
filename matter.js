@@ -10,16 +10,21 @@ var Engine = Matter.Engine,
     Body = Matter.Body,
     Composite = Matter.Composite;
 
-var Keyboard = require("./keyboard.js");
+var Keyboard = require("./src/keyboard.js");
 
 // create an engine
 var engine = Engine.create(),
     world = engine.world;
 
+// Create canvas with tabindex
+var canvas = document.createElement('canvas');
+canvas.tabIndex = 1;
+
 // create a renderer
 var render = Render.create({
     element: document.body,
-    engine: engine
+    engine: engine,
+    canvas: canvas
 });
 
 // create two boxes and a ground
@@ -28,7 +33,6 @@ var boxB = Bodies.circle(400, 200, 100);
 boxA.mass = 0.5
 boxA.restitution = 1
 boxB.restitution = 1
-console.log(boxA)
 
 var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
@@ -43,7 +47,7 @@ var mouse = Mouse.create(render.canvas),
             }
         }
     });
-var keyboard = Keyboard.create(document, engine);
+var keyboard = Keyboard.create(render.canvas, engine);
 Composite.add(world, mouseConstraint);
 
 // keep the mouse in sync with rendering
@@ -51,7 +55,7 @@ render.mouse = mouse;
 
 // add all of the bodies to the world
 Composite.add(world, [boxA, boxB, ground]);
-console.dir(engine)
+
 // run the renderer
 Render.run(render);
 
@@ -62,11 +66,13 @@ var runner = Runner.create();
 Runner.run(runner, engine);
 
 Events.on(keyboard, 'keydown', (event)=>{
-  const keys = event.keys
-  Body.setVelocity(boxB, {x: 5, y: boxB.velocity.y})
+  const key = event.key
+  if (key === 'd')
+    Body.setVelocity(boxB, {x: 5, y: boxB.velocity.y})
 })
 
 Events.on(keyboard, 'keyup', (event)=>{
-  const keys = event.keys
-  Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
+  const key = event.key
+  if (key === 'd')
+    Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
 })

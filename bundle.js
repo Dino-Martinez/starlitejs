@@ -1,107 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-/**
-* The `Matter.Keyboard` module contains methods for creating and manipulating keyboard inputs.
-*
-* @class Keyboard
-*/
-
-var Keyboard = {};
-var Matter = require("matter-js");
-module.exports = Keyboard;
-
-var Common = Matter.Common;
-var Events = Matter.Events;
-
-(function() {
-
-    /**
-     * Creates a keyboard input.
-     * @method create
-     * @param {HTMLElement} element
-     * @return {keyboard} A new keyboard
-     */
-    Keyboard.create = function(element, engine) {
-        var keyboard = {};
-
-        if (!element) {
-            Common.log('Keyboard.create: element was undefined, defaulting to document.body', 'warn');
-        }
-
-        keyboard.element = element || document.body;
-        keyboard.keys = {}
-        keyboard.sourceEvents = {
-            keydown: null,
-            keyup: null
-        };
-
-        keyboard.keydown = function(event) {
-          const key = event.code.slice(3).toLowerCase();
-          keyboard.keys[key] = true;
-          keyboard.sourceEvents.keydown = event
-        };
-
-        keyboard.keyup = function(event) {
-          const key = event.code.slice(3).toLowerCase();
-          keyboard.keys[key] = false;
-          keyboard.sourceEvents.keyup = event
-        };
-
-        Keyboard.setElement(keyboard, keyboard.element);
-
-        Events.on(engine, 'beforeUpdate', async function () {
-          Keyboard._triggerEvents(keyboard)
-        });
-
-        return keyboard;
-    };
-
-    /**
-    * Triggers keyboard constraint events.
-    * @method _triggerEvents
-    * @private
-    * @param {keyboard} keyboardConstraint
-    */
-   Keyboard._triggerEvents = function(keyboard) {
-       const keyboardEvents = keyboard.sourceEvents
-       if (keyboardEvents.keydown)
-        Events.trigger(keyboard, 'keydown', { keyboard: keyboard });
-
-       if (keyboardEvents.keyup)
-        Events.trigger(keyboard, 'keyup', { keyboard: keyboard });
-
-       // reset the keyboard state ready for the next step
-       Keyboard.clearSourceEvents(keyboard);
-   };
-
-    /**
-     * Sets the element the keyboard is bound to (and relative to).
-     * @method setElement
-     * @param {keyboard} keyboard
-     * @param {HTMLElement} element
-     */
-    Keyboard.setElement = function(keyboard, element) {
-        keyboard.element = element;
-
-        element.addEventListener('keydown', keyboard.keydown);
-        element.addEventListener('keyup', keyboard.keyup);
-
-        element.addEventListener('touchstart', keyboard.keydown);
-        element.addEventListener('touchend', keyboard.keyup);
-    };
-
-    /**
-     * Clears all captured source events.
-     * @method clearSourceEvents
-     * @param {keyboard} keyboard
-     */
-    Keyboard.clearSourceEvents = function(keyboard) {
-        keyboard.sourceEvents.keydown = null;
-        keyboard.sourceEvents.keyup = null;
-    };
-
-})();
-
-},{"matter-js":3}],2:[function(require,module,exports){
 // module aliases
 var Matter = require("matter-js")
 var Engine = Matter.Engine,
@@ -114,16 +11,21 @@ var Engine = Matter.Engine,
     Body = Matter.Body,
     Composite = Matter.Composite;
 
-var Keyboard = require("./keyboard.js");
+var Keyboard = require("./src/keyboard.js");
 
 // create an engine
 var engine = Engine.create(),
     world = engine.world;
 
+// Create canvas with tabindex
+var canvas = document.createElement('canvas');
+canvas.tabIndex = 1;
+
 // create a renderer
 var render = Render.create({
     element: document.body,
-    engine: engine
+    engine: engine,
+    canvas: canvas
 });
 
 // create two boxes and a ground
@@ -132,7 +34,6 @@ var boxB = Bodies.circle(400, 200, 100);
 boxA.mass = 0.5
 boxA.restitution = 1
 boxB.restitution = 1
-console.log(boxA)
 
 var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
@@ -147,7 +48,7 @@ var mouse = Mouse.create(render.canvas),
             }
         }
     });
-var keyboard = Keyboard.create(document, engine);
+var keyboard = Keyboard.create(render.canvas, engine);
 Composite.add(world, mouseConstraint);
 
 // keep the mouse in sync with rendering
@@ -155,7 +56,7 @@ render.mouse = mouse;
 
 // add all of the bodies to the world
 Composite.add(world, [boxA, boxB, ground]);
-console.dir(engine)
+
 // run the renderer
 Render.run(render);
 
@@ -165,15 +66,19 @@ var runner = Runner.create();
 // run the engine
 Runner.run(runner, engine);
 
-Events.on(keyboard, 'keydown', ()=>{
-  Body.setVelocity(boxB, {x: 5, y: boxB.velocity.y})
+Events.on(keyboard, 'keydown', (event)=>{
+  const key = event.key
+  if (key === 'd')
+    Body.setVelocity(boxB, {x: 5, y: boxB.velocity.y})
 })
 
-Events.on(keyboard, 'keyup', ()=>{
-  Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
+Events.on(keyboard, 'keyup', (event)=>{
+  const key = event.key
+  if (key === 'd')
+    Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
 })
 
-},{"./keyboard.js":1,"matter-js":3}],3:[function(require,module,exports){
+},{"./src/keyboard.js":3,"matter-js":2}],2:[function(require,module,exports){
 (function (global){(function (){
 /*!
  * matter-js 0.17.1 by @liabru
@@ -10631,4 +10536,145 @@ var Common = __webpack_require__(0);
 /******/ ]);
 });
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[2]);
+},{}],3:[function(require,module,exports){
+/**
+* The `Keyboard` module contains methods for creating and receiving keyboard inputs.
+*
+* @class Keyboard
+*/
+
+var Keyboard = {};
+var Matter = require("matter-js");
+module.exports = Keyboard;
+
+var Common = Matter.Common;
+var Events = Matter.Events;
+
+(function() {
+
+    /**
+     * Creates a keyboard handler.
+     * @method create
+     * @param {HTMLElement} element
+     * @return {keyboard} A new keyboard
+     */
+    Keyboard.create = function(element, engine) {
+        var keyboard = {};
+
+        if (!element) {
+            Common.log('Keyboard.create: element was undefined, defaulting to document', 'warn');
+        }
+
+        keyboard.element = element || document;
+        keyboard.keys = {} // Of the structure: {a: false, b: false, ..., z: true} where true means the key is currently pressed
+        keyboard.sourceEvents = {
+            keydown: null,
+            keyup: null
+        };
+
+        keyboard.keydown = function(event) {
+          event.key = event.code.slice(3).toLowerCase();
+          keyboard.keys[event.key] = true;
+          keyboard.sourceEvents.keydown = event
+        };
+
+        keyboard.keyup = function(event) {
+          event.key = event.code.slice(3).toLowerCase();
+          keyboard.keys[event.key] = false;
+          keyboard.sourceEvents.keyup = event
+        };
+
+        Keyboard.setElement(keyboard, keyboard.element);
+
+        Events.on(engine, 'beforeUpdate', async function () {
+          Keyboard._triggerEvents(keyboard)
+        });
+
+        return keyboard;
+    };
+
+    /**
+    * Triggers keyboard events.
+    * @method _triggerEvents
+    * @private
+    * @param {keyboard} keyboard
+    */
+   Keyboard._triggerEvents = function(keyboard) {
+       const keyboardEvents = keyboard.sourceEvents
+       if (keyboardEvents.keydown)
+        Events.trigger(keyboard, 'keydown', { key: keyboardEvents.keydown.key });
+
+       if (keyboardEvents.keyup)
+        Events.trigger(keyboard, 'keyup', { key: keyboardEvents.keyup.key });
+
+       // reset the keyboard state ready for the next step
+       Keyboard.clearSourceEvents(keyboard);
+   };
+
+    /**
+     * Sets the element the keyboard is bound to (and relative to).
+     * Note that this will mean keyboard events are only registered if this
+     * element is in focus (i.e. is the last element the mouse clicked)
+     * @method setElement
+     * @param {keyboard} keyboard
+     * @param {HTMLElement} element
+     */
+    Keyboard.setElement = function(keyboard, element) {
+        keyboard.element = element;
+
+        element.addEventListener('keydown', keyboard.keydown);
+        element.addEventListener('keyup', keyboard.keyup);
+    };
+
+    /**
+     * Clears all captured source events.
+     * @method clearSourceEvents
+     * @param {keyboard} keyboard
+     */
+    Keyboard.clearSourceEvents = function(keyboard) {
+        keyboard.sourceEvents.keydown = null;
+        keyboard.sourceEvents.keyup = null;
+    };
+
+    /*
+    *
+    *  Events Documentation
+    *
+    */
+
+    /**
+    * Fired when a body starts sleeping (where `this` is the body).
+    *
+    * @event keydown
+    * @this {body} The body that has started sleeping
+    * @param {} event An event object
+    * @param {} event.source The source object of the event
+    * @param {} event.name The name of the event
+    */
+
+    /*
+    *
+    *  Properties Documentation
+    *
+    */
+
+    /**
+     * An integer `Number` uniquely identifying number generated in `Body.create` by `Common.nextId`.
+     *
+     * @property id
+     * @type number
+     */
+
+    /**
+     * A `String` denoting the type of object.
+     *
+     * @property type
+     * @type string
+     * @default "body"
+     * @readOnly
+     */
+
+
+})();
+
+},{"matter-js":2}]},{},[1]);

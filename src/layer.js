@@ -1,195 +1,54 @@
-import { Entity, Transform, Vector2 } from './starlite-core.js'
 
-class Layer {
-  /**
-   * Creates a layer.
-   *
-   * @class Layer
-   * @classdesc Class representing a canvas layer.
-   * @see {@linkcode PhysicsLayer} for a layer that handles physics.
-   *
-   * @param {string} name The name of the layer.
-   * @param {number} [priority=0] The z-index of the layer.
-   * @param {boolean} [transparent=true] Whether or not the pixels in the layer can be transparent.
-   * @param {number} [width=640] The width of the layer in pixels.
-   * @param {number} [height=480] The height of the layer in pixels.
-   */
-  constructor (name, priority = 0, transparent = true, width = 640, height = 480) {
-    this._transparent = transparent
+var Layer = {};
+var Matter = require("matter-js");
+var Engine = Matter.Engine,
+    Render = Matter.Render,
+    Runner = Matter.Runner,
+    Bodies = Matter.Bodies,
+    Events = Matter.Events,
+    MouseConstraint = Matter.MouseConstraint,
+    Mouse = Matter.Mouse,
+    Layer = Matter.Layer,
+    Common = Matter.Common,
+    Composite = Matter.Composite;
+
     /**
-     * Represents the name of the layer.
-     *
-     * @type {string}
-     */
-    this.name = name
-    /**
-     * Represents the z-index of the layer.
-     *
-     * @type {number}
-     * @default 0
-     */
-    this.priority = priority
-    /**
-     * Represents the list of entities that the layer renders.
-     *
-     * @type {Entity[]}
-     * @default []
-     */
-    this.entities = []
-    /**
-     * Represents the transform of the layer.
-     *
-     * @type {Transform}
-     */
-    this.transform = new Transform()
-    this.transform.scale = new Vector2(width, height)
-    /**
-     * Represents whether or not the layer is active (will be rendered at all).
-     */
-    this.active = true
-    /**
-     * Represents the canvas element of the layer.
-     *
-     * @type {HTMLCanvasElement}
-     */
-    this.canvas = document.createElement('canvas')
-    this.canvas.width = this.transform.width
-    this.canvas.height = this.transform.height
-    this.canvas.style.zIndex = this.priority
-    this.canvas.style.position = 'absolute'
-    this.canvas.style.border = '1px solid'
-    /**
-     * Represents the rendering context for the canvas of the layer.
-     *
-     * @type {CanvasRenderingContext2D}
-     */
-    this.ctx = this.canvas.getContext('2d', { alpha: this._transparent })
-    document.body.appendChild(this.canvas)
-  }
+    * The `Matter.Layer` module contains methods for creating and manipulating layer models.
+    * A `Matter.Layer` is a rigid layer that can be simulated by a `Matter.Engine`.
+    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Matter.Bodies`.
+    *
+    * See the included usage [examples](https://github.com/liabru/matter-js/tree/master/examples).
+    * @class Layer
+    */
 
-  /**
-   * Represents the width of the layer in pixels.
-   *
-   * @type {number}
-   * @readonly
-   */
-  get width () {
-    return this.transform.width
-  }
+    var Layer = {};
 
-  /**
-   * Represents the height of the layer in pixels.
-   *
-   * @type {number}
-   * @readonly
-   */
-  get height () {
-    return this.transform.height
-  }
+    module.exports = Layer;
 
-  /**
-   * Represents whether or not the canvas is transparent.
-   *
-   * @type {boolean}
-   * @default false
-   */
-  get transparent () {
-    return this._transparent
-  }
+    (function() {
 
-  set transparent (newTransparency) {
-    this._transparent = newTransparency
-    this.ctx = this.canvas.getContext('2d', { alpha: this._transparent })
-  }
+        /**
+         * Creates a new rigid layer model. The options parameter is an object that specifies any properties you wish to override the defaults.
+         * All properties have default values, and many are pre-calculated automatically based on other properties.
+         * Vertices must be specified in clockwise order.
+         * See the properties section below for detailed information on what you can pass via the `options` object.
+         * @method create
+         * @param {} options
+         * @return {layer} layer
+         */
+        Layer.create = function(options) {
+            var defaults = {
+                id: Common.nextId(),
+                type: 'layer',
+                label: 'Layer',
+                bodies: [],
+                },
+                events: null,
+                bounds: [false, false, false, true]
+            };
 
-  /**
-   * Adds an entity for the layer to render.
-   *
-   * @see {@linkcode Layer#addEntities} for adding multiple entities.
-   * @see {@linkcode Layer#removeEntity} for removing an entity.
-   *
-   * @param {Entity} entity The entity to add to the layer.
-   * @throws {TypeError}
-   */
-  addEntity (entity) {
-    if (entity instanceof Entity) {
-      this.entities.push(entity)
-      this.entities.sort((a, b) => (a.priority < b.priority ? -1 : 1))
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  /**
-   * Adds multiple entities for the layer to render.
-   *
-   * @see {@linkcode Layer#addEntity} for adding a single entity.
-   * @see {@linkcode Layer#removeEntity} for removing an entity.
-   *
-   * @param {Entity[]} entities The list of entities to add to the layer.
-   * @throws {TypeError}
-   */
-  addEntities (entities) {
-    if (entities.every(entity => entity instanceof Entity)) {
-      this.entities.push(...entities)
-      this.entities.sort((a, b) => (a.priority < b.priority ? -1 : 1))
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  /**
-   * Removes an entity for the layer to render.
-   *
-   * @see {@linkcode Layer#removeEntities} for removing multiple entities.
-   * @see {@linkcode Layer#addEntity} for adding an entity.
-   *
-   * @param {Entity} entity The entity to remove from the layer.
-   * @throws {TypeError}
-   */
-  removeEntity (entity) {
-    if (entity instanceof Entity) {
-      entity.clear(this.ctx)
-      this.entities.pop(entity)
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  /**
-   * Removes multiple entities for the layer to render.
-   *
-   * @see {@linkcode Layer#removeEntity} for removing a single entity.
-   * @see {@linkcode Layer#addEntity} for adding an entity.
-   *
-   * @param {Entity[]} entities The list of entities to remove from the layer.
-   * @throws {TypeError}
-   */
-  removeEntities (entities) {
-    if (entities.every(entity => entity instanceof Entity)) {
-      this.entities.pop(...entities)
-    } else {
-      throw new TypeError()
-    }
-  }
-
-  /**
-   * Renders the entities that have been added to the layer.
-   *
-   * @see {@linkcode Entity#preRender}
-   * @see {@linkcode Entity#render}
-   * @see {@linkcode Entity#postRender}
-   */
-  render () {
-    this.entities.forEach(entity => entity.preRender(this.ctx))
-    this.entities.forEach(entity => entity.render(this.ctx))
-    this.entities.forEach(entity => entity.postRender())
-  }
-
-  clear () {
-    this.removeEntities(this.entities)
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-  }
-}
-
-export default Layer
+            var layer = Common.extend(defaults, options);
+            
+            return layer;
+        };
+    })();
