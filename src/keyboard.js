@@ -48,7 +48,7 @@ var Events = Matter.Events;
           keyboard.sourceEvents.keychange = event;
         };
 
-        Keyboard.setElement(keyboard, keyboard.element);
+        Keyboard.setElement(keyboard);
 
         Events.on(engine, 'beforeUpdate', async function () {
           Keyboard._triggerEvents(keyboard);
@@ -86,11 +86,9 @@ var Events = Matter.Events;
      * @param {keyboard} keyboard
      * @param {HTMLElement} element
      */
-    Keyboard.setElement = function(keyboard, element) {
-        keyboard.element = element;
-
-        element.addEventListener('keydown', keyboard.keydown);
-        element.addEventListener('keyup', keyboard.keyup);
+    Keyboard.setElement = function(keyboard) {
+        keyboard.element.addEventListener('keydown', keyboard.keydown);
+        keyboard.element.addEventListener('keyup', keyboard.keyup);
     };
 
     /**

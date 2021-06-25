@@ -11,6 +11,7 @@ var Engine = Matter.Engine,
     Composite = Matter.Composite;
 
 var Keyboard = require("./src/keyboard.js");
+var Layers = require("./src/layers.js");
 
 // create an engine
 var engine = Engine.create(),
@@ -27,6 +28,9 @@ var render = Render.create({
     canvas: canvas
 });
 
+
+var layer = Layers.create(canvas);
+
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });
 var boxB = Bodies.circle(400, 200, 100);
@@ -35,6 +39,8 @@ boxA.restitution = 1
 boxB.restitution = 1
 
 var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+Layers.add(layer, [boxA, boxB, ground])
 
 // add mouse control
 var mouse = Mouse.create(render.canvas),
@@ -47,14 +53,14 @@ var mouse = Mouse.create(render.canvas),
             }
         }
     });
+
 var keyboard = Keyboard.create(render.canvas, engine);
 Composite.add(world, mouseConstraint);
-
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
 // add all of the bodies to the world
-Composite.add(world, [boxA, boxB, ground]);
+Composite.add(world, layer.bodies);
 
 // run the renderer
 Render.run(render);

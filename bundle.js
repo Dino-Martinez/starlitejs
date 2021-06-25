@@ -12,6 +12,7 @@ var Engine = Matter.Engine,
     Composite = Matter.Composite;
 
 var Keyboard = require("./src/keyboard.js");
+var Layers = require("./src/layers.js");
 
 // create an engine
 var engine = Engine.create(),
@@ -28,6 +29,9 @@ var render = Render.create({
     canvas: canvas
 });
 
+
+var layer = Layers.create(canvas);
+
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });
 var boxB = Bodies.circle(400, 200, 100);
@@ -36,6 +40,8 @@ boxA.restitution = 1
 boxB.restitution = 1
 
 var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+Layers.add(layer, [boxA, boxB, ground])
 
 // add mouse control
 var mouse = Mouse.create(render.canvas),
@@ -48,14 +54,14 @@ var mouse = Mouse.create(render.canvas),
             }
         }
     });
+
 var keyboard = Keyboard.create(render.canvas, engine);
 Composite.add(world, mouseConstraint);
-
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
 // add all of the bodies to the world
-Composite.add(world, [boxA, boxB, ground]);
+Composite.add(world, layer.bodies);
 
 // run the renderer
 Render.run(render);
@@ -78,7 +84,7 @@ Events.on(keyboard, 'keyup', (event)=>{
     Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
 })
 
-},{"./src/keyboard.js":3,"matter-js":2}],2:[function(require,module,exports){
+},{"./src/keyboard.js":3,"./src/layers.js":4,"matter-js":2}],2:[function(require,module,exports){
 (function (global){(function (){
 /*!
  * matter-js 0.17.1 by @liabru
@@ -10569,25 +10575,28 @@ var Events = Matter.Events;
         keyboard.keys = {} // Of the structure: {a: false, b: false, ..., z: true} where true means the key is currently pressed
         keyboard.sourceEvents = {
             keydown: null,
-            keyup: null
+            keyup: null,
+            keychange: null
         };
 
         keyboard.keydown = function(event) {
           event.key = event.code.slice(3).toLowerCase();
           keyboard.keys[event.key] = true;
-          keyboard.sourceEvents.keydown = event
+          keyboard.sourceEvents.keydown = event;
+          keyboard.sourceEvents.keychange = event;
         };
 
         keyboard.keyup = function(event) {
           event.key = event.code.slice(3).toLowerCase();
           keyboard.keys[event.key] = false;
-          keyboard.sourceEvents.keyup = event
+          keyboard.sourceEvents.keyup = event;
+          keyboard.sourceEvents.keychange = event;
         };
 
-        Keyboard.setElement(keyboard, keyboard.element);
+        Keyboard.setElement(keyboard);
 
         Events.on(engine, 'beforeUpdate', async function () {
-          Keyboard._triggerEvents(keyboard)
+          Keyboard._triggerEvents(keyboard);
         });
 
         return keyboard;
@@ -10600,15 +10609,18 @@ var Events = Matter.Events;
     * @param {keyboard} keyboard
     */
    Keyboard._triggerEvents = function(keyboard) {
-       const keyboardEvents = keyboard.sourceEvents
-       if (keyboardEvents.keydown)
+      const keyboardEvents = keyboard.sourceEvents
+      if (keyboardEvents.keydown)
         Events.trigger(keyboard, 'keydown', { key: keyboardEvents.keydown.key });
 
-       if (keyboardEvents.keyup)
+      if (keyboardEvents.keyup)
         Events.trigger(keyboard, 'keyup', { key: keyboardEvents.keyup.key });
 
-       // reset the keyboard state ready for the next step
-       Keyboard.clearSourceEvents(keyboard);
+      if (keyboardEvents.keychange)
+        Events.trigger(keyboard, 'keychange', { keys: keyboard.keys });
+
+      // reset the keyboard state ready for the next step
+      Keyboard.clearSourceEvents(keyboard);
    };
 
     /**
@@ -10619,11 +10631,9 @@ var Events = Matter.Events;
      * @param {keyboard} keyboard
      * @param {HTMLElement} element
      */
-    Keyboard.setElement = function(keyboard, element) {
-        keyboard.element = element;
-
-        element.addEventListener('keydown', keyboard.keydown);
-        element.addEventListener('keyup', keyboard.keyup);
+    Keyboard.setElement = function(keyboard) {
+        keyboard.element.addEventListener('keydown', keyboard.keydown);
+        keyboard.element.addEventListener('keyup', keyboard.keyup);
     };
 
     /**
@@ -10635,46 +10645,127 @@ var Events = Matter.Events;
         keyboard.sourceEvents.keydown = null;
         keyboard.sourceEvents.keyup = null;
     };
+})();
 
-    /*
-    *
-    *  Events Documentation
-    *
+},{"matter-js":2}],4:[function(require,module,exports){
+
+var Layers = {};
+var Matter = require("matter-js");
+var Bodies = Matter.Bodies,
+    Events = Matter.Events,
+    Common = Matter.Common;
+
+/**
+    * The `Matter.Layers` module contains methods for creating and manipulating layer models.
+    * A `Matter.Layers` is a rigid layer that can be simulated by a `Matter.Engine`.
+    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Matter.Bodies`.
+    * @class Layers
     */
+
+var Layers = {};
+
+module.exports = Layers;
+
+(function() {
 
     /**
-    * Fired when a body starts sleeping (where `this` is the body).
-    *
-    * @event keydown
-    * @this {body} The body that has started sleeping
-    * @param {} event An event object
-    * @param {} event.source The source object of the event
-    * @param {} event.name The name of the event
-    */
+         * Creates a new rigid layer model. The options parameter is an object that specifies any properties you wish to override the defaults.
+         * All properties have default values, and many are pre-calculated automatically based on other properties.
+         * See the properties section below for detailed information on what you can pass via the `options` object.
+         * @method create
+         * @param {} options
+         * @return {layer} layer
+         */
+    Layers.create = function(options) {
+        var defaults = {
+            id: Common.nextId(),
+            type: 'layer',
+            label: 'Layer',
+            bodies: [],
+            isStatic: false,
+            events: null,
+            bounds: {top: true, right: true, bottom: true, left: true},
+            width: 600,
+            height: 480
+        };
 
-    /*
-    *
-    *  Properties Documentation
-    *
-    */
+        var layer = Common.extend(defaults, options);
+        _createBounds(layer);
+        return layer;
+    };
 
     /**
-     * An integer `Number` uniquely identifying number generated in `Body.create` by `Common.nextId`.
-     *
-     * @property id
-     * @type number
+         * Creates a new static layer, meaning that all bodies added to it will be static and not considered by the physics engine.
+         */
+    Layers.static = function(options) {
+        var defaults = {
+            id: Common.nextId(),
+            type: 'layer',
+            label: 'Layer',
+            bodies: [],
+            isStatic: true,
+            events: null,
+            bounds: {top: false, right: false, bottom: false, left: false},
+            width: 600,
+            height: 480
+        };
+
+        var layer = Common.extend(defaults, options);
+
+        return layer;
+    };
+
+    /**
+     * Creates a new layer with no walls as boundaries
      */
+    Layers.noBounds = function(canvas, options) {
+        var defaults = {
+            id: Common.nextId(),
+            type: 'layer',
+            label: 'Layer',
+            bodies: [],
+            isStatic: true,
+            events: null,
+            bounds: {top: false, right: false, bottom: false, left: false},
+            width: canvas.width || 600,
+            height: canvas.height || 480
+        };
 
-    /**
-     * A `String` denoting the type of object.
-     *
-     * @property type
-     * @type string
-     * @default "body"
-     * @readOnly
-     */
+        var layer = Common.extend(defaults, options);
+        _createBounds(layer);
+        return layer;
+    };
 
+    Layers.add = function(layer, bodies) {
+      layer.bodies.push(...bodies);
+    }
 
+    var _createBounds = function(layer) {
+        for (const key in layer.bounds) {
+            if (key === 'top') {
+                // top bound
+                var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {isStatic: true});
+                layer.bodies.push(top);
+            }
+            if (key === 'right') {
+                // right bound
+                var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {isStatic: true});
+                layer.bodies.push(right);
+
+            }
+            if (key === 'bottom') {
+                // bottom bound
+                var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {isStatic: true});
+                layer.bodies.push(bottom);
+
+            }
+            if (key === 'left') {
+                // left bound
+                var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {isStatic: true});
+                layer.bodies.push(left);
+            }
+        }
+    };
 })();
 
 },{"matter-js":2}]},{},[1]);
