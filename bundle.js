@@ -12,6 +12,7 @@ var Engine = Matter.Engine,
     Composite = Matter.Composite;
 
 var Keyboard = require("./src/keyboard.js");
+var Layer = require("./src/layer.js");
 var Layers = require("./src/layers.js");
 
 // create an engine
@@ -30,7 +31,7 @@ var render = Render.create({
 });
 
 
-var layer = Layers.create(canvas);
+var layer = Layers.static(canvas);
 
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });
@@ -41,7 +42,7 @@ boxB.restitution = 1
 
 var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
-Layers.add(layer, [boxA, boxB, ground])
+Layer.add(layer, [boxA, boxB, ground])
 
 // add mouse control
 var mouse = Mouse.create(render.canvas),
@@ -84,7 +85,7 @@ Events.on(keyboard, 'keyup', (event)=>{
     Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
 })
 
-},{"./src/keyboard.js":3,"./src/layers.js":4,"matter-js":2}],2:[function(require,module,exports){
+},{"./src/keyboard.js":3,"./src/layer.js":4,"./src/layers.js":5,"matter-js":2}],2:[function(require,module,exports){
 (function (global){(function (){
 /*!
  * matter-js 0.17.1 by @liabru
@@ -10649,22 +10650,22 @@ var Events = Matter.Events;
 
 },{"matter-js":2}],4:[function(require,module,exports){
 
-var Layers = {};
+var Layer = {};
 var Matter = require("matter-js");
 var Bodies = Matter.Bodies,
     Events = Matter.Events,
     Common = Matter.Common;
 
 /**
-    * The `Matter.Layers` module contains methods for creating and manipulating layer models.
-    * A `Matter.Layers` is a rigid layer that can be simulated by a `Matter.Engine`.
-    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Matter.Bodies`.
+    * The `Starlite.Layer` module contains methods for creating and manipulating layer models.
+    * A `Starlite.Layer` is a rigid layer that can be simulated by a `Matter.Engine`.
+    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Starlite.Layers`.
     * @class Layers
     */
 
-var Layers = {};
+var Layer = {};
 
-module.exports = Layers;
+module.exports = Layer;
 
 (function() {
 
@@ -10676,7 +10677,7 @@ module.exports = Layers;
          * @param {} options
          * @return {layer} layer
          */
-    Layers.create = function(options) {
+    Layer.create = function(canvas, options) {
         var defaults = {
             id: Common.nextId(),
             type: 'layer',
@@ -10685,48 +10686,6 @@ module.exports = Layers;
             isStatic: false,
             events: null,
             bounds: {top: true, right: true, bottom: true, left: true},
-            width: 600,
-            height: 480
-        };
-
-        var layer = Common.extend(defaults, options);
-        _createBounds(layer);
-        return layer;
-    };
-
-    /**
-         * Creates a new static layer, meaning that all bodies added to it will be static and not considered by the physics engine.
-         */
-    Layers.static = function(options) {
-        var defaults = {
-            id: Common.nextId(),
-            type: 'layer',
-            label: 'Layer',
-            bodies: [],
-            isStatic: true,
-            events: null,
-            bounds: {top: false, right: false, bottom: false, left: false},
-            width: 600,
-            height: 480
-        };
-
-        var layer = Common.extend(defaults, options);
-
-        return layer;
-    };
-
-    /**
-     * Creates a new layer with no walls as boundaries
-     */
-    Layers.noBounds = function(canvas, options) {
-        var defaults = {
-            id: Common.nextId(),
-            type: 'layer',
-            label: 'Layer',
-            bodies: [],
-            isStatic: true,
-            events: null,
-            bounds: {top: false, right: false, bottom: false, left: false},
             width: canvas.width || 600,
             height: canvas.height || 480
         };
@@ -10736,7 +10695,17 @@ module.exports = Layers;
         return layer;
     };
 
-    Layers.add = function(layer, bodies) {
+    /*
+     * Add an array of bodies to our layer
+     */
+    Layer.add = function(layer, bodies) {
+      // If layer is static, enforce all bodies being static
+      if (layer.isStatic) {
+        bodies = bodies.map(body => {
+          body.isStatic = true;
+          return body;
+        })
+      }
       layer.bodies.push(...bodies);
     }
 
@@ -10768,4 +10737,46 @@ module.exports = Layers;
     };
 })();
 
-},{"matter-js":2}]},{},[1]);
+},{"matter-js":2}],5:[function(require,module,exports){
+/**
+* The `Starlite.Layers` module contains factory methods for creating layer models
+* with commonly used body configurations (such as pong-style borders).
+* @class Bodies
+*/
+var Layer = require("./layer.js");
+var Matter = require("matter-js");
+var Bodies = Matter.Bodies,
+    Events = Matter.Events,
+    Common = Matter.Common;
+var Layers = {};
+
+module.exports = Layers;
+
+(function (){
+  /**
+   * Creates a new static layer, meaning that all bodies added to it will be static and not considered by the physics engine.
+   */
+  Layers.static = function(canvas, options) {
+      options = options || {}
+
+      var layer = {
+        isStatic: true
+      }
+
+      return Layer.create(canvas, Common.extend({}, layer, options));
+  };
+
+  /**
+   * Creates a new layer with no walls as boundaries
+   */
+  Layers.noBounds = function(options) {
+      var defaults = {
+          bounds: {top: false, right: false, bottom: false, left: false}
+      };
+
+      return Layer.create(Common.extend({}, layer, options));
+  };
+
+})()
+
+},{"./layer.js":4,"matter-js":2}]},{},[1]);
