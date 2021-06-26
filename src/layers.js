@@ -29,23 +29,23 @@ module.exports = Layers;
   /**
    * Creates a new layer with all 4 walls as boundaries
    */
-  Layers.allBounds = function(options) {
-      var defaults = {
+  Layers.allBounds = function(canvas, options) {
+      var layer = {
           bounds: {top: true, right: true, bottom: true, left: true}
       };
 
-      return Layer.create(Common.extend({}, layer, options));
+      return Layer.create(canvas, Common.extend({}, layer, options));
   };
 
   /**
    * Creates a new layer with just the top and bottom as boundaries, similar to pong
    */
-  Layers.allBounds = function(options) {
-      var defaults = {
+  Layers.pong = function(canvas, options) {
+      var layer = {
           bounds: {top: true, right: false, bottom: true, left: false}
       };
 
-      return Layer.create(Common.extend({}, layer, options));
+      return Layer.create(canvas, Common.extend({}, layer, options));
   };
 
 })()

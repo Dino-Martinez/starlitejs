@@ -35,8 +35,8 @@ module.exports = Layer;
             isStatic: false,
             events: null,
             bounds: {top: false, right: false, bottom: false, left: false},
-            width: canvas.width || 600,
-            height: canvas.height || 480
+            width: canvas.scrollWidth || 600,
+            height: canvas.scrollHeight || 480
         };
 
         var layer = Common.extend(defaults, options);

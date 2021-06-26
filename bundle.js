@@ -14,6 +14,7 @@ var Engine = Matter.Engine,
 var Keyboard = require("./src/keyboard.js");
 var Layer = require("./src/layer.js");
 var Layers = require("./src/layers.js");
+var Scene = require("./src/scene.js")
 
 // create an engine
 var engine = Engine.create(),
@@ -23,15 +24,16 @@ var engine = Engine.create(),
 var canvas = document.createElement('canvas');
 canvas.tabIndex = 1;
 
+var scene = Scene.create(canvas, engine)
 // create a renderer
-var render = Render.create({
-    element: document.body,
-    engine: engine,
-    canvas: canvas
-});
+// var render = Render.create({
+//     element: document.body,
+//     engine: engine,
+//     canvas: canvas
+// });
 
 
-var layer = Layers.static(canvas);
+var layer = Layers.allBounds(canvas);
 
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });
@@ -44,28 +46,28 @@ var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
 Layer.add(layer, [boxA, boxB, ground])
 
-// add mouse control
-var mouse = Mouse.create(render.canvas),
-    mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-            stiffness: 0.2,
-            render: {
-                visible: true
-            }
-        }
-    });
+Scene.add(scene, [layer])
+Scene.start(scene)
 
-var keyboard = Keyboard.create(render.canvas, engine);
-Composite.add(world, mouseConstraint);
+// add mouse control
+// var mouse = Mouse.create(render.canvas),
+//     mouseConstraint = MouseConstraint.create(engine, {
+//         mouse: mouse,
+//         constraint: {
+//             stiffness: 0.2,
+//             render: {
+//                 visible: true
+//             }
+//         }
+//     });
+//
+var keyboard = Scene.addKeyboardInput(scene)
+// Composite.add(world, mouseConstraint);
 // keep the mouse in sync with rendering
-render.mouse = mouse;
+// render.mouse = mouse;
 
 // add all of the bodies to the world
 Composite.add(world, layer.bodies);
-
-// run the renderer
-Render.run(render);
 
 // create runner
 var runner = Runner.create();
@@ -85,7 +87,7 @@ Events.on(keyboard, 'keyup', (event)=>{
     Body.setVelocity(boxB, {x: 0, y: boxB.velocity.y})
 })
 
-},{"./src/keyboard.js":3,"./src/layer.js":4,"./src/layers.js":5,"matter-js":2}],2:[function(require,module,exports){
+},{"./src/keyboard.js":3,"./src/layer.js":4,"./src/layers.js":5,"./src/scene.js":6,"matter-js":2}],2:[function(require,module,exports){
 (function (global){(function (){
 /*!
  * matter-js 0.17.1 by @liabru
@@ -10685,10 +10687,11 @@ module.exports = Layer;
             bodies: [],
             isStatic: false,
             events: null,
-            bounds: {top: true, right: true, bottom: true, left: true},
-            width: canvas.width || 600,
-            height: canvas.height || 480
+            bounds: {top: false, right: false, bottom: false, left: false},
+            width: canvas.scrollWidth || 600,
+            height: canvas.scrollHeight || 480
         };
+        console.log(canvas.style)
 
         var layer = Common.extend(defaults, options);
         _createBounds(layer);
@@ -10718,6 +10721,7 @@ module.exports = Layer;
             }
             if (key === 'right') {
                 // right bound
+                console.log(layer.width)
                 var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {isStatic: true});
                 layer.bodies.push(right);
 
@@ -10734,7 +10738,7 @@ module.exports = Layer;
                 layer.bodies.push(left);
             }
         }
-    };
+  };
 })();
 
 },{"matter-js":2}],5:[function(require,module,exports){
@@ -10767,16 +10771,93 @@ module.exports = Layers;
   };
 
   /**
-   * Creates a new layer with no walls as boundaries
+   * Creates a new layer with all 4 walls as boundaries
    */
-  Layers.noBounds = function(options) {
-      var defaults = {
-          bounds: {top: false, right: false, bottom: false, left: false}
+  Layers.allBounds = function(canvas, options) {
+      var layer = {
+          bounds: {top: true, right: true, bottom: true, left: true}
       };
 
-      return Layer.create(Common.extend({}, layer, options));
+      return Layer.create(canvas, Common.extend({}, layer, options));
+  };
+
+  /**
+   * Creates a new layer with just the top and bottom as boundaries, similar to pong
+   */
+  Layers.pong = function(canvas, options) {
+      var layer = {
+          bounds: {top: true, right: false, bottom: true, left: false}
+      };
+
+      return Layer.create(canvas, Common.extend({}, layer, options));
   };
 
 })()
 
-},{"./layer.js":4,"matter-js":2}]},{},[1]);
+},{"./layer.js":4,"matter-js":2}],6:[function(require,module,exports){
+
+
+var Keyboard = require("./keyboard.js");
+var Scene = {};
+var Matter = require("matter-js");
+var Bodies = Matter.Bodies,
+    Events = Matter.Events,
+    Render = Matter.Render,
+    Common = Matter.Common;
+
+/**
+    * The `Starlite.Scene` module contains methods for creating and manipulating layer models.
+    * A `Starlite.Scene` is a rigid layer that can be simulated by a `Matter.Engine`.
+    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Starlite.Scenes`.
+    * @class Scenes
+    */
+
+var Scene = {};
+
+module.exports = Scene;
+
+(function() {
+    /**
+         * Creates a new scene, which hosts layers. The options parameter is an object that specifies any properties you wish to override the defaults.
+         * All properties have default values, and many are pre-calculated automatically based on other properties.
+         * See the properties section below for detailed information on what you can pass via the `options` object.
+         * @method create
+         * @param {} options
+         * @return {layer} layer
+         */
+    Scene.create = function(canvas, engine, options) {
+        var defaults = {
+            id: Common.nextId(),
+            type: 'scene',
+            label: 'Scene',
+            layers: [],
+            events: null,
+            render: Render.create({
+              element: document.body,
+              canvas: canvas,
+              engine: engine
+            })
+        };
+
+        var scene = Common.extend(defaults, options);
+        return scene
+    };
+
+    /*
+     * Add an array of layers to our scene
+     */
+    Scene.add = function(scene, layers) {
+      scene.layers.push(...layers);
+    }
+
+    Scene.addKeyboardInput = function(scene) {
+      return Keyboard.create(scene.render.canvas, scene.render.engine);
+    }
+
+    Scene.start = function(scene) {
+      var render = scene.render
+      Render.run(render)
+    }
+})();
+
+},{"./keyboard.js":3,"matter-js":2}]},{},[1]);
