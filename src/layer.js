@@ -34,7 +34,7 @@ module.exports = Layer;
             bodies: [],
             isStatic: false,
             events: null,
-            bounds: {top: true, right: true, bottom: true, left: true},
+            bounds: {top: false, right: false, bottom: false, left: false},
             width: canvas.width || 600,
             height: canvas.height || 480
         };
@@ -83,5 +83,5 @@ module.exports = Layer;
                 layer.bodies.push(left);
             }
         }
-    };
+  };
 })();
