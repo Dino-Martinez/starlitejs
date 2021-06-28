@@ -40,7 +40,6 @@ boxB.restitution = 1
 Layer.add(layer, [boxA])
 Layer.add(layer2, [boxB])
 Scene.add(scene, [layer, layer2])
-console.log(scene)
 Scene.start(scene)
 
 var keyboard = Scene.addKeyboardInput(scene)
@@ -10850,7 +10849,7 @@ module.exports = Scene;
         layer.bodies.forEach((body, j) => {
           body.collisionFilter = Common.extend(body.collisionFilter, {
               category: layer.category,
-              mask: layer.category
+              mask: scene.defaultCategory | layer.category
             });
         });
         // add all of the bodies to the world
@@ -10881,9 +10880,8 @@ module.exports = Scene;
                   }
               }
           });
-      mouseConstraint.collisionFilter.mask = scene.categories[1];
-      mouseConstraint.collisionFilter.category = scene.categories[1];
-      console.log(mouseConstraint)
+      mouseConstraint.collisionFilter.mask = scene.defaultCategory | scene.categories[0] | scene.categories[1] | scene.categories[2];
+      mouseConstraint.collisionFilter.category = scene.defaultCategory;
 
       Composite.add(scene.render.engine.world, mouseConstraint);
       //keep the mouse in sync with rendering

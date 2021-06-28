@@ -39,7 +39,6 @@ boxB.restitution = 1
 Layer.add(layer, [boxA])
 Layer.add(layer2, [boxB])
 Scene.add(scene, [layer, layer2])
-console.log(scene)
 Scene.start(scene)
 
 var keyboard = Scene.addKeyboardInput(scene)
