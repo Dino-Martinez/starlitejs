@@ -1,18 +1,18 @@
-
-
 var Keyboard = require("./keyboard.js");
 var Scene = {};
 var Matter = require("matter-js");
 var Bodies = Matter.Bodies,
     Events = Matter.Events,
     Render = Matter.Render,
-    Common = Matter.Common;
+    Mouse = Matter.Mouse,
+    MouseConstraint = Matter.MouseConstraint,
+    Common = Matter.Common,
+    Composite = Matter.Composite;
 
 /**
     * The `Starlite.Scene` module contains methods for creating and manipulating layer models.
-    * A `Starlite.Scene` is a rigid layer that can be simulated by a `Matter.Engine`.
-    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Starlite.Scenes`.
-    * @class Scenes
+    * A `Starlite.Scene` is a wrapper for having multiple layers, which share the same engine and control inputs.
+    * @class Scene
     */
 
 var Scene = {};
@@ -47,16 +47,43 @@ module.exports = Scene;
     };
 
     /*
-     * Add an array of layers to our scene
+     * Add an array of layers to our scene. These will all share the same renderer, physics engine, and control inputs
      */
     Scene.add = function(scene, layers) {
       scene.layers.push(...layers);
     }
 
+    /*
+     * Adds a default keyboard input to our scene, which will fire events upon keyboard input.
+     */
     Scene.addKeyboardInput = function(scene) {
       return Keyboard.create(scene.render.canvas, scene.render.engine);
     }
 
+    /*
+     * Adds a default mouse constraint to our scene, which will allow interaction via spring with every body.
+     */
+    Scene.addMouseConstraint = function(scene) {
+      var mouse = Mouse.create(scene.render.canvas),
+          mouseConstraint = MouseConstraint.create(scene.render.engine, {
+              mouse: mouse,
+              constraint: {
+                  stiffness: 0.2,
+                  render: {
+                      visible: true
+                  }
+              }
+          });
+
+      Composite.add(scene.render.engine.world, mouseConstraint);
+      //keep the mouse in sync with rendering
+      scene.render.mouse = mouse;
+      return mouse;
+    }
+
+    /*
+     * Starts the scene's renderer.
+     */
     Scene.start = function(scene) {
       var render = scene.render
       Render.run(render)

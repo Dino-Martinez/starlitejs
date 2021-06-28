@@ -25,12 +25,6 @@ var canvas = document.createElement('canvas');
 canvas.tabIndex = 1;
 
 var scene = Scene.create(canvas, engine)
-// create a renderer
-// var render = Render.create({
-//     element: document.body,
-//     engine: engine,
-//     canvas: canvas
-// });
 
 
 var layer = Layers.allBounds(canvas);
@@ -49,23 +43,8 @@ Layer.add(layer, [boxA, boxB, ground])
 Scene.add(scene, [layer])
 Scene.start(scene)
 
-// add mouse control
-// var mouse = Mouse.create(render.canvas),
-//     mouseConstraint = MouseConstraint.create(engine, {
-//         mouse: mouse,
-//         constraint: {
-//             stiffness: 0.2,
-//             render: {
-//                 visible: true
-//             }
-//         }
-//     });
-//
 var keyboard = Scene.addKeyboardInput(scene)
-// Composite.add(world, mouseConstraint);
-// keep the mouse in sync with rendering
-// render.mouse = mouse;
-
+var mouse = Scene.addMouseConstraint(scene)
 // add all of the bodies to the world
 Composite.add(world, layer.bodies);
 
@@ -10691,7 +10670,6 @@ module.exports = Layer;
             width: canvas.scrollWidth || 600,
             height: canvas.scrollHeight || 480
         };
-        console.log(canvas.style)
 
         var layer = Common.extend(defaults, options);
         _createBounds(layer);
@@ -10721,7 +10699,6 @@ module.exports = Layer;
             }
             if (key === 'right') {
                 // right bound
-                console.log(layer.width)
                 var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {isStatic: true});
                 layer.bodies.push(right);
 
@@ -10803,7 +10780,10 @@ var Matter = require("matter-js");
 var Bodies = Matter.Bodies,
     Events = Matter.Events,
     Render = Matter.Render,
-    Common = Matter.Common;
+    Mouse = Matter.Mouse,
+    MouseConstraint = Matter.MouseConstraint,
+    Common = Matter.Common,
+    Composite = Matter.Composite;
 
 /**
     * The `Starlite.Scene` module contains methods for creating and manipulating layer models.
@@ -10852,6 +10832,24 @@ module.exports = Scene;
 
     Scene.addKeyboardInput = function(scene) {
       return Keyboard.create(scene.render.canvas, scene.render.engine);
+    }
+
+    Scene.addMouseConstraint = function(scene) {
+      var mouse = Mouse.create(scene.render.canvas),
+          mouseConstraint = MouseConstraint.create(scene.render.engine, {
+              mouse: mouse,
+              constraint: {
+                  stiffness: 0.2,
+                  render: {
+                      visible: true
+                  }
+              }
+          });
+
+      Composite.add(scene.render.engine.world, mouseConstraint);
+      //keep the mouse in sync with rendering
+      scene.render.mouse = mouse;
+      return mouse;
     }
 
     Scene.start = function(scene) {
