@@ -28,6 +28,7 @@ var scene = Scene.create(canvas, engine)
 
 
 var layer = Layers.allBounds(canvas);
+var layer2 = Layers.allBounds(canvas);
 
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });
@@ -36,17 +37,14 @@ boxA.mass = 0.5
 boxA.restitution = 1
 boxB.restitution = 1
 
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-Layer.add(layer, [boxA, boxB, ground])
-
-Scene.add(scene, [layer])
+Layer.add(layer, [boxA])
+Layer.add(layer2, [boxB])
+Scene.add(scene, [layer, layer2])
+console.log(scene)
 Scene.start(scene)
 
 var keyboard = Scene.addKeyboardInput(scene)
 var mouse = Scene.addMouseConstraint(scene)
-// add all of the bodies to the world
-Composite.add(world, layer.bodies);
 
 // create runner
 var runner = Runner.create();
@@ -10668,7 +10666,8 @@ module.exports = Layer;
             events: null,
             bounds: {top: false, right: false, bottom: false, left: false},
             width: canvas.scrollWidth || 600,
-            height: canvas.scrollHeight || 480
+            height: canvas.scrollHeight || 480,
+            defaultCategory: options.defaultCategory || 0x0001
         };
 
         var layer = Common.extend(defaults, options);
@@ -10694,24 +10693,44 @@ module.exports = Layer;
         for (const key in layer.bounds) {
             if (key === 'top') {
                 // top bound
-                var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {isStatic: true});
+                var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(top);
             }
             if (key === 'right') {
                 // right bound
-                var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {isStatic: true});
+                var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(right);
 
             }
             if (key === 'bottom') {
                 // bottom bound
-                var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {isStatic: true});
+                var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(bottom);
 
             }
             if (key === 'left') {
                 // left bound
-                var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {isStatic: true});
+                var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(left);
             }
         }
@@ -10772,8 +10791,6 @@ module.exports = Layers;
 })()
 
 },{"./layer.js":4,"matter-js":2}],6:[function(require,module,exports){
-
-
 var Keyboard = require("./keyboard.js");
 var Scene = {};
 var Matter = require("matter-js");
@@ -10787,9 +10804,8 @@ var Bodies = Matter.Bodies,
 
 /**
     * The `Starlite.Scene` module contains methods for creating and manipulating layer models.
-    * A `Starlite.Scene` is a rigid layer that can be simulated by a `Matter.Engine`.
-    * Factories for commonly used layer configurations (such as rectangles, circles and other polygons) can be found in the module `Starlite.Scenes`.
-    * @class Scenes
+    * A `Starlite.Scene` is a wrapper for having multiple layers, which share the same engine and control inputs.
+    * @class Scene
     */
 
 var Scene = {};
@@ -10816,7 +10832,9 @@ module.exports = Scene;
               element: document.body,
               canvas: canvas,
               engine: engine
-            })
+            }),
+            defaultCategory: 0x0001,
+            categories: [0x0002, 0x0004, 0x0008]
         };
 
         var scene = Common.extend(defaults, options);
@@ -10824,16 +10842,34 @@ module.exports = Scene;
     };
 
     /*
-     * Add an array of layers to our scene
+     * Add an array of layers to our scene. These will all share the same renderer, physics engine, and control inputs
      */
     Scene.add = function(scene, layers) {
+      layers.forEach((layer, i) => {
+        layer.category = scene.categories[i];
+        layer.bodies.forEach((body, j) => {
+          body.collisionFilter = Common.extend(body.collisionFilter, {
+              category: layer.category,
+              mask: layer.category
+            });
+        });
+        // add all of the bodies to the world
+        Composite.add(scene.render.engine.world, layer.bodies);
+      });
+
       scene.layers.push(...layers);
     }
 
+    /*
+     * Adds a default keyboard input to our scene, which will fire events upon keyboard input.
+     */
     Scene.addKeyboardInput = function(scene) {
       return Keyboard.create(scene.render.canvas, scene.render.engine);
     }
 
+    /*
+     * Adds a default mouse constraint to our scene, which will allow interaction via spring with every body.
+     */
     Scene.addMouseConstraint = function(scene) {
       var mouse = Mouse.create(scene.render.canvas),
           mouseConstraint = MouseConstraint.create(scene.render.engine, {
@@ -10845,6 +10881,9 @@ module.exports = Scene;
                   }
               }
           });
+      mouseConstraint.collisionFilter.mask = scene.categories[1];
+      mouseConstraint.collisionFilter.category = scene.categories[1];
+      console.log(mouseConstraint)
 
       Composite.add(scene.render.engine.world, mouseConstraint);
       //keep the mouse in sync with rendering
@@ -10852,6 +10891,9 @@ module.exports = Scene;
       return mouse;
     }
 
+    /*
+     * Starts the scene's renderer.
+     */
     Scene.start = function(scene) {
       var render = scene.render
       Render.run(render)

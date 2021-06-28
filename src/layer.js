@@ -36,7 +36,8 @@ module.exports = Layer;
             events: null,
             bounds: {top: false, right: false, bottom: false, left: false},
             width: canvas.scrollWidth || 600,
-            height: canvas.scrollHeight || 480
+            height: canvas.scrollHeight || 480,
+            defaultCategory: options.defaultCategory || 0x0001
         };
 
         var layer = Common.extend(defaults, options);
@@ -62,24 +63,44 @@ module.exports = Layer;
         for (const key in layer.bounds) {
             if (key === 'top') {
                 // top bound
-                var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {isStatic: true});
+                var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(top);
             }
             if (key === 'right') {
                 // right bound
-                var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {isStatic: true});
+                var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(right);
 
             }
             if (key === 'bottom') {
                 // bottom bound
-                var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {isStatic: true});
+                var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(bottom);
 
             }
             if (key === 'left') {
                 // left bound
-                var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {isStatic: true});
+                var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {
+                  isStatic: true,
+                  collisionFilter: {
+                    category: layer.defaultCategory
+                  }
+                });
                 layer.bodies.push(left);
             }
         }

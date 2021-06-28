@@ -39,7 +39,9 @@ module.exports = Scene;
               element: document.body,
               canvas: canvas,
               engine: engine
-            })
+            }),
+            defaultCategory: 0x0001,
+            categories: [0x0002, 0x0004, 0x0008]
         };
 
         var scene = Common.extend(defaults, options);
@@ -50,6 +52,18 @@ module.exports = Scene;
      * Add an array of layers to our scene. These will all share the same renderer, physics engine, and control inputs
      */
     Scene.add = function(scene, layers) {
+      layers.forEach((layer, i) => {
+        layer.category = scene.categories[i];
+        layer.bodies.forEach((body, j) => {
+          body.collisionFilter = Common.extend(body.collisionFilter, {
+              category: layer.category,
+              mask: layer.category
+            });
+        });
+        // add all of the bodies to the world
+        Composite.add(scene.render.engine.world, layer.bodies);
+      });
+
       scene.layers.push(...layers);
     }
 
@@ -74,6 +88,9 @@ module.exports = Scene;
                   }
               }
           });
+      mouseConstraint.collisionFilter.mask = scene.categories[1];
+      mouseConstraint.collisionFilter.category = scene.categories[1];
+      console.log(mouseConstraint)
 
       Composite.add(scene.render.engine.world, mouseConstraint);
       //keep the mouse in sync with rendering

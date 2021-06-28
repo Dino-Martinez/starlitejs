@@ -27,6 +27,7 @@ var scene = Scene.create(canvas, engine)
 
 
 var layer = Layers.allBounds(canvas);
+var layer2 = Layers.allBounds(canvas);
 
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });
@@ -35,17 +36,14 @@ boxA.mass = 0.5
 boxA.restitution = 1
 boxB.restitution = 1
 
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-Layer.add(layer, [boxA, boxB, ground])
-
-Scene.add(scene, [layer])
+Layer.add(layer, [boxA])
+Layer.add(layer2, [boxB])
+Scene.add(scene, [layer, layer2])
+console.log(scene)
 Scene.start(scene)
 
 var keyboard = Scene.addKeyboardInput(scene)
 var mouse = Scene.addMouseConstraint(scene)
-// add all of the bodies to the world
-Composite.add(world, layer.bodies);
 
 // create runner
 var runner = Runner.create();
