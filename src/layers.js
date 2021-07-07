@@ -30,6 +30,7 @@ module.exports = Layers;
    * Creates a new layer with all 4 walls as boundaries
    */
   Layers.allBounds = function(canvas, options) {
+      options = options || {}
       var layer = {
           bounds: {top: true, right: true, bottom: true, left: true}
       };

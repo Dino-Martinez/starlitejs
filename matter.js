@@ -27,7 +27,7 @@ var scene = Scene.create(canvas, engine)
 
 
 var layer = Layers.allBounds(canvas);
-var layer2 = Layers.allBounds(canvas);
+var layer2 = Layer.create(canvas);
 
 // create two boxes and a ground
 var boxA = Bodies.circle(400, 50, 50, { isStatic: true });

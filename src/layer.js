@@ -27,22 +27,23 @@ module.exports = Layer;
          * @return {layer} layer
          */
     Layer.create = function(canvas, options) {
-        var defaults = {
-            id: Common.nextId(),
-            type: 'layer',
-            label: 'Layer',
-            bodies: [],
-            isStatic: false,
-            events: null,
-            bounds: {top: false, right: false, bottom: false, left: false},
-            width: canvas.scrollWidth || 600,
-            height: canvas.scrollHeight || 480,
-            defaultCategory: options.defaultCategory || 0x0001
-        };
+      options = options || {}
+      var defaults = {
+          id: Common.nextId(),
+          type: 'layer',
+          label: 'Layer',
+          bodies: [],
+          isStatic: false,
+          events: null,
+          bounds: {top: false, right: false, bottom: false, left: false},
+          width: canvas.scrollWidth || 600,
+          height: canvas.scrollHeight || 480,
+          defaultCategory: options.defaultCategory || 0x0001
+      };
 
-        var layer = Common.extend(defaults, options);
-        _createBounds(layer);
-        return layer;
+      var layer = Common.extend(defaults, options);
+      _createBounds(layer);
+      return layer;
     };
 
     /*
@@ -60,49 +61,55 @@ module.exports = Layer;
     }
 
     var _createBounds = function(layer) {
-        for (const key in layer.bounds) {
-            if (key === 'top') {
-                // top bound
-                var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {
-                  isStatic: true,
-                  collisionFilter: {
-                    category: layer.defaultCategory
-                  }
-                });
-                layer.bodies.push(top);
-            }
-            if (key === 'right') {
-                // right bound
-                var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {
-                  isStatic: true,
-                  collisionFilter: {
-                    category: layer.defaultCategory
-                  }
-                });
-                layer.bodies.push(right);
+      for (const key in layer.bounds) {
+        if(layer.bounds[key] === true) {
+          if (key === 'top') {
+              // top bound
+              var top = Bodies.rectangle(layer.width / 2, -15, layer.width, 30, {
+                label: "Top Boundary",
+                isStatic: true,
+                collisionFilter: {
+                  category: layer.defaultCategory
+                }
+              });
+              layer.bodies.push(top);
+          }
+          if (key === 'right') {
+              // right bound
+              var right = Bodies.rectangle(layer.width + 15, layer.height / 2, 30, layer.height, {
+                label: "Right Boundary",
+                isStatic: true,
+                collisionFilter: {
+                  category: layer.defaultCategory
+                }
+              });
+              layer.bodies.push(right);
 
-            }
-            if (key === 'bottom') {
-                // bottom bound
-                var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {
-                  isStatic: true,
-                  collisionFilter: {
-                    category: layer.defaultCategory
-                  }
-                });
-                layer.bodies.push(bottom);
+          }
+          if (key === 'bottom') {
+              // bottom bound
+              var bottom = Bodies.rectangle(layer.width / 2, layer.height + 15, layer.width, 30, {
+                label: "Bottom Boundary",
+                isStatic: true,
+                collisionFilter: {
+                  category: layer.defaultCategory
+                }
+              });
+              layer.bodies.push(bottom);
 
-            }
-            if (key === 'left') {
-                // left bound
-                var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {
-                  isStatic: true,
-                  collisionFilter: {
-                    category: layer.defaultCategory
-                  }
-                });
-                layer.bodies.push(left);
-            }
+          }
+          if (key === 'left') {
+              // left bound
+              var left = Bodies.rectangle(-15, layer.height / 2, 30, layer.height, {
+                label: "Left Boundary",
+                isStatic: true,
+                collisionFilter: {
+                  category: layer.defaultCategory
+                }
+              });
+              layer.bodies.push(left);
+          }
         }
+      }
   };
 })();
